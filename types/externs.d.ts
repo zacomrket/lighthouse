@@ -176,12 +176,15 @@ declare global {
       throttlingMethod?: 'devtools'|'simulate'|'provided';
       /** The throttling config settings. */
       throttling?: ThrottlingSettings;
-      /** A user-facing string to display in Runtime Settings for the Device row */
-      providedDeviceString?: string | null;
-      /** A user-facing string to display in Runtime Settings for the Network throttling row */
-      providedNetworkThrottlingString?: string | null;
-      /** A user-facing string to display in Runtime Settings for the CPU throttling row */
-      providedCPUThrottlingString?: string | null;
+      /* Optional object of user-facing strings to be used instead of Lighthouse's given values. */
+      displayStrings?: {
+        /** A user-facing string to display in Runtime Settings for the Device row */
+        deviceSetting?: string;
+        /** A user-facing string to display in Runtime Settings for the Network throttling row */
+        networkThrottlingSetting?: string;
+        /** A user-facing string to display in Runtime Settings for the CPU throttling row */
+        cpuThrottlingSetting?: string;
+      }
       /** If present, the run should only conduct this list of audits. */
       onlyAudits?: string[] | null;
       /** If present, the run should only conduct this list of categories. */
