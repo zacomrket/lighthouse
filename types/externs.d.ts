@@ -186,7 +186,7 @@ declare global {
       /** The throttling config settings. */
       throttling?: ThrottlingSettings;
       /* Optional object of user-facing strings to be used instead of Lighthouse's given values. */
-      displayStrings: DisplayStrings | undefined;
+      displayStrings?: DisplayStrings;
       /** If present, the run should only conduct this list of audits. */
       onlyAudits?: string[] | null;
       /** If present, the run should only conduct this list of categories. */
