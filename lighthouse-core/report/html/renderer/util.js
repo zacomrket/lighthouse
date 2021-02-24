@@ -436,14 +436,18 @@ class Util {
       desktop: Util.i18n.strings.runtimeDesktopEmulation,
     }[settings.formFactor] : Util.i18n.strings.runtimeNoEmulation;
 
-    if (settings.providedDeviceString) {
-      device = settings.providedDeviceString;
-    }
-    if (settings.providedNetworkThrottlingString) {
-      networkThrottling = settings.providedNetworkThrottlingString;
-    }
-    if (settings.providedCPUThrottlingString) {
-      cpuThrottling = settings.providedCPUThrottlingString;
+    // A client (eg Calibre/WPT) can provide these to convey more specific emulation details.
+    if (settings.displayStrings) {
+      const ds = settings.displayStrings;
+      if (ds.deviceSetting) {
+        device = ds.deviceSetting;
+      }
+      if (ds.networkThrottlingSetting) {
+        networkThrottling = ds.networkThrottlingSetting;
+      }
+      if (ds.cpuThrottlingSetting) {
+        cpuThrottling = ds.cpuThrottlingSetting;
+      }
     }
 
     return {

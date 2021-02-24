@@ -151,6 +151,7 @@ declare global {
       export interface Settings extends Required<SharedFlagsSettings> {
         throttling: Required<ThrottlingSettings>;
         screenEmulation: ScreenEmulationSettings;
+        displayStrings: DisplayStrings | undefined;
       }
 
       export interface Pass extends Required<PassJson> {

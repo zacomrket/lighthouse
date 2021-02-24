@@ -141,6 +141,15 @@ declare global {
       disabled: boolean;
     };
 
+    export type DisplayStrings = {
+       /** A user-facing string to display in Runtime Settings for the Device row */
+       deviceSetting?: string;
+       /** A user-facing string to display in Runtime Settings for the Network throttling row */
+       networkThrottlingSetting?: string;
+       /** A user-facing string to display in Runtime Settings for the CPU throttling row */
+       cpuThrottlingSetting?: string;
+    }
+
     /**
      * Options that are found in both the flags used by the Lighthouse module
      * interface and the Config's `settings` object.
@@ -177,14 +186,7 @@ declare global {
       /** The throttling config settings. */
       throttling?: ThrottlingSettings;
       /* Optional object of user-facing strings to be used instead of Lighthouse's given values. */
-      displayStrings?: {
-        /** A user-facing string to display in Runtime Settings for the Device row */
-        deviceSetting?: string;
-        /** A user-facing string to display in Runtime Settings for the Network throttling row */
-        networkThrottlingSetting?: string;
-        /** A user-facing string to display in Runtime Settings for the CPU throttling row */
-        cpuThrottlingSetting?: string;
-      }
+      displayStrings: DisplayStrings | undefined;
       /** If present, the run should only conduct this list of audits. */
       onlyAudits?: string[] | null;
       /** If present, the run should only conduct this list of categories. */

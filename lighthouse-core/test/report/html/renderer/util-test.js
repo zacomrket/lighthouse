@@ -81,9 +81,11 @@ describe('util helpers', () => {
 
   it('uses provided strings string', () => {
     const clonedSampleResult = JSON.parse(JSON.stringify(sampleResult));
-    clonedSampleResult.configSettings.providedDeviceString = 'WebPageTest device';
-    clonedSampleResult.configSettings.providedNetworkThrottlingString = 'Packet-level throtting';
-    clonedSampleResult.configSettings.providedCPUThrottlingString = 'cgroups cpu throttling';
+    clonedSampleResult.configSettings.displayStrings.deviceSetting = 'WebPageTest device';
+    clonedSampleResult.configSettings.displayStrings.networkThrottlingSetting =
+        'Packet-level throtting';
+    clonedSampleResult.configSettings.displayStrings.cpuThrottlingSetting =
+        'cgroups cpu throttling';
 
     expect(Util.getEmulationDescriptions(clonedSampleResult.configSettings)).toMatchInlineSnapshot(`
       Object {
