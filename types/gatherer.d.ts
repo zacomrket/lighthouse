@@ -58,7 +58,7 @@ declare global {
       trace?: Trace;
     }
 
-    export type PhaseArtifact = LH.GathererArtifacts[keyof LH.GathererArtifacts]
+    export type PhaseArtifact = LH.GathererArtifacts[keyof LH.GathererArtifacts] | LH.Artifacts['devtoolsLogs'] | LH.Artifacts['traces']
     export type PhaseResultNonPromise = void|PhaseArtifact
     export type PhaseResult = PhaseResultNonPromise | Promise<PhaseResultNonPromise>
 
@@ -100,9 +100,11 @@ declare global {
     export interface FRGathererInstance<TDependencies extends DependencyKey = DefaultDependenciesKey> {
       name: keyof LH.GathererArtifacts; // temporary COMPAT measure until artifact config support is available
       meta: GathererMeta<TDependencies>;
-      snapshot(context: FRTransitionalContext<TDependencies>): PhaseResult;
+      beforeNavigation(context: FRTransitionalContext<DefaultDependenciesKey>): Promise<void>|void;
       beforeTimespan(context: FRTransitionalContext<DefaultDependenciesKey>): Promise<void>|void;
       afterTimespan(context: FRTransitionalContext<TDependencies>): PhaseResult;
+      afterNavigation(context: FRTransitionalContext<TDependencies>): PhaseResult;
+      snapshot(context: FRTransitionalContext<TDependencies>): PhaseResult;
     }
 
     namespace Simulation {

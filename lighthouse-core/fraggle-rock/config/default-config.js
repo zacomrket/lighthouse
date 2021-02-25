@@ -10,6 +10,10 @@ const legacyDefaultConfig = require('../../config/default-config.js');
 /** @type {LH.Config.Json} */
 const defaultConfig = {
   artifacts: [
+    // Artifacts which can be depended on come first.
+    {id: 'DevtoolsLog', gatherer: 'devtools-log'},
+    {id: 'Trace', gatherer: 'trace'},
+
     /* eslint-disable max-len */
     {id: 'Accessibility', gatherer: 'accessibility'},
     {id: 'Appcache', gatherer: 'dobetterweb/appcache'},
@@ -28,11 +32,19 @@ const defaultConfig = {
     {id: 'TapTargets', gatherer: 'seo/tap-targets'},
     {id: 'ViewportDimensions', gatherer: 'viewport-dimensions'},
     /* eslint-enable max-len */
+
+    // Artifact copies are renamed for compatibility with legacy artifacts.
+    {id: 'devtoolsLogs', gatherer: 'devtools-log-compat'},
+    {id: 'traces', gatherer: 'trace-compat'},
   ],
   navigations: [
     {
       id: 'default',
       artifacts: [
+        // Artifacts which can be depended on come first.
+        'DevtoolsLog',
+        'Trace',
+
         'Accessibility',
         'Appcache',
         'CacheContents',
@@ -49,6 +61,10 @@ const defaultConfig = {
         'RobotsTxt',
         'TapTargets',
         'ViewportDimensions',
+
+        // Compat artifacts come last.
+        'devtoolsLogs',
+        'traces',
       ],
     },
   ],
