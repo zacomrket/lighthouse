@@ -33,18 +33,15 @@ class TreemapViewer {
    * @param {HTMLElement} el
    */
   constructor(options, el) {
-    const treemapDebugData = /** @type {LH.Audit.Details.DebugData} */ (
+    const scriptTreemapData = /** @type {LH.Audit.Details.TreemapData} */ (
       options.lhr.audits['script-treemap-data'].details);
-    if (!treemapDebugData || !treemapDebugData.treemapData) {
+    if (!scriptTreemapData || !scriptTreemapData.nodes) {
       throw new Error('missing script-treemap-data');
     }
 
-    /** @type {LH.Treemap.Node[]} */
-    const scriptNodes = treemapDebugData.treemapData;
-
     /** @type {{[group: string]: LH.Treemap.Node[]}} */
     this.depthOneNodesByGroup = {
-      scripts: scriptNodes,
+      scripts: scriptTreemapData.nodes,
     };
 
     /**
