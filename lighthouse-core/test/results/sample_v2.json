@@ -2512,8 +2512,8 @@
       "score": null,
       "scoreDisplayMode": "informative",
       "details": {
-        "type": "debugdata",
-        "treemapData": [
+        "type": "treemap-data",
+        "nodes": [
           {
             "name": "http://localhost:10200/dobetterweb/dbw_tester.html",
             "resourceBytes": 5806
