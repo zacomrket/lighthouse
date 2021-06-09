@@ -136,19 +136,6 @@ Gathering devtoolsLog & network records
 Computing artifact: NetworkRecords
 Running afterPass methods
 Gathering: ServiceWorker
-Running redirectPass pass
-Resetting state with about:blank
-Preparing network conditions
-Running beforePass methods
-Gathering setup: HTTPRedirect
-Beginning devtoolsLog and trace
-Loading page & waiting for onload
-Running pass methods
-Gathering in-page: HTTPRedirect
-Gathering devtoolsLog & network records
-Computing artifact: NetworkRecords
-Running afterPass methods
-Gathering: HTTPRedirect
 Disconnecting from browser...
 Analyzing and running audits...
 Auditing: Uses HTTPS

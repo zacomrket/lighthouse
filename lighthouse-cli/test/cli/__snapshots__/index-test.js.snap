@@ -1497,33 +1497,6 @@ Object {
       "recordTrace": false,
       "useThrottling": false,
     },
-    Object {
-      "blankPage": "about:blank",
-      "blockedUrlPatterns": Array [
-        "*.css",
-        "*.jpg",
-        "*.jpeg",
-        "*.png",
-        "*.gif",
-        "*.svg",
-        "*.ttf",
-        "*.woff",
-        "*.woff2",
-      ],
-      "cpuQuietThresholdMs": 0,
-      "gatherers": Array [
-        Object {
-          "path": "http-redirect",
-        },
-      ],
-      "loadFailureMode": "warn",
-      "networkQuietThresholdMs": 0,
-      "passName": "redirectPass",
-      "pauseAfterFcpMs": 0,
-      "pauseAfterLoadMs": 0,
-      "recordTrace": false,
-      "useThrottling": false,
-    },
   ],
   "settings": Object {
     "additionalTraceCategories": null,
