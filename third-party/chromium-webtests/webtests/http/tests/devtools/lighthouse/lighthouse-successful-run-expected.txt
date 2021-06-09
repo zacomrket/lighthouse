@@ -139,7 +139,6 @@ Gathering: ServiceWorker
 Disconnecting from browser...
 Analyzing and running audits...
 Auditing: Uses HTTPS
-Auditing: Redirects HTTP traffic to HTTPS
 Auditing: Registers a service worker that controls page and `start_url`
 Auditing: Has a `<meta name="viewport">` tag with `width` or `initial-scale`
 Computing artifact: ViewportMeta
@@ -555,7 +554,7 @@ viewport: fail
 viewport-ad-density: notApplicable
 visual-order-follows-dom: manual
 
-# of .lh-audit divs: 159
+# of .lh-audit divs: 158
 
 .lh-audit divs:
 accesskeys
