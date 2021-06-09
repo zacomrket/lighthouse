@@ -183,7 +183,6 @@ const defaultConfig = {
   }],
   audits: [
     'is-on-https',
-    'redirects-http',
     'service-worker',
     'viewport',
     'metrics/first-contentful-paint',
@@ -609,7 +608,6 @@ const defaultConfig = {
         {id: 'installable-manifest', weight: 2, group: 'pwa-installable'},
         // PWA Optimized
         {id: 'service-worker', weight: 1, group: 'pwa-optimized'},
-        {id: 'redirects-http', weight: 2, group: 'pwa-optimized'},
         {id: 'splash-screen', weight: 1, group: 'pwa-optimized'},
         {id: 'themed-omnibox', weight: 1, group: 'pwa-optimized'},
         {id: 'content-width', weight: 1, group: 'pwa-optimized'},
