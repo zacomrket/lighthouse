@@ -5912,12 +5912,6 @@
       },
       {
         "startTime": 0,
-        "name": "lh:audit:redirects-http",
-        "duration": 100,
-        "entryType": "measure"
-      },
-      {
-        "startTime": 0,
         "name": "lh:audit:service-worker",
         "duration": 100,
         "entryType": "measure"
@@ -7161,12 +7155,6 @@
       ],
       "lighthouse-core/audits/is-on-https.js | allowed": [
         "audits[is-on-https].details.items[0].resolution"
-      ],
-      "lighthouse-core/audits/redirects-http.js | title": [
-        "audits[redirects-http].title"
-      ],
-      "lighthouse-core/audits/redirects-http.js | description": [
-        "audits[redirects-http].description"
       ],
       "lighthouse-core/audits/service-worker.js | failureTitle": [
         "audits[service-worker].title"
