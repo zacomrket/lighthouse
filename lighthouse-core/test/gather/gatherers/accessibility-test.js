@@ -63,11 +63,13 @@ describe('axe-run', () => {
 
   it('tests only the checks we have audits defined for', async () => {
     // The color-contrast rule is manually disabled as jsdom doesn't support the APIs needed. https://github.com/dequelabs/axe-core/blob/581c441c/doc/examples/jsdom/test/a11y.js#L40
-    const axeResults = await AccessibilityGather.runAxeForTest(undefined, {colorContrastEnabled: false});
+    const axeResults = await AccessibilityGather.runAxeForTest(undefined, {
+      colorContrastEnabled: false,
+    });
 
     const axeRuleIds = new Set();
     for (const type of ['violations', 'incomplete', 'inapplicable', 'passes']) {
-      axeResults[type] && axeResults[type].forEach(result => axeRuleIds.add(result.id));
+      if (axeResults[type]) axeResults[type].forEach(result => axeRuleIds.add(result.id));
     }
     axeRuleIds.add('color-contrast');
     const axeRuleIdsArr = Array.from(axeRuleIds).sort();
@@ -77,7 +79,6 @@ describe('axe-run', () => {
         .map(f => f.replace('.js', '')).filter(f => f !== 'axe-audit' && f !== 'manual')
         .sort();
 
-    expect(axeRuleIdsArr).toMatchObject(filenames);
-    expect(filenames).toMatchObject(filenames);
+    expect(axeRuleIdsArr).toEqual(filenames);
   });
 });
