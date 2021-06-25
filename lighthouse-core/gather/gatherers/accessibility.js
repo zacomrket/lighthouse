@@ -159,7 +159,13 @@ class Accessibility extends FRGatherer {
       ],
     });
   }
+
+  // @ts-expect-error just sending 'em right through…
+  static runAxeForTest(...args) {
+    // @ts-expect-error
+    return runAxe(...args);
+  }
 }
 
 module.exports = Accessibility;
-module.exports.runAxe = runAxe;
+
