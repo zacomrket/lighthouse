@@ -12,13 +12,12 @@ const axeLibSource = require('../../lib/axe.js').source;
 const pageFunctions = require('../../lib/page-functions.js');
 
 /**
- * This is run in the page, not Lighthouse itself.
- * axe.run returns a promise which fulfills with a results object
- * containing any violations.
- * @return {Promise<LH.Artifacts.Accessibility>}
+ * @param {Array<import('axe-core/axe').resultGroups>} resultTypes
+ * @param {{colorContrastEnabled: boolean}} opts
+ * @return {Promise<import('axe-core/axe').AxeResults>}
  */
 /* c8 ignore start */
-async function runA11yChecks(isTestMode = false) {
+async function runAxe(resultTypes, opts = {colorContrastEnabled: true}) {
   /** @type {import('axe-core/axe')} */
   // @ts-expect-error - axe defined by axeLibSource
   const axe = window.axe;
@@ -38,7 +37,7 @@ async function runA11yChecks(isTestMode = false) {
         'wcag2aa',
       ],
     },
-    resultTypes: isTestMode ? undefined : ['violations', 'inapplicable'],
+    resultTypes,
     rules: {
       // Consider http://go/prcpg for expert review of the aXe rules.
       'tabindex': {enabled: true},
@@ -61,7 +60,7 @@ async function runA11yChecks(isTestMode = false) {
       // https://github.com/dequelabs/axe-core/issues/2958
       'nested-interactive': {enabled: false},
       'frame-focusable-content': {enabled: false},
-      'color-contrast': {enabled: !isTestMode}, // See gatherer's test for explanation
+      'color-contrast': {enabled: opts.colorContrastEnabled}, // See gatherer's test for explanation
       'aria-roledescription': {enabled: false},
       'scrollable-region-focusable': {enabled: false},
       // TODO(paulirish): create audits and enable these 3.
@@ -71,14 +70,20 @@ async function runA11yChecks(isTestMode = false) {
     },
   });
 
+
+  return axeResults;
+}
+
+/**
+ * Run aXe and adjust results for Lighthouse consumption
+ * @return {Promise<LH.Artifacts.Accessibility>}
+ */
+async function runA11yChecks() {
+  const axeResults = await runAxe(['violations', 'inapplicable']);
+
   // axe just scrolled the page, scroll back to the top of the page so that element positions
   // are relative to the top of the page
   document.documentElement.scrollTop = 0;
-
-  if (isTestMode) {
-    // @ts-expect-error Type doesn't match, but not critical for test purposes.
-    return axeResults;
-  }
 
   return {
     violations: axeResults.violations.map(createAxeRuleResultArtifact),
@@ -150,10 +155,11 @@ class Accessibility extends FRGatherer {
         axeLibSource,
         pageFunctions.getNodeDetailsString,
         createAxeRuleResultArtifact,
+        runAxe,
       ],
     });
   }
 }
 
 module.exports = Accessibility;
-module.exports._runA11yChecksInTestMode = () => runA11yChecks(true);
+module.exports.runAxe = runAxe;
