@@ -77,6 +77,6 @@ describe('axe-run', () => {
         .map(f => f.replace('.js', '')).filter(f => f !== 'axe-audit' && f !== 'manual')
         .sort();
 
-    expect(axeRuleIdsArr).toMatchObject(filenames);
+    expect(axeRuleIdsArr).toEqual(filenames);
   });
 });
