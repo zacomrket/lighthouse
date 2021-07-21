@@ -18,13 +18,16 @@
 
   export type ExpectedRunnerResult = {
     lhr: ExpectedLHR,
-    artifacts?: Partial<Record<keyof LH.Artifacts, any>>
+    artifacts?: Partial<Record<keyof LH.Artifacts|'_maxChromiumMilestone'|'_minChromiumMilestone', any>>
     networkRequests?: {length: number};
   }
 
   export interface TestDfn {
+    /** Identification of test. Can be used for group selection (e.g. `yarn smoke pwa` will run all tests with `id.includes('pwa')`). */
     id: string;
-    expectations: ExpectedRunnerResult[];
+    /** Expected test results. */
+    expectations: ExpectedRunnerResult;
+    /** An optional custom config. If none is present, uses the default Lighthouse config. */
     config?: LH.Config.Json;
     /** If test is performance sensitive, set to true so that it won't be run parallel to other tests. */
     runSerially?: boolean;
