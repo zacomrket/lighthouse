@@ -238,7 +238,15 @@ export class PerformanceCategoryRenderer extends CategoryRenderer {
 
       const headerEl = this.dom.find('.lh-load-opportunity__header', tmpl);
       groupEl.appendChild(headerEl);
-      opportunityAudits.forEach(item => groupEl.appendChild(this._renderOpportunity(item, scale)));
+      opportunityAudits.forEach(item => {
+        if (this._getWastedMs(item) === Number.MIN_VALUE) {
+          console.log('#####');
+          groupEl.appendChild(this.renderAudit(item));
+        } else {
+          console.log('$$$$$');
+          groupEl.appendChild(this._renderOpportunity(item, scale));
+        }
+      });
       groupEl.classList.add('lh-audit-group--load-opportunities');
       element.appendChild(groupEl);
     }
