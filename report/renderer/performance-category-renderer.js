@@ -240,10 +240,8 @@ export class PerformanceCategoryRenderer extends CategoryRenderer {
       groupEl.appendChild(headerEl);
       opportunityAudits.forEach(item => {
         if (this._getWastedMs(item) === Number.MIN_VALUE) {
-          console.log('#####');
           groupEl.appendChild(this.renderAudit(item));
         } else {
-          console.log('$$$$$');
           groupEl.appendChild(this._renderOpportunity(item, scale));
         }
       });
