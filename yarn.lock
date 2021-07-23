@@ -815,6 +815,13 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stadtlandnetz/rollup-plugin-postprocess@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@stadtlandnetz/rollup-plugin-postprocess/-/rollup-plugin-postprocess-1.1.0.tgz#b754df3b315f1ba1af0ae2ca4ccad047f71086b0"
+  integrity sha512-mj3Da2lsAX4+7V8AEQLrVDf1c9wTT9QFm8AZaYdnaU82cLEN9Xix9m27w6m5leVxXFpMWnOnRVq14HF/8/1/eQ==
+  dependencies:
+    magic-string "^0.25.7"
+
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@szmarczak/http-timer/-/http-timer-1.1.2.tgz#b1665e2c461a2cd92f4c1bbf50d5454de0d4b421"

@@ -30,10 +30,10 @@ const json = rollupPluginTypeCoerce(require('@rollup/plugin-json'));
 const nodePolyfills = rollupPluginTypeCoerce(require('rollup-plugin-node-polyfills'));
 const nodeResolve = rollupPluginTypeCoerce(require('rollup-plugin-node-resolve'));
 const replace = rollupPluginTypeCoerce(require('rollup-plugin-replace'));
+const postprocess = require('@stadtlandnetz/rollup-plugin-postprocess');
 // @ts-expect-error: no types
 const shim = require('rollup-plugin-shim');
 const {terser} = require('rollup-plugin-terser');
-const postprocess = require('./rollup-postprocess.js');
 const {minifyFileTransform} = require('./build-utils.js');
 const Runner = require('../lighthouse-core/runner.js');
 const rollupBrfs = require('./rollup-brfs.js');
