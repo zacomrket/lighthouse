@@ -239,7 +239,7 @@ export class PerformanceCategoryRenderer extends CategoryRenderer {
       const headerEl = this.dom.find('.lh-load-opportunity__header', tmpl);
       groupEl.appendChild(headerEl);
       opportunityAudits.forEach(item => {
-        if (this._getWastedMs(item) === Number.MIN_VALUE) {
+        if (item.result.details && item.result.details.type !== 'opportunity') {
           groupEl.appendChild(this.renderAudit(item));
         } else {
           groupEl.appendChild(this._renderOpportunity(item, scale));
