@@ -222,6 +222,8 @@ export class PerformanceCategoryRenderer extends CategoryRenderer {
       this.renderMetricAuditFilter(filterableMetrics, element);
     }
 
+    const relegatedOpportunities = [];
+
     if (opportunityAudits.length) {
       // Scale the sparklines relative to savings, minimum 2s to not overstate small savings
       const minimumScale = 2000;
@@ -239,8 +241,9 @@ export class PerformanceCategoryRenderer extends CategoryRenderer {
       const headerEl = this.dom.find('.lh-load-opportunity__header', tmpl);
       groupEl.appendChild(headerEl);
       opportunityAudits.forEach(item => {
+        // If details type is not opportunity, move to diagnostics.
         if (item.result.details && item.result.details.type !== 'opportunity') {
-          groupEl.appendChild(this.renderAudit(item));
+          relegatedOpportunities.push(item);
         } else {
           groupEl.appendChild(this._renderOpportunity(item, scale));
         }
@@ -251,12 +254,14 @@ export class PerformanceCategoryRenderer extends CategoryRenderer {
 
     // Diagnostics
     const diagnosticAudits = category.auditRefs
-        .filter(audit => audit.group === 'diagnostics' && !Util.showAsPassed(audit.result))
-        .sort((a, b) => {
-          const scoreA = a.result.scoreDisplayMode === 'informative' ? 100 : Number(a.result.score);
-          const scoreB = b.result.scoreDisplayMode === 'informative' ? 100 : Number(b.result.score);
-          return scoreA - scoreB;
-        });
+      .filter(audit => audit.group === 'diagnostics')
+      .concat(relegatedOpportunities)
+      .filter(audit => !Util.showAsPassed(audit.result))
+      .sort((a, b) => {
+        const scoreA = a.result.scoreDisplayMode === 'informative' ? 100 : Number(a.result.score);
+        const scoreB = b.result.scoreDisplayMode === 'informative' ? 100 : Number(b.result.score);
+        return scoreA - scoreB;
+      });
 
     if (diagnosticAudits.length) {
       const groupEl = this.renderAuditGroup(groups['diagnostics']);
