@@ -340,19 +340,19 @@ function _formatPathAsString(pathInLHR) {
 
 /**
  * @param {LH.Locale} locale
- * @return {LH.I18NRendererStrings}
+ * @return {Record<string, string>}
  */
 function getRendererFormattedStrings(locale) {
   const localeMessages = LOCALES[locale];
   if (!localeMessages) throw new Error(`Unsupported locale '${locale}'`);
 
   const icuMessageIds = Object.keys(localeMessages).filter(f => f.startsWith('report/'));
-  const strings = /** @type {LH.I18NRendererStrings} */ ({});
+  /** @type {Record<string, string>} */
+  const strings = {};
   for (const icuMessageId of icuMessageIds) {
-    const [filename, varName] = icuMessageId.split(' | ');
+    const [filename, key] = icuMessageId.split(' | ');
     if (!filename.endsWith('util.js')) throw new Error(`Unexpected message: ${icuMessageId}`);
 
-    const key = /** @type {keyof LH.I18NRendererStrings} */ (varName);
     strings[key] = localeMessages[icuMessageId].message;
   }
 

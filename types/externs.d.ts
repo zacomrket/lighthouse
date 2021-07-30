@@ -6,25 +6,8 @@
 
 import _Crdp from 'devtools-protocol/types/protocol';
 import _CrdpMappings from 'devtools-protocol/types/protocol-mapping';
-import {ParseSelectorToTagNames} from 'typed-query-selector/parser';
 
-/** Merge properties of the types in union `T`. Where properties overlap, property types becomes the union of the two (or more) possible types. */
-type MergeTypes<T> = {
-  [K in (T extends unknown ? keyof T : never)]: T extends Record<K, infer U> ? U : never;
-};
-
-// Helper types for strict querySelector/querySelectorAll that includes the overlap
-// between HTML and SVG node names (<a>, <script>, etc).
-// see https://github.com/GoogleChrome/lighthouse/issues/12011
-type HtmlAndSvgElementTagNameMap = MergeTypes<HTMLElementTagNameMap|SVGElementTagNameMap> & {
-  // Fall back to Element (base of HTMLElement and SVGElement) if no specific tag name matches.
-  [id: string]: Element;
-};
-type QuerySelectorParse<I extends string> = ParseSelectorToTagNames<I> extends infer TagNames ?
-  TagNames extends Array<string> ?
-    HtmlAndSvgElementTagNameMap[TagNames[number]] :
-    Element: // Fall back for queries typed-query-selector fails to parse, e.g. `'[alt], [aria-label]'`.
-  never;
+import LHError = require('../lighthouse-core/lib/lh-error.js');
 
 declare global {
   // Augment Intl to include
@@ -120,6 +103,8 @@ declare global {
     export import Crdp = _Crdp;
     export import CrdpEvents = _CrdpMappings.Events;
     export import CrdpCommands = _CrdpMappings.Commands;
+
+    export type LighthouseError = LHError;
 
     /** Simulation settings that control the amount of network & cpu throttling in the run. */
     interface ThrottlingSettings {
@@ -413,11 +398,5 @@ declare global {
 
     // Not defined in tsc yet: https://github.com/microsoft/TypeScript/issues/40807
     requestIdleCallback(callback: (deadline: {didTimeout: boolean, timeRemaining: () => DOMHighResTimeStamp}) => void, options?: {timeout: number}): number;
-  }
-
-  // Stricter querySelector/querySelectorAll using typed-query-selector.
-  interface ParentNode {
-    querySelector<S extends string>(selector: S): QuerySelectorParse<S> | null;
-    querySelectorAll<S extends string>(selector: S): NodeListOf<QuerySelectorParse<S>>;
   }
 }

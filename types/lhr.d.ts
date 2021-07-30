@@ -4,12 +4,8 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-import LHError = require('../lighthouse-core/lib/lh-error.js');
-
 declare global {
   module LH {
-    export type LighthouseError = LHError;
-
     export interface Environment {
       /** The user agent string of the version of Chrome used. */
       hostUserAgent: string;
@@ -53,7 +49,7 @@ declare global {
       /** Execution timings for the Lighthouse run */
       timing: Result.Timing;
       /** The record of all formatted string locations in the LHR and their corresponding source values. */
-      i18n: {rendererFormattedStrings: I18NRendererStrings, icuMessagePaths?: IcuMessagePaths};
+      i18n: {rendererFormattedStrings: Record<string, string>, icuMessagePaths?: IcuMessagePaths};
       /** An array containing the result of all stack packs. */
       stackPacks?: Result.StackPack[];
     }

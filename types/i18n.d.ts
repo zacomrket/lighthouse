@@ -4,7 +4,7 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {Util} from '../report/renderer/util.js';
+// import {Util} from '../report/renderer/util.js';
 
 declare global {
   module LH {
@@ -70,8 +70,9 @@ declare global {
       [i18nId: string]: IcuMessagePath[];
     }
 
+    // TODO(bckenny): move to report types?
     /** Localized strings for the html report renderer. */
-    export type I18NRendererStrings = typeof Util['UIStrings'];
+    // export type I18NRendererStrings = typeof Util['UIStrings'];
   }
 }
 

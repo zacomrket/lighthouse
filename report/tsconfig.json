@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "lib": ["es2020", "dom", "dom.iterable"],
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
+
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+
+    // "listFiles": true,
+    // "noErrorTruncation": true,
+    "extendedDiagnostics": true,
+  },
+  "include": [
+    "**/*.js",
+    "types/**/*.d.ts",
+
+    // Include some LHR d.ts files, but do so explicitly so root types don't interfere.
+    "../types/lhr.d.ts",
+    "../types/audit.d.ts",
+    "../types/audit-details.d.ts",
+    "../types/i18n.d.ts",
+    "../types/query-selector.d.ts",
+  ],
+  "exclude": [
+    // These test files require further changes before they can be type checked.
+    "test/**/*.js",
+  ],
+}
