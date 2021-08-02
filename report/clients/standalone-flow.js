@@ -23,11 +23,12 @@ import {ReportRenderer} from '../renderer/report-renderer';
 const Report = ({lhr, hidden}) => {
   const root = useRef(/** @type {HTMLDivElement|null} */ (null));
   const renderer = useMemo(() => {
-    const dom = new DOM(document, false);
+    const dom = new DOM(document);
     return new ReportRenderer(dom);
   }, []);
   useEffect(() => {
     if (root.current) {
+      console.log('###');
       renderer.renderReport(lhr, root.current);
     }
   }, [root.current]);
@@ -39,7 +40,6 @@ const Report = ({lhr, hidden}) => {
 /** @type {preact.FunctionComponent<{flow: LH.FlowResult}>} */
 const App = ({flow}) => {
   const [currentLhr, setCurrentLhr] = useState(0);
-  console.log(flow);
   return html`
     <select onInput=${/** @param {any} e */ e => setCurrentLhr(Number(e.target.value))}>
       ${flow.lhrs.map((lhr, i) => html`

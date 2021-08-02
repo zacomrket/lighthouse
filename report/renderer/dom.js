@@ -24,18 +24,12 @@ import {Util} from './util.js';
 export class DOM {
   /**
    * @param {Document} document
-   * @param {boolean=} noDuplicateStyle
    */
-  constructor(document, noDuplicateStyle = true) {
+  constructor(document) {
     /** @type {Document} */
     this._document = document;
     /** @type {string} */
     this._lighthouseChannel = 'unknown';
-    /**
-     * @type {boolean}
-     * TODO: Find a more elegant way to share styles between reports.
-     */
-    this._noDuplicateStyle = noDuplicateStyle;
   }
 
   /**
@@ -100,10 +94,13 @@ export class DOM {
 
     const clone = this._document.importNode(template.content, true);
 
-    // Prevent duplicate styles in the DOM. After a template has been stamped
-    // for the first time, remove the clone's styles so they're not re-added.
-    if (template.hasAttribute('data-stamped') && this._noDuplicateStyle) {
-      this.findAll('style', clone).forEach(style => style.remove());
+    // Prevent duplicate styles in the DOM. Add style to head only once.
+    const styleNodes = this.findAll('style', clone);
+    for (const style of styleNodes) {
+      style.remove();
+      if (!template.hasAttribute('data-stamped')) {
+        this._document.head.appendChild(style);
+      }
     }
     template.setAttribute('data-stamped', 'true');
 
