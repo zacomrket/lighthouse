@@ -16,19 +16,20 @@ import {html} from 'htm/preact';
 import {useEffect, useRef, useState, useMemo} from 'preact/hooks';
 import {DOM} from '../renderer/dom';
 import {ReportRenderer} from '../renderer/report-renderer';
+import {ReportUIFeatures} from '../renderer/report-ui-features';
 
 /* global window document */
 
 /** @type {preact.FunctionComponent<{lhr: LH.Result, hidden: boolean}>} */
 const Report = ({lhr, hidden}) => {
   const root = useRef(/** @type {HTMLDivElement|null} */ (null));
-  const renderer = useMemo(() => {
-    const dom = new DOM(document);
-    return new ReportRenderer(dom);
-  }, []);
+  const dom = useMemo(() => new DOM(document), []);
+  const features = useMemo(() => new ReportUIFeatures(dom), [dom]);
+  const renderer = useMemo(() => new ReportRenderer(dom), [dom]);
   useEffect(() => {
     if (root.current) {
       renderer.renderReport(lhr, root.current);
+      features.initFeatures(lhr);
     }
   }, [root.current]);
   return html`
