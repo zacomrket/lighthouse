@@ -12,12 +12,12 @@ const {execFileSync} = require('child_process');
 execFileSync(`yarn`, ['build-report']);
 const reportGenerator = require('../../report/report-generator.js');
 
-const lhrs = JSON.parse(fs.readFileSync(
+const flow = JSON.parse(fs.readFileSync(
       `${__dirname}/../test/fixtures/fraggle-rock/reports/sample-lhrs.json`,
       'utf-8')
 );
 
-const htmlReport = reportGenerator.generateFlowReportHtml(lhrs);
+const htmlReport = reportGenerator.generateFlowReportHtml(flow);
 
 fs.writeFileSync(`${__dirname}/../../flow.report.html`, htmlReport);
 open(`${__dirname}/../../flow.report.html`);

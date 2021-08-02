@@ -13,16 +13,55 @@
 
 import {render} from 'preact';
 import {html} from 'htm/preact';
+import {useEffect, useRef, useState, useMemo} from 'preact/hooks';
+import {DOM} from '../renderer/dom';
+import {ReportRenderer} from '../renderer/report-renderer';
 
 /* global window document */
 
+/** @type {preact.FunctionComponent<{lhr: LH.Result, hidden: boolean}>} */
+const Report = ({lhr, hidden}) => {
+  const root = useRef(/** @type {HTMLDivElement|null} */ (null));
+  const renderer = useMemo(() => {
+    const dom = new DOM(document, false);
+    return new ReportRenderer(dom);
+  }, []);
+  useEffect(() => {
+    if (root.current) {
+      renderer.renderReport(lhr, root.current);
+    }
+  }, [root.current]);
+  return html`
+    <div ref=${root} hidden=${hidden}/>
+  `;
+};
+
+/** @type {preact.FunctionComponent<{flow: LH.FlowResult}>} */
+const App = ({flow}) => {
+  const [currentLhr, setCurrentLhr] = useState(0);
+  console.log(flow);
+  return html`
+    <select onInput=${/** @param {any} e */ e => setCurrentLhr(Number(e.target.value))}>
+      ${flow.lhrs.map((lhr, i) => html`
+        <option key=${i} value=${i}>(${lhr.gatherMode}) ${lhr.finalUrl}</option>
+      `)}
+    </select>
+    <div>
+      ${flow.lhrs.map((lhr, i) => html`
+        <${Report} key=${i} hidden=${currentLhr !== i} lhr=${lhr}/>
+      `)}
+    </div>
+  `;
+};
+
 // Used by standalone-flow.html
 function __initLighthouseFlowReport__() {
-  const App = props => html`
-    <pre>${JSON.stringify(props.lhrs, null, 2)}</pre>
-  `;
-
-  render(html`<${App} lhrs=${window.__LIGHTHOUSE_JSON__} />`, document.body.querySelector('main'));
+  render(
+    // @ts-expect-error
+    html`<${App} flow=${window.__LIGHTHOUSE_JSON__} />`,
+    document.body.querySelector('main')
+  );
 }
 
+// @ts-expect-error
 window.__initLighthouseFlowReport__ = __initLighthouseFlowReport__;

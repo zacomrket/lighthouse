@@ -51,6 +51,7 @@ async function snapshot(options) {
       url,
       config,
       computedCache,
+      gatherMode: 'snapshot',
     }
   );
 }

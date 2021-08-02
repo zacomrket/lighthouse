@@ -19,6 +19,8 @@
     "build/**/*.js",
     "./types/**/*.d.ts",
     "eslint-local-rules.js",
+    "report/renderer",
+    "report/clients/standalone-flow.js",
   ],
   "exclude": [
     "lighthouse-core/lib/cdt",

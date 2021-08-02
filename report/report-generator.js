@@ -48,11 +48,11 @@ class ReportGenerator {
 
   /**
    * Returns the report HTML as a string with the report JSON and renderer JS inlined.
-   * @param {LH.Result[]} lhrs
+   * @param {LH.FlowResult} flow
    * @return {string}
    */
-  static generateFlowReportHtml(lhrs) {
-    const sanitizedJson = JSON.stringify(lhrs)
+  static generateFlowReportHtml(flow) {
+    const sanitizedJson = JSON.stringify(flow)
       .replace(/</g, '\\u003c') // replaces opening script tags
       .replace(/\u2028/g, '\\u2028') // replaces line separators ()
       .replace(/\u2029/g, '\\u2029'); // replaces paragraph separators
@@ -61,6 +61,7 @@ class ReportGenerator {
       {search: '%%LIGHTHOUSE_JSON%%', replacement: sanitizedJson},
       {search: '%%LIGHTHOUSE_JAVASCRIPT%%', replacement: htmlReportAssets.REPORT_FLOW_JAVASCRIPT},
       {search: '/*%%LIGHTHOUSE_CSS%%*/', replacement: htmlReportAssets.REPORT_CSS},
+      {search: '%%LIGHTHOUSE_TEMPLATES%%', replacement: htmlReportAssets.REPORT_TEMPLATES},
     ]);
   }
 

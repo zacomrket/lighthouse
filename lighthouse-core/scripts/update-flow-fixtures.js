@@ -32,14 +32,16 @@ const reportGenerator = require('../../report/report-generator.js');
 
     if (!navigationResult || !timespanResult || !snapshotResult) throw new Error('No results');
 
-    const lhrs = [navigationResult.lhr, timespanResult.lhr, snapshotResult.lhr];
+    const flow = {
+      lhrs: [navigationResult.lhr, timespanResult.lhr, snapshotResult.lhr],
+    };
 
     fs.writeFileSync(
       `${__dirname}/../test/fixtures/fraggle-rock/reports/sample-lhrs.json`,
-      JSON.stringify(lhrs, null, 2)
+      JSON.stringify(flow, null, 2)
     );
 
-    const htmlReport = reportGenerator.generateFlowReportHtml(lhrs);
+    const htmlReport = reportGenerator.generateFlowReportHtml(flow);
 
     fs.writeFileSync(`${__dirname}/../../flow.report.html`, htmlReport);
     open(`${__dirname}/../../flow.report.html`);

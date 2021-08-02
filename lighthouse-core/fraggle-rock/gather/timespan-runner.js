@@ -63,6 +63,7 @@ async function startTimespan(options) {
           url: finalUrl,
           config,
           computedCache,
+          gatherMode: 'timespan',
         }
       );
     },

@@ -22,9 +22,20 @@ declare global {
     }
 
     /**
+     * The full output of a Lighthouse flow. Includes a series of Lighthouse runs.
+     * TODO(FR-COMPAT): Add flow specific metadata (e.g. Overall flow score).
+     */
+    export interface FlowResult {
+      /** Ordered list of lighthouse results corresponding to a navigation, timespan, or snapshot. */
+      lhrs: Result[];
+    }
+
+    /**
      * The full output of a Lighthouse run.
      */
     export interface Result {
+      /** Gather mode used to collect artifacts. */
+      gatherMode: Gatherer.GatherMode;
       /** The URL that was supplied to Lighthouse and initially navigated to. */
       requestedUrl: string;
       /** The post-redirects URL that Lighthouse loaded. */
