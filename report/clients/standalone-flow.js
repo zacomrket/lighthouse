@@ -28,7 +28,6 @@ const Report = ({lhr, hidden}) => {
   }, []);
   useEffect(() => {
     if (root.current) {
-      console.log('###');
       renderer.renderReport(lhr, root.current);
     }
   }, [root.current]);
