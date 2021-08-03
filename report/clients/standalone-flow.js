@@ -19,6 +19,7 @@ import {useState} from 'preact/hooks';
 
 /** @type {preact.FunctionComponent<{lhr: LH.Result}>} */
 const Report = ({lhr}) => {
+  // TODO(FR-COMPAT): Render an actual report here.
   return html`
     <div>
       <h1>${lhr.finalUrl}</h1>
