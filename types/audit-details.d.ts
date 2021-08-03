@@ -19,6 +19,15 @@ declare global {
 
     // Details namespace.
     export module Details {
+      export interface Rect {
+        width: number;
+        height: number;
+        top: number;
+        right: number;
+        bottom: number;
+        left: number;
+      }
+
       export interface CriticalRequestChain {
         type: 'criticalrequestchain';
         longestChain: {
@@ -68,8 +77,15 @@ declare global {
        * and the locations of interesting nodes.
        * Used by element screenshots renderer.
        */
-      export interface FullPageScreenshot extends LH.Artifacts.FullPageScreenshot {
+      export interface FullPageScreenshot {
         type: 'full-page-screenshot';
+        screenshot: {
+          /** Base64 image data URL. */
+          data: string;
+          width: number;
+          height: number;
+        };
+        nodes: Record<string, Rect>;
       }
 
       export interface Table {
@@ -211,7 +227,7 @@ declare global {
         lhId?: string;
         path?: string;
         selector?: string;
-        boundingRect?: Artifacts.Rect;
+        boundingRect?: Rect;
         /** An HTML snippet used to identify the node. */
         snippet?: string;
         /** A human-friendly text descriptor that's used to identify the node more quickly. */

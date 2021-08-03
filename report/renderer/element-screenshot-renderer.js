@@ -12,7 +12,7 @@
  */
 
 /** @typedef {import('./dom.js').DOM} DOM */
-/** @typedef {LH.Artifacts.Rect} Rect */
+/** @typedef {LH.Audit.Details.Rect} Rect */
 /** @typedef {{width: number, height: number}} Size */
 
 /**
@@ -21,14 +21,14 @@
  * @property {Element} reportEl
  * @property {Element} overlayContainerEl
  * @property {ParentNode} templateContext
- * @property {LH.Artifacts.FullPageScreenshot} fullPageScreenshot
+ * @property {LH.Audit.Details.FullPageScreenshot} fullPageScreenshot
  */
 
 import {Util} from './util.js';
 
 /**
- * @param {LH.Artifacts.FullPageScreenshot['screenshot']} screenshot
- * @param {LH.Artifacts.Rect} rect
+ * @param {LH.Audit.Details.FullPageScreenshot['screenshot']} screenshot
+ * @param {Rect} rect
  * @return {boolean}
  */
 function screenshotOverlapsRect(screenshot, rect) {
@@ -99,7 +99,7 @@ export class ElementScreenshotRenderer {
    * @param {DOM} dom
    * @param {HTMLElement} maskEl
    * @param {{left: number, top: number}} positionClip
-   * @param {LH.Artifacts.Rect} elementRect
+   * @param {Rect} elementRect
    * @param {Size} elementPreviewSize
    */
   static renderClipPathInScreenshot(dom, maskEl, positionClip, elementRect, elementPreviewSize) {
@@ -133,7 +133,7 @@ export class ElementScreenshotRenderer {
    * Allows for multiple Lighthouse reports to be rendered on the page, each with their
    * own full page screenshot.
    * @param {HTMLElement} el
-   * @param {LH.Artifacts.FullPageScreenshot['screenshot']} screenshot
+   * @param {LH.Audit.Details.FullPageScreenshot['screenshot']} screenshot
    */
   static installFullPageScreenshot(el, screenshot) {
     el.style.setProperty('--element-screenshot-url', `url(${screenshot.data})`);
@@ -197,7 +197,7 @@ export class ElementScreenshotRenderer {
   /**
    * Given the size of the element in the screenshot and the total available size of our preview container,
    * compute the factor by which we need to zoom out to view the entire element with context.
-   * @param {LH.Artifacts.Rect} elementRectSC
+   * @param {Rect} elementRectSC
    * @param {Size} renderContainerSizeDC
    * @return {number}
    */
@@ -217,8 +217,8 @@ export class ElementScreenshotRenderer {
    * Returns null if element rect is outside screenshot bounds.
    * @param {DOM} dom
    * @param {ParentNode} templateContext
-   * @param {LH.Artifacts.FullPageScreenshot['screenshot']} screenshot
-   * @param {LH.Artifacts.Rect} elementRectSC Region of screenshot to highlight.
+   * @param {LH.Audit.Details.FullPageScreenshot['screenshot']} screenshot
+   * @param {Rect} elementRectSC Region of screenshot to highlight.
    * @param {Size} maxRenderSizeDC e.g. maxThumbnailSize or maxLightboxSize.
    * @return {Element|null}
    */
