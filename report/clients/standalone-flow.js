@@ -24,7 +24,6 @@ import {ReportUIFeatures} from '../renderer/report-ui-features';
 const Report = ({lhr, hidden}) => {
   const root = useRef(/** @type {HTMLDivElement|null} */ (null));
 
-  // Mirrored list of the cached LHRs stored in the renderer.
   const featuresMap = useMemo(/** @return {Map<string, ReportUIFeatures>} */ () => new Map(), []);
   const dom = useMemo(() => new DOM(document), []);
   const renderer = useMemo(() => new ReportRenderer(dom), [dom]);
