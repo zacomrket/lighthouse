@@ -43,12 +43,12 @@ const App = ({flow}) => {
   return html`
     <select onInput=${/** @param {any} e */ e => setCurrentLhr(Number(e.target.value))}>
       ${flow.lhrs.map((lhr, i) => html`
-        <option key=${i} value=${i}>(${lhr.gatherMode}) ${lhr.finalUrl}</option>
+        <option key=${lhr.fetchTime} value=${i}>(${lhr.gatherMode}) ${lhr.finalUrl}</option>
       `)}
     </select>
     <div>
       ${flow.lhrs.map((lhr, i) => html`
-        <${Report} key=${i} hidden=${currentLhr !== i} lhr=${lhr}/>
+        <${Report} key=${lhr.fetchTime} hidden=${currentLhr !== i} lhr=${lhr}/>
       `)}
     </div>
   `;
