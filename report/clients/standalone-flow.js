@@ -59,6 +59,7 @@ function __initLighthouseFlowReport__() {
   render(
     // @ts-expect-error
     html`<${App} flow=${window.__LIGHTHOUSE_JSON__} />`,
+    // @ts-expect-error
     document.body.querySelector('main')
   );
 }
