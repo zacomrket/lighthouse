@@ -25,16 +25,19 @@ const Report = ({lhr, hidden}) => {
   const root = useRef(/** @type {HTMLDivElement|null} */ (null));
 
   // Mirrored list of the cached LHRs stored in the renderer.
-  const cached = useMemo(/** @return {Set<string>} */ () => new Set(), []);
+  const featuresMap = useMemo(/** @return {Map<string, ReportUIFeatures>} */ () => new Map(), []);
   const dom = useMemo(() => new DOM(document), []);
-  const features = useMemo(() => new ReportUIFeatures(dom), [dom]);
   const renderer = useMemo(() => new ReportRenderer(dom), [dom]);
 
   useEffect(() => {
     if (root.current) {
       renderer.renderReport(lhr, root.current);
-      if (!cached.has(lhr.fetchTime)) features.initFeatures(lhr);
-      cached.add(lhr.fetchTime);
+
+      if (!featuresMap.has(lhr.fetchTime)) {
+        const features = new ReportUIFeatures(dom);
+        features.initFeatures(lhr);
+        featuresMap.set(lhr.fetchTime, features);
+      }
     }
   }, [root.current, lhr]);
   return html`
