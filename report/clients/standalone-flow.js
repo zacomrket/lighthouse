@@ -23,15 +23,20 @@ import {ReportUIFeatures} from '../renderer/report-ui-features';
 /** @type {preact.FunctionComponent<{lhr: LH.Result, hidden: boolean}>} */
 const Report = ({lhr, hidden}) => {
   const root = useRef(/** @type {HTMLDivElement|null} */ (null));
+
+  // Mirrored list of the cached LHRs stored in the renderer.
+  const cached = useMemo(/** @return {Set<string>} */ () => new Set(), []);
   const dom = useMemo(() => new DOM(document), []);
   const features = useMemo(() => new ReportUIFeatures(dom), [dom]);
   const renderer = useMemo(() => new ReportRenderer(dom), [dom]);
+
   useEffect(() => {
     if (root.current) {
       renderer.renderReport(lhr, root.current);
-      features.initFeatures(lhr);
+      if (!cached.has(lhr.fetchTime)) features.initFeatures(lhr);
+      cached.add(lhr.fetchTime);
     }
-  }, [root.current]);
+  }, [root.current, lhr]);
   return html`
     <div ref=${root} hidden=${hidden}/>
   `;
@@ -47,9 +52,7 @@ const App = ({flow}) => {
       `)}
     </select>
     <div>
-      ${flow.lhrs.map((lhr, i) => html`
-        <${Report} key=${lhr.fetchTime} hidden=${currentLhr !== i} lhr=${lhr}/>
-      `)}
+      <${Report} lhr=${flow.lhrs[currentLhr]}/>
     </div>
   `;
 };

@@ -38,6 +38,8 @@ export class ReportRenderer {
     this._dom = dom;
     /** @type {ParentNode} */
     this._templateContext = this._dom.document();
+    /** @type {Map<string, ChildNode[]>} */
+    this._reportCache = new Map();
   }
 
   /**
@@ -47,11 +49,19 @@ export class ReportRenderer {
    */
   renderReport(result, container) {
     this._dom.setLighthouseChannel(result.configSettings.channel || 'unknown');
-
-    const report = Util.prepareReportResult(result);
-
+    const cachedReport = this._reportCache.get(result.fetchTime);
     container.textContent = ''; // Remove previous report.
-    container.appendChild(this._renderReport(report));
+
+    if (cachedReport) {
+      for (const child of cachedReport) {
+        container.appendChild(child);
+      }
+    } else {
+      const report = Util.prepareReportResult(result);
+      container.appendChild(this._renderReport(report));
+      const children = [...container.childNodes];
+      this._reportCache.set(result.fetchTime, children);
+    }
 
     return container;
   }
