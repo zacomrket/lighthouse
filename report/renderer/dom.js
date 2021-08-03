@@ -94,13 +94,10 @@ export class DOM {
 
     const clone = this._document.importNode(template.content, true);
 
-    // Prevent duplicate styles in the DOM. Add style to head only once.
-    const styleNodes = this.findAll('style', clone);
-    for (const style of styleNodes) {
-      style.remove();
-      if (!template.hasAttribute('data-stamped')) {
-        this._document.head.appendChild(style);
-      }
+    // Prevent duplicate styles in the DOM. After a template has been stamped
+    // for the first time, remove the clone's styles so they're not re-added.
+    if (template.hasAttribute('data-stamped')) {
+      this.findAll('style', clone).forEach(style => style.remove());
     }
     template.setAttribute('data-stamped', 'true');
 

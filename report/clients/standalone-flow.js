@@ -13,34 +13,19 @@
 
 import {render} from 'preact';
 import {html} from 'htm/preact';
-import {useEffect, useRef, useState, useMemo} from 'preact/hooks';
-import {DOM} from '../renderer/dom';
-import {ReportRenderer} from '../renderer/report-renderer';
-import {ReportUIFeatures} from '../renderer/report-ui-features';
+import {useState} from 'preact/hooks';
 
 /* global window document */
 
-/** @type {preact.FunctionComponent<{lhr: LH.Result, hidden: boolean}>} */
-const Report = ({lhr, hidden}) => {
-  const root = useRef(/** @type {HTMLDivElement|null} */ (null));
-
-  const featuresMap = useMemo(/** @return {Map<string, ReportUIFeatures>} */ () => new Map(), []);
-  const dom = useMemo(() => new DOM(document), []);
-  const renderer = useMemo(() => new ReportRenderer(dom), [dom]);
-
-  useEffect(() => {
-    if (root.current) {
-      renderer.renderReport(lhr, root.current);
-
-      if (!featuresMap.has(lhr.fetchTime)) {
-        const features = new ReportUIFeatures(dom);
-        features.initFeatures(lhr);
-        featuresMap.set(lhr.fetchTime, features);
-      }
-    }
-  }, [root.current, lhr]);
+/** @type {preact.FunctionComponent<{lhr: LH.Result}>} */
+const Report = ({lhr}) => {
   return html`
-    <div ref=${root} hidden=${hidden}/>
+    <div>
+      <h1>${lhr.finalUrl}</h1>
+      ${Object.values(lhr.categories).map((category) => html`
+        <h2>${category.id}: ${category.score}</h2>
+      `)}
+    </div>
   `;
 };
 
