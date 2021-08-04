@@ -28,18 +28,24 @@ class ReportGenerator {
   }
 
   /**
+   * @param {any} json
+   * @returns {string}
+   */
+  static sanitizeJSON(json) {
+    return JSON.stringify(json)
+      .replace(/</g, '\\u003c') // replaces opening script tags
+      .replace(/\u2028/g, '\\u2028') // replaces line separators ()
+      .replace(/\u2029/g, '\\u2029'); // replaces paragraph separators
+  }
+
+  /**
    * Returns the report HTML as a string with the report JSON and renderer JS inlined.
    * @param {LH.Result} lhr
    * @return {string}
    */
   static generateReportHtml(lhr) {
-    const sanitizedJson = JSON.stringify(lhr)
-      .replace(/</g, '\\u003c') // replaces opening script tags
-      .replace(/\u2028/g, '\\u2028') // replaces line separators ()
-      .replace(/\u2029/g, '\\u2029'); // replaces paragraph separators
-
     return ReportGenerator.replaceStrings(htmlReportAssets.REPORT_TEMPLATE, [
-      {search: '%%LIGHTHOUSE_JSON%%', replacement: sanitizedJson},
+      {search: '%%LIGHTHOUSE_JSON%%', replacement: this.sanitizeJSON(lhr)},
       {search: '%%LIGHTHOUSE_JAVASCRIPT%%', replacement: htmlReportAssets.REPORT_JAVASCRIPT},
       {search: '/*%%LIGHTHOUSE_CSS%%*/', replacement: htmlReportAssets.REPORT_CSS},
       {search: '%%LIGHTHOUSE_TEMPLATES%%', replacement: htmlReportAssets.REPORT_TEMPLATES},
@@ -52,13 +58,8 @@ class ReportGenerator {
    * @return {string}
    */
   static generateFlowReportHtml(flow) {
-    const sanitizedJson = JSON.stringify(flow)
-      .replace(/</g, '\\u003c') // replaces opening script tags
-      .replace(/\u2028/g, '\\u2028') // replaces line separators ()
-      .replace(/\u2029/g, '\\u2029'); // replaces paragraph separators
-
     return ReportGenerator.replaceStrings(htmlReportAssets.REPORT_FLOW_TEMPLATE, [
-      {search: '%%LIGHTHOUSE_JSON%%', replacement: sanitizedJson},
+      {search: '%%LIGHTHOUSE_JSON%%', replacement: this.sanitizeJSON(flow)},
       {search: '%%LIGHTHOUSE_JAVASCRIPT%%', replacement: htmlReportAssets.REPORT_FLOW_JAVASCRIPT},
       {search: '/*%%LIGHTHOUSE_CSS%%*/', replacement: htmlReportAssets.REPORT_CSS},
       {search: '%%LIGHTHOUSE_TEMPLATES%%', replacement: htmlReportAssets.REPORT_TEMPLATES},
