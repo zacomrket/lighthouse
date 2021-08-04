@@ -20,6 +20,40 @@
   border-bottom: 1px solid black;
 }
 
-.SidebarStep {
+.SidebarFlowStep {
   width: max-content;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+.SidebarFlowStep_icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+.navigation > .SidebarFlowStep_icon::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid blue;
+  display: block;
+}
+.timespan > .SidebarFlowStep_icon::before {
+  content: '';
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  background-color: blue;
+  display: block;
+}
+.snapshot > .SidebarFlowStep_icon::before {
+  content: '';
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  background-color: blue;
+  display: block;
 }

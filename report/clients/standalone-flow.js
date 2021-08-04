@@ -32,7 +32,8 @@ const Report = ({lhr}) => {
 /** @type {preact.FunctionComponent<{mode: LH.Gatherer.GatherMode, href: string, label: string}>} */
 const SidebarFlowStep = ({href, label, mode}) => {
   return html`
-    <div className="SidebarStep ${mode}">
+    <div className="SidebarFlowStep ${mode}">
+      <span className="SidebarFlowStep_icon"></span>
       <a href=${href}>${label}</a>
     </div>
   `;
