@@ -1,0 +1,25 @@
+.App {
+  display: grid;
+  grid-template-areas: "side report";
+  grid-template-columns: min-content 100%;
+  min-height: 100vh;
+}
+.App a {
+  color: black;
+}
+
+.Sidebar {
+  border-right: 1px solid black;
+}
+
+.SidebarSection > * {
+  padding: 10px;
+}
+.SidebarSection .SidebarSection_title {
+  padding-top: 20px;
+  border-bottom: 1px solid black;
+}
+
+.SidebarStep {
+  width: max-content;
+}

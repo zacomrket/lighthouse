@@ -13,7 +13,6 @@
 
 import {render} from 'preact';
 import {html} from 'htm/preact';
-import {useState} from 'preact/hooks';
 
 /* global window document location */
 
@@ -31,16 +30,28 @@ const Report = ({lhr}) => {
 };
 
 /** @type {preact.FunctionComponent<{mode: LH.Gatherer.GatherMode, href: string, label: string}>} */
-const SidebarStep = ({href, label, mode}) => {
+const SidebarFlowStep = ({href, label, mode}) => {
   return html`
-    <div>
+    <div className="SidebarStep ${mode}">
       <a href=${href}>${label}</a>
     </div>
   `;
 };
 
+/** @type {preact.FunctionComponent<{title: string}>} */
+const SidebarSection = ({children, title}) => {
+  return html`
+    <div className="SidebarSection">
+      <div className="SidebarSection_title">${title}</div>
+      <div className="SidebarSection_content">
+        ${children}
+      </div>
+    </div>
+  `;
+};
+
 /** @type {preact.FunctionComponent<{flow: LH.FlowResult, minimized: boolean}>} */
-const Sidebar = ({flow, minimized}) => {
+const Sidebar = ({flow}) => {
   let numNavigation = 1;
   let numTimespan = 1;
   let numSnapshot = 1;
@@ -60,11 +71,15 @@ const Sidebar = ({flow, minimized}) => {
     const url = new URL(location.href);
     url.searchParams.set('step', String(index));
     return html`
-      <${SidebarStep} mode=${lhr.gatherMode} href=${url.href} label=${name} />
+      <${SidebarFlowStep} mode=${lhr.gatherMode} href=${url.href} label=${name} />
     `;
   });
   return html`
-    <div>${links}</div>
+    <div className="Sidebar">
+      <${SidebarSection} title="User flow">
+        ${links}
+      <//>
+    </div>
   `;
 };
 
@@ -73,7 +88,7 @@ const App = ({flow}) => {
   const searchParams = new URLSearchParams(location.search);
   const currentLhr = Number(searchParams.get('step') || 0);
   return html`
-    <div>
+    <div className="App">
       <${Sidebar} flow=${flow}/>
       <${Report} lhr=${flow.lhrs[currentLhr]}/>
     </div>
