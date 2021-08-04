@@ -6,6 +6,7 @@
 
 import _Crdp from 'devtools-protocol/types/protocol';
 import _CrdpMappings from 'devtools-protocol/types/protocol-mapping';
+import {Result as _Result} from './lhr/lhr';
 
 import LHError = require('../lighthouse-core/lib/lh-error.js');
 
@@ -105,6 +106,7 @@ declare global {
     export import CrdpCommands = _CrdpMappings.Commands;
 
     export type LighthouseError = LHError;
+    export type Result = _Result;
 
     /** Simulation settings that control the amount of network & cpu throttling in the run. */
     interface ThrottlingSettings {
