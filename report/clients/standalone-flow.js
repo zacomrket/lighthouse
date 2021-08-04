@@ -15,7 +15,7 @@ import {render} from 'preact';
 import {html} from 'htm/preact';
 import {useState} from 'preact/hooks';
 
-/* global window document */
+/* global window document location */
 
 /** @type {preact.FunctionComponent<{lhr: LH.Result}>} */
 const Report = ({lhr}) => {
@@ -30,18 +30,51 @@ const Report = ({lhr}) => {
   `;
 };
 
+/** @type {preact.FunctionComponent<{mode: LH.Gatherer.GatherMode, href: string, label: string}>} */
+const SidebarStep = ({href, label, mode}) => {
+  return html`
+    <div>
+      <a href=${href}>${label}</a>
+    </div>
+  `;
+};
+
+/** @type {preact.FunctionComponent<{flow: LH.FlowResult, minimized: boolean}>} */
+const Sidebar = ({flow, minimized}) => {
+  let numNavigation = 1;
+  let numTimespan = 1;
+  let numSnapshot = 1;
+  const links = flow.lhrs.map((lhr, index) => {
+    let name = '?';
+    switch (lhr.gatherMode) {
+      case 'navigation':
+        name = `Navigation ${numNavigation++}`;
+        break;
+      case 'timespan':
+        name = `Timespan ${numTimespan++}`;
+        break;
+      case 'snapshot':
+        name = `Snapshot ${numSnapshot++}`;
+        break;
+    }
+    const url = new URL(location.href);
+    url.searchParams.set('step', String(index));
+    return html`
+      <${SidebarStep} mode=${lhr.gatherMode} href=${url.href} label=${name} />
+    `;
+  });
+  return html`
+    <div>${links}</div>
+  `;
+};
+
 /** @type {preact.FunctionComponent<{flow: LH.FlowResult}>} */
 const App = ({flow}) => {
-  const [currentLhr, setCurrentLhr] = useState(0);
+  const searchParams = new URLSearchParams(location.search);
+  const currentLhr = Number(searchParams.get('step') || 0);
   return html`
-    <select onInput=${/** @param {any} e */ e => setCurrentLhr(Number(e.target.value))}>
-      ${flow.lhrs.map((lhr, i) => html`
-        <option key=${lhr.fetchTime} value=${i}>
-          [${lhr.fetchTime}] [${lhr.gatherMode}] ${lhr.finalUrl}
-        </option>
-      `)}
-    </select>
     <div>
+      <${Sidebar} flow=${flow}/>
       <${Report} lhr=${flow.lhrs[currentLhr]}/>
     </div>
   `;
