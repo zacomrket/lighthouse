@@ -38,23 +38,32 @@ const SidebarFlowStep:FunctionComponent<{
   mode: LH.Gatherer.GatherMode,
   href: string,
   label: string,
+  hideTopLine: boolean,
+  hideBottomLine: boolean,
   row: number,
-}> = ({href, label, mode, row}) => {
+}> = ({href, label, mode, row, hideTopLine, hideBottomLine}) => {
   return (
     <>
-      <span
-        className={`SidebarFlowStep_icon ${mode}`}
-        style={{gridRow: row}}
-      />
+      <div className={`SidebarFlowStep_icon ${mode}`} style={{gridRow: row}}>
+      </div>
       <a className="SidebarFlowStep_link" href={href}>{label}</a>
+      <div className="SidebarFlowStep_line" style={{gridRow: row, gridColumn: 1}}>
+        <div
+          className="SidebarFlowStep_line_top"
+          style={hideTopLine ? {background: 'transparent'} : undefined}
+        />
+        <div
+          className="SidebarFlowStep_line_bottom"
+          style={hideBottomLine ? {background: 'transparent'} : undefined}
+        />
+      </div>
     </>
   );
 };
 
-const SidebarFlow:FunctionComponent<{steps: number}> = ({children, steps}) => {
+const SidebarFlow:FunctionComponent<{steps: number}> = ({children}) => {
   return (
     <div className="SidebarFlow">
-      <div className="SidebarFlow_line" style={{gridRowEnd: steps}}></div>
       {children}
     </div>
   );
@@ -97,6 +106,8 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
         href={url.href}
         label={name}
         row={index + 1}
+        hideTopLine={index === 0}
+        hideBottomLine={index === flow.lhrs.length - 1}
       />
     );
   });
