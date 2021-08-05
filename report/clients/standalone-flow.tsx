@@ -29,6 +29,10 @@ const Report:FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   );
 };
 
+const Hbar:FunctionComponent = () => {
+  return <div className="Hbar"></div>;
+};
+
 const SidebarFlowStep:FunctionComponent<{
   // eslint-disable-next-line no-undef
   mode: LH.Gatherer.GatherMode,
@@ -99,6 +103,7 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   return (
     <div className="Sidebar">
       <SidebarSection title="USER FLOW">
+        <Hbar/>
         <SidebarFlow steps={links.length}>
           {links}
         </SidebarFlow>
