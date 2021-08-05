@@ -23,7 +23,7 @@ declare global {
 
     /**
      * The full output of a Lighthouse flow. Includes a series of Lighthouse runs.
-     * TODO(FR-COMPAT): Add flow specific metadata (e.g. Overall flow score).
+     * TODO(FR-COMPAT): Add flow specific metadata (e.g. interaction steps).
      */
     export interface FlowResult {
       /** Ordered list of lighthouse results corresponding to a navigation, timespan, or snapshot. */

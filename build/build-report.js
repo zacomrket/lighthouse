@@ -13,6 +13,12 @@ const commonjs =
   // @ts-expect-error types are wrong.
   /** @type {import('rollup-plugin-commonjs').default} */ (require('rollup-plugin-commonjs'));
 
+/**
+ * @type {import('@rollup/plugin-typescript').default}
+ */
+// @ts-expect-error types are wrong.
+const typescript = require('@rollup/plugin-typescript');
+
 async function buildStandaloneReport() {
   const bundle = await rollup.rollup({
     input: 'report/clients/standalone.js',
@@ -30,10 +36,11 @@ async function buildStandaloneReport() {
 
 async function buildStandaloneFlowReport() {
   const bundle = await rollup.rollup({
-    input: 'report/clients/standalone-flow.js',
+    input: 'report/clients/standalone-flow.tsx',
     plugins: [
       nodeResolve(),
       commonjs(),
+      typescript({tsconfig: 'report/clients/tsconfig.json'}),
       terser(),
     ],
   });
