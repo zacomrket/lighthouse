@@ -33,12 +33,25 @@ const SidebarFlowStep:FunctionComponent<{
   // eslint-disable-next-line no-undef
   mode: LH.Gatherer.GatherMode,
   href: string,
-  label: string
-}> = ({href, label, mode}) => {
+  label: string,
+  row: number,
+}> = ({href, label, mode, row}) => {
   return (
-    <div className={`SidebarFlowStep ${mode}`}>
-      <span className="SidebarFlowStep_icon"></span>
-      <a href={href}>{label}</a>
+    <>
+      <span
+        className={`SidebarFlowStep_icon ${mode}`}
+        style={{gridRow: row}}
+      />
+      <a className="SidebarFlowStep_link" href={href}>{label}</a>
+    </>
+  );
+};
+
+const SidebarFlow:FunctionComponent<{steps: number}> = ({children, steps}) => {
+  return (
+    <div className="SidebarFlow">
+      <div className="SidebarFlow_line" style={{gridRowEnd: steps}}></div>
+      {children}
     </div>
   );
 };
@@ -75,13 +88,20 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
     const url = new URL(location.href);
     url.searchParams.set('step', String(index));
     return (
-      <SidebarFlowStep mode={lhr.gatherMode} href={url.href} label={name} />
+      <SidebarFlowStep
+        mode={lhr.gatherMode}
+        href={url.href}
+        label={name}
+        row={index + 1}
+      />
     );
   });
   return (
     <div className="Sidebar">
-      <SidebarSection title="User flow">
-        {links}
+      <SidebarSection title="USER FLOW">
+        <SidebarFlow steps={links.length}>
+          {links}
+        </SidebarFlow>
       </SidebarSection>
     </div>
   );

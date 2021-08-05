@@ -3,6 +3,7 @@
   grid-template-areas: "side report";
   grid-template-columns: min-content 100%;
   min-height: 100vh;
+  font-family: inherit;
 }
 .App a {
   color: black;
@@ -13,46 +14,65 @@
 }
 
 .SidebarSection > * {
-  padding: 10px;
+  padding: 16px;
 }
 .SidebarSection .SidebarSection_title {
-  padding-top: 20px;
+  padding: 32px 16px 8px 16px;
   border-bottom: 1px solid black;
 }
 
-.SidebarFlowStep {
+.SidebarFlow {
+  position: relative;
+  display: grid;
+  align-items: start;
+  justify-items: center;
   width: max-content;
-  display: flex;
-  align-items: center;
-  column-gap: 10px;
+  grid-template-columns: max-content max-content;
+  column-gap: 16px;
+}
+.SidebarFlow_line {
+  width: 2px;
+  height: 100%;
+  background-color: blue;
+  z-index: -1;
+  grid-row-start: 1;
+  grid-column: 1;
+}
+
+.SidebarFlowStep_link {
+  grid-column: 2;
+  margin-bottom: 28px;
+  justify-self: left;
 }
 .SidebarFlowStep_icon {
+  grid-column: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
+  background-color: white;
 }
-.navigation > .SidebarFlowStep_icon::before {
+.navigation.SidebarFlowStep_icon::before {
   content: '';
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 3px solid blue;
+  border: 2px solid blue;
   display: block;
 }
-.timespan > .SidebarFlowStep_icon::before {
+.timespan.SidebarFlowStep_icon::before {
   content: '';
-  width: 25%;
-  height: 25%;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
   background-color: blue;
   display: block;
 }
-.snapshot > .SidebarFlowStep_icon::before {
+.snapshot.SidebarFlowStep_icon::before {
   content: '';
-  width: 75%;
-  height: 75%;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background-color: blue;
   display: block;
