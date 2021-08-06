@@ -44,19 +44,18 @@ const SidebarFlowStep:FunctionComponent<{
 }> = ({href, label, mode, row, hideTopLine, hideBottomLine}) => {
   return (
     <>
-      <div className={`SidebarFlowStep_icon ${mode}`} style={{gridRow: row}}>
-      </div>
-      <a className="SidebarFlowStep_link" href={href}>{label}</a>
-      <div className="SidebarFlowStep_line" style={{gridRow: row, gridColumn: 1}}>
+      <div className="SidebarFlowStep_icon" style={{gridRow: row}}>
         <div
-          className="SidebarFlowStep_line_top"
+          className="SidebarFlowStep_icon_line"
           style={hideTopLine ? {background: 'transparent'} : undefined}
         />
+        <div className={`SidebarFlowStep_icon_mode ${mode}`}></div>
         <div
-          className="SidebarFlowStep_line_bottom"
+          className="SidebarFlowStep_icon_line"
           style={hideBottomLine ? {background: 'transparent'} : undefined}
         />
       </div>
+      <a className="SidebarFlowStep_link" href={href}>{label}</a>
     </>
   );
 };
