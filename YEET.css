@@ -27,6 +27,15 @@
   margin: 32px 16px 8px 16px;
 }
 
+.SidebarSummary {
+  width: 100%;
+  display: flex;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
 .SidebarFlow {
   margin-top: 16px;
   margin-bottom: 16px;

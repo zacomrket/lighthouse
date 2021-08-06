@@ -14,9 +14,11 @@ import {render, FunctionComponent} from 'preact';
 
 /* global window document location */
 
-function getCurrentLhr():number {
+function getCurrentLhr():number|null {
   const searchParams = new URLSearchParams(location.search);
-  return Number(searchParams.get('step') || 0);
+  const step = searchParams.get('step');
+  if (step === null) return null;
+  return Number(step);
 }
 
 // eslint-disable-next-line no-undef
@@ -36,6 +38,18 @@ const Report:FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
 
 const Hbar:FunctionComponent = () => {
   return <div className="Hbar"></div>;
+};
+
+const SidebarSummary:FunctionComponent = () => {
+  const isCurrent = getCurrentLhr() === null;
+  const url = new URL(location.href);
+  url.searchParams.delete('step');
+  return (
+    <a
+      href={url.href}
+      className={`SidebarSummary ${isCurrent ? 'Sidebar_current' : undefined}`}
+    >Summary</a>
+  );
 };
 
 const SidebarFlowStep:FunctionComponent<{
@@ -126,6 +140,8 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
     <div className="Sidebar">
       <SidebarSection title="USER FLOW">
         <Hbar/>
+        <SidebarSummary/>
+        <Hbar/>
         <SidebarFlow steps={links.length}>
           {links}
         </SidebarFlow>
@@ -136,12 +152,15 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
 
 // eslint-disable-next-line no-undef
 const App:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
-  const searchParams = new URLSearchParams(location.search);
-  const currentLhr = Number(searchParams.get('step') || 0);
+  const current = getCurrentLhr();
   return (
     <div className="App">
       <Sidebar flow={flow}/>
-      <Report lhr={flow.lhrs[currentLhr]}/>
+      {
+        current === null ?
+          <h1>Summary</h1> :
+          <Report lhr={flow.lhrs[current]}/>
+      }
     </div>
   );
 };
