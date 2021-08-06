@@ -97,28 +97,12 @@ const SidebarFlowStep:FunctionComponent<{
   );
 };
 
-const SidebarFlow:FunctionComponent<{steps: number}> = ({children}) => {
-  return (
-    <div className="SidebarFlow">
-      {children}
-    </div>
-  );
-};
-
-const SidebarTitle:FunctionComponent = ({children}) => {
-  return <div className="SidebarTitle">{children}</div>;
-};
-
-const SidebarSectionTitle:FunctionComponent = ({children}) => {
-  return <div className="SidebarSectionTitle">{children}</div>;
-};
-
 // eslint-disable-next-line no-undef
-const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
+const SidebarFlow:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   let numNavigation = 1;
   let numTimespan = 1;
   let numSnapshot = 1;
-  const links = flow.lhrs.map((lhr, index) => {
+  const steps = flow.lhrs.map((lhr, index) => {
     let name = '?';
     switch (lhr.gatherMode) {
       case 'navigation':
@@ -148,6 +132,23 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
     );
   });
   return (
+    <div className="SidebarFlow">
+      {steps}
+    </div>
+  );
+};
+
+const SidebarTitle:FunctionComponent = ({children}) => {
+  return <div className="SidebarTitle">{children}</div>;
+};
+
+const SidebarSectionTitle:FunctionComponent = ({children}) => {
+  return <div className="SidebarSectionTitle">{children}</div>;
+};
+
+// eslint-disable-next-line no-undef
+const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
+  return (
     <div className="Sidebar">
       <SidebarTitle>Lighthouse User Flow Report</SidebarTitle>
       <Hbar/>
@@ -155,9 +156,7 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
       <Hbar/>
       <SidebarSummary/>
       <Hbar/>
-      <SidebarFlow steps={links.length}>
-        {links}
-      </SidebarFlow>
+      <SidebarFlow flow={flow}/>
     </div>
   );
 };
