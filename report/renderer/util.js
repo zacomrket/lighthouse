@@ -525,7 +525,7 @@ Util.getUniqueSuffix = (() => {
   };
 })();
 
-/** @type {I18n<typeof Util['UIStrings']>} */
+/** @type {I18n<Record<string, string>>} */
 // @ts-expect-error: Is set in report renderer.
 Util.i18n = null;
 

@@ -10,7 +10,8 @@
     // "noErrorTruncation": true,
 
     "resolveJsonModule": true,
-    "diagnostics": true
+    "diagnostics": true,
+    "tsBuildInfoFile": "../../.tmp/tsbuildinfo/core.tsbuildinfo",
   },
   "include": [
     "lighthouse-cli/**/*.js",
@@ -20,6 +21,9 @@
     "build/**/*.js",
     "./types/**/*.d.ts",
     "eslint-local-rules.js",
+  ],
+  "references": [
+    {"path": "./types/lhr/"}
   ],
   "exclude": [
     "lighthouse-core/lib/cdt",

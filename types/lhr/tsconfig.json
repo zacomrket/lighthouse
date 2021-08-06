@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "tsBuildInfoFile": "../../.tmp/tsbuildinfo/lhr.tsbuildinfo",
+
+    // "noEmit": true,
+    "module": "esnext",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+
+    "strict": true,
+    "extendedDiagnostics": true,
+
+    // We only need the base JS definitions, no DOM, libs in node_modules, etc.
+    "lib": ["esnext"],
+    "types": [],
+
+    // "listFiles": true,
+    // "noErrorTruncation": true,
+  },
+  "include": [
+    "*.d.ts",
+  ],
+}
