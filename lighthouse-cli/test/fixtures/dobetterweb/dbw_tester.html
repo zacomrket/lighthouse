@@ -35,8 +35,6 @@
 <link rel="stylesheet" href="./unknown404.css?delay=200"> <!-- FAIL -->
 <link rel="stylesheet" href="./dbw_tester.css?delay=2200"> <!-- FAIL -->
 <link rel="stylesheet" href="./dbw_disabled.css?delay=200&isdisabled" disabled> <!-- PASS -->
-<link rel="import" href="./dbw_partial_a.html?delay=200"> <!-- FAIL -->
-<link rel="import" href="./dbw_partial_b.html?delay=200&isasync" async> <!-- PASS -->
 
 <!-- FAIL: render blocking but capped at 500ms -->
 <link id="amp-style-link" rel="stylesheet" href="./dbw_tester.css?delay=3000&capped">
@@ -206,13 +204,13 @@
 <img src="lighthouse-480x318.jpg?iar2" width="120" height="80">
 
 <!-- FAIL(image-size-responsive): image is naturally 480x318 -->
-<img src="lighthouse-480x318.jpg?isr1" width="4800" height="3180" style="position: absolute;">
+<img src="lighthouse-480x318.jpg?isr1" width="360" height="240" style="position: absolute;">
 <!-- PASS(image-size-responsive) -->
 <img src="lighthouse-480x318.jpg?isr2" width="120" height="80" style="position: absolute;">
 <!-- PASS(image-size-responsive) -->
-<img src="lighthouse-480x318.jpg?isr3" width="960" height="636" style="image-rendering: pixelated; position: absolute;">
+<img src="lighthouse-480x318.jpg?isr3" width="360" height="240" style="image-rendering: pixelated; position: absolute;">
 <!-- PASS(image-size-responsive) -->
-<img src="lighthouse-480x318.jpg?isr4" srcset="lighthouse-480x318.jpg 2x" width="960" height="636" style="position: absolute;">
+<img src="lighthouse-480x318.jpg?isr4" srcset="lighthouse-480x318.jpg 2x" width="360" height="240" style="position: absolute;">
 
 <!-- FAIL(efficient-animated-content): animated gif found -->
 <img src="lighthouse-rotating.gif" width="811" height="462">
@@ -445,7 +443,7 @@ if (location.search === '') {
 }
 </script>
 
-<!-- Including this script validates that driver.evaluateAsync() still works even with
+<!-- Including this script validates that driver.executionContext.evaluateAsync() still works even with
   window.Promise being mucked with. See file source for details.
   Also, script is located down here to avoid being flagged in render-blocking-resources. -->
 <script src="./third_party/aggressive-promise-polyfill.js"></script>
@@ -468,6 +466,11 @@ if (location.search === '') {
   }
 
   window.webkitRequestFileSystem(window.TEMPORARY, 1024 * 1024, onInitFs, console.error);
+</script>
+
+<script>
+  // Log console.error calls in the console.
+  console.error('Error! Error!');
 </script>
 
 </body>

@@ -18,6 +18,7 @@ const lighthouse = require('../lighthouse-core/index.js');
 const log = require('lighthouse-logger');
 const getFilenamePrefix = require('../lighthouse-core/lib/file-namer.js').getFilenamePrefix;
 const assetSaver = require('../lighthouse-core/lib/asset-saver.js');
+const URL = require('../lighthouse-core/lib/url-shim.js');
 
 const open = require('open');
 
@@ -198,6 +199,23 @@ async function potentiallyKillChrome(launchedChrome) {
  * @param {string} url
  * @param {LH.CliFlags} flags
  * @param {LH.Config.Json|undefined} config
+ * @param {ChromeLauncher.LaunchedChrome} launchedChrome
+ * @return {Promise<LH.RunnerResult|undefined>}
+ */
+async function runLighthouseWithFraggleRock(url, flags, config, launchedChrome) {
+  const fraggleRock = require('../lighthouse-core/fraggle-rock/api.js');
+  const puppeteer = require('puppeteer');
+  const browser = await puppeteer.connect({browserURL: `http://localhost:${launchedChrome.port}`});
+  const page = await browser.newPage();
+  flags.channel = 'fraggle-rock-cli';
+  const configContext = {configPath: flags.configPath, settingsOverrides: flags};
+  return fraggleRock.navigation({url, page, config, configContext});
+}
+
+/**
+ * @param {string} url
+ * @param {LH.CliFlags} flags
+ * @param {LH.Config.Json|undefined} config
  * @return {Promise<LH.RunnerResult|undefined>}
  */
 async function runLighthouse(url, flags, config) {
@@ -216,12 +234,15 @@ async function runLighthouse(url, flags, config) {
 
   try {
     const shouldGather = flags.gatherMode || flags.gatherMode === flags.auditMode;
-    if (shouldGather) {
+    const shouldUseLocalChrome = URL.isLikeLocalhost(flags.hostname);
+    if (shouldGather && shouldUseLocalChrome) {
       launchedChrome = await getDebuggableChrome(flags);
       flags.port = launchedChrome.port;
     }
 
-    const runnerResult = await lighthouse(url, flags, config);
+    const runnerResult = flags.fraggleRock && launchedChrome ?
+       await runLighthouseWithFraggleRock(url, flags, config, launchedChrome) :
+       await lighthouse(url, flags, config);
 
     // If in gatherMode only, there will be no runnerResult.
     if (runnerResult) {

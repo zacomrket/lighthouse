@@ -13,13 +13,7 @@ Object {
       "path": "service-worker",
     },
     Object {
-      "path": "works-offline",
-    },
-    Object {
       "path": "viewport",
-    },
-    Object {
-      "path": "without-javascript",
     },
     Object {
       "path": "metrics/first-contentful-paint",
@@ -31,9 +25,6 @@ Object {
       "path": "metrics/first-meaningful-paint",
     },
     Object {
-      "path": "load-fast-enough-for-pwa",
-    },
-    Object {
       "path": "metrics/speed-index",
     },
     Object {
@@ -41,9 +32,6 @@ Object {
     },
     Object {
       "path": "final-screenshot",
-    },
-    Object {
-      "path": "metrics/estimated-input-latency",
     },
     Object {
       "path": "metrics/total-blocking-time",
@@ -59,9 +47,6 @@ Object {
     },
     Object {
       "path": "server-response-time",
-    },
-    Object {
-      "path": "metrics/first-cpu-idle",
     },
     Object {
       "path": "metrics/interactive",
@@ -139,9 +124,6 @@ Object {
       "path": "metrics",
     },
     Object {
-      "path": "offline-start-url",
-    },
-    Object {
       "path": "performance-budget",
     },
     Object {
@@ -152,6 +134,9 @@ Object {
     },
     Object {
       "path": "third-party-summary",
+    },
+    Object {
+      "path": "third-party-facades",
     },
     Object {
       "path": "largest-contentful-paint-element",
@@ -175,6 +160,18 @@ Object {
       "path": "valid-source-maps",
     },
     Object {
+      "path": "preload-lcp-image",
+    },
+    Object {
+      "path": "csp-xss",
+    },
+    Object {
+      "path": "full-page-screenshot",
+    },
+    Object {
+      "path": "script-treemap-data",
+    },
+    Object {
       "path": "manual/pwa-cross-browser",
     },
     Object {
@@ -190,6 +187,9 @@ Object {
       "path": "accessibility/aria-allowed-attr",
     },
     Object {
+      "path": "accessibility/aria-command-name",
+    },
+    Object {
       "path": "accessibility/aria-hidden-body",
     },
     Object {
@@ -197,6 +197,12 @@ Object {
     },
     Object {
       "path": "accessibility/aria-input-field-name",
+    },
+    Object {
+      "path": "accessibility/aria-meter-name",
+    },
+    Object {
+      "path": "accessibility/aria-progressbar-name",
     },
     Object {
       "path": "accessibility/aria-required-attr",
@@ -212,6 +218,12 @@ Object {
     },
     Object {
       "path": "accessibility/aria-toggle-field-name",
+    },
+    Object {
+      "path": "accessibility/aria-tooltip-name",
+    },
+    Object {
+      "path": "accessibility/aria-treeitem-name",
     },
     Object {
       "path": "accessibility/aria-valid-attr-value",
@@ -268,9 +280,6 @@ Object {
       "path": "accessibility/label",
     },
     Object {
-      "path": "accessibility/layout-table",
-    },
-    Object {
       "path": "accessibility/link-name",
     },
     Object {
@@ -302,9 +311,6 @@ Object {
     },
     Object {
       "path": "accessibility/video-caption",
-    },
-    Object {
-      "path": "accessibility/video-description",
     },
     Object {
       "path": "accessibility/manual/custom-controls-labels",
@@ -361,7 +367,7 @@ Object {
       "path": "byte-efficiency/unused-javascript",
     },
     Object {
-      "path": "byte-efficiency/uses-webp-images",
+      "path": "byte-efficiency/modern-image-formats",
     },
     Object {
       "path": "byte-efficiency/uses-optimized-images",
@@ -398,6 +404,9 @@ Object {
     },
     Object {
       "path": "dobetterweb/geolocation-on-start",
+    },
+    Object {
+      "path": "dobetterweb/inspector-issues",
     },
     Object {
       "path": "dobetterweb/no-document-write",
@@ -472,6 +481,11 @@ Object {
         },
         Object {
           "group": "a11y-aria",
+          "id": "aria-command-name",
+          "weight": 3,
+        },
+        Object {
+          "group": "a11y-aria",
           "id": "aria-hidden-body",
           "weight": 10,
         },
@@ -483,6 +497,16 @@ Object {
         Object {
           "group": "a11y-aria",
           "id": "aria-input-field-name",
+          "weight": 3,
+        },
+        Object {
+          "group": "a11y-aria",
+          "id": "aria-meter-name",
+          "weight": 3,
+        },
+        Object {
+          "group": "a11y-aria",
+          "id": "aria-progressbar-name",
           "weight": 3,
         },
         Object {
@@ -508,6 +532,16 @@ Object {
         Object {
           "group": "a11y-aria",
           "id": "aria-toggle-field-name",
+          "weight": 3,
+        },
+        Object {
+          "group": "a11y-aria",
+          "id": "aria-tooltip-name",
+          "weight": 3,
+        },
+        Object {
+          "group": "a11y-aria",
+          "id": "aria-treeitem-name",
           "weight": 3,
         },
         Object {
@@ -601,11 +635,6 @@ Object {
           "weight": 10,
         },
         Object {
-          "group": "a11y-tables-lists",
-          "id": "layout-table",
-          "weight": 3,
-        },
-        Object {
           "group": "a11y-names-labels",
           "id": "link-name",
           "weight": 3,
@@ -658,11 +687,6 @@ Object {
         Object {
           "group": "a11y-audio-video",
           "id": "video-caption",
-          "weight": 10,
-        },
-        Object {
-          "group": "a11y-audio-video",
-          "id": "video-description",
           "weight": 10,
         },
         Object {
@@ -738,6 +762,11 @@ Object {
           "weight": 1,
         },
         Object {
+          "group": "best-practices-trust-safety",
+          "id": "csp-xss",
+          "weight": 0,
+        },
+        Object {
           "group": "best-practices-ux",
           "id": "password-inputs-can-be-pasted-into",
           "weight": 1,
@@ -797,55 +826,105 @@ Object {
           "id": "valid-source-maps",
           "weight": 0,
         },
+        Object {
+          "group": "best-practices-general",
+          "id": "inspector-issues",
+          "weight": 1,
+        },
       ],
       "title": "Best Practices",
     },
     "performance": Object {
       "auditRefs": Array [
         Object {
+          "acronym": "FCP",
           "group": "metrics",
           "id": "first-contentful-paint",
-          "weight": 15,
+          "relevantAudits": Array [
+            "server-response-time",
+            "render-blocking-resources",
+            "redirects",
+            "critical-request-chains",
+            "uses-text-compression",
+            "uses-rel-preconnect",
+            "uses-rel-preload",
+            "font-display",
+            "unminified-javascript",
+            "unminified-css",
+            "unused-css-rules",
+          ],
+          "weight": 10,
         },
         Object {
+          "acronym": "SI",
           "group": "metrics",
           "id": "speed-index",
-          "weight": 15,
+          "weight": 10,
         },
         Object {
+          "acronym": "LCP",
           "group": "metrics",
           "id": "largest-contentful-paint",
+          "relevantAudits": Array [
+            "server-response-time",
+            "render-blocking-resources",
+            "redirects",
+            "critical-request-chains",
+            "uses-text-compression",
+            "uses-rel-preconnect",
+            "uses-rel-preload",
+            "font-display",
+            "unminified-javascript",
+            "unminified-css",
+            "unused-css-rules",
+            "largest-contentful-paint-element",
+            "preload-lcp-image",
+            "unused-javascript",
+            "efficient-animated-content",
+            "total-byte-weight",
+          ],
           "weight": 25,
         },
         Object {
+          "acronym": "TTI",
           "group": "metrics",
           "id": "interactive",
-          "weight": 15,
+          "weight": 10,
         },
         Object {
+          "acronym": "TBT",
           "group": "metrics",
           "id": "total-blocking-time",
-          "weight": 25,
+          "relevantAudits": Array [
+            "long-tasks",
+            "third-party-summary",
+            "third-party-facades",
+            "bootup-time",
+            "mainthread-work-breakdown",
+            "dom-size",
+            "duplicated-javascript",
+            "legacy-javascript",
+          ],
+          "weight": 30,
         },
         Object {
+          "acronym": "CLS",
           "group": "metrics",
           "id": "cumulative-layout-shift",
-          "weight": 5,
-        },
-        Object {
-          "id": "first-cpu-idle",
-          "weight": 0,
+          "relevantAudits": Array [
+            "layout-shift-elements",
+            "non-composited-animations",
+            "unsized-images",
+          ],
+          "weight": 15,
         },
         Object {
           "id": "max-potential-fid",
           "weight": 0,
         },
         Object {
+          "acronym": "FMP",
           "id": "first-meaningful-paint",
-          "weight": 0,
-        },
-        Object {
-          "id": "estimated-input-latency",
           "weight": 0,
         },
         Object {
@@ -890,7 +969,7 @@ Object {
         },
         Object {
           "group": "load-opportunities",
-          "id": "uses-webp-images",
+          "id": "modern-image-formats",
           "weight": 0,
         },
         Object {
@@ -936,6 +1015,11 @@ Object {
         Object {
           "group": "load-opportunities",
           "id": "legacy-javascript",
+          "weight": 0,
+        },
+        Object {
+          "group": "load-opportunities",
+          "id": "preload-lcp-image",
           "weight": 0,
         },
         Object {
@@ -996,6 +1080,11 @@ Object {
         Object {
           "group": "diagnostics",
           "id": "third-party-summary",
+          "weight": 0,
+        },
+        Object {
+          "group": "diagnostics",
+          "id": "third-party-facades",
           "weight": 0,
         },
         Object {
@@ -1065,40 +1154,24 @@ Object {
           "id": "final-screenshot",
           "weight": 0,
         },
+        Object {
+          "id": "script-treemap-data",
+          "weight": 0,
+        },
       ],
       "title": "Performance",
     },
     "pwa": Object {
       "auditRefs": Array [
         Object {
-          "group": "pwa-fast-reliable",
-          "id": "load-fast-enough-for-pwa",
-          "weight": 7,
-        },
-        Object {
-          "group": "pwa-fast-reliable",
-          "id": "works-offline",
-          "weight": 5,
-        },
-        Object {
-          "group": "pwa-fast-reliable",
-          "id": "offline-start-url",
-          "weight": 1,
-        },
-        Object {
-          "group": "pwa-installable",
-          "id": "is-on-https",
-          "weight": 2,
-        },
-        Object {
-          "group": "pwa-installable",
-          "id": "service-worker",
-          "weight": 1,
-        },
-        Object {
           "group": "pwa-installable",
           "id": "installable-manifest",
           "weight": 2,
+        },
+        Object {
+          "group": "pwa-optimized",
+          "id": "service-worker",
+          "weight": 1,
         },
         Object {
           "group": "pwa-optimized",
@@ -1124,11 +1197,6 @@ Object {
           "group": "pwa-optimized",
           "id": "viewport",
           "weight": 2,
-        },
-        Object {
-          "group": "pwa-optimized",
-          "id": "without-javascript",
-          "weight": 1,
         },
         Object {
           "group": "pwa-optimized",
@@ -1234,7 +1302,7 @@ Object {
           "weight": 0,
         },
       ],
-      "description": "These checks ensure that your page is optimized for search engine results ranking. There are additional factors Lighthouse does not check that may affect your search ranking. [Learn more](https://support.google.com/webmasters/answer/35769).",
+      "description": "These checks ensure that your page is following basic search engine optimization advice. There are many additional factors Lighthouse does not score here that may affect your search ranking, including performance on [Core Web Vitals](https://web.dev/learn-web-vitals/). [Learn more](https://support.google.com/webmasters/answer/35769).",
       "manualDescription": "Run these additional validators on your site to check additional SEO best practices.",
       "title": "SEO",
     },
@@ -1299,9 +1367,6 @@ Object {
     "metrics": Object {
       "title": "Metrics",
     },
-    "pwa-fast-reliable": Object {
-      "title": "Fast and reliable",
-    },
     "pwa-installable": Object {
       "title": "Installable",
     },
@@ -1337,9 +1402,6 @@ Object {
           "path": "viewport-dimensions",
         },
         Object {
-          "path": "runtime-exceptions",
-        },
-        Object {
           "path": "console-messages",
         },
         Object {
@@ -1365,6 +1427,9 @@ Object {
         },
         Object {
           "path": "main-document-content",
+        },
+        Object {
+          "path": "gather-context",
         },
         Object {
           "path": "global-listeners",
@@ -1414,6 +1479,9 @@ Object {
         Object {
           "path": "source-maps",
         },
+        Object {
+          "path": "full-page-screenshot",
+        },
       ],
       "loadFailureMode": "fatal",
       "networkQuietThresholdMs": 1000,
@@ -1430,12 +1498,6 @@ Object {
       "gatherers": Array [
         Object {
           "path": "service-worker",
-        },
-        Object {
-          "path": "offline",
-        },
-        Object {
-          "path": "start-url",
         },
       ],
       "loadFailureMode": "ignore",
@@ -1464,9 +1526,6 @@ Object {
         Object {
           "path": "http-redirect",
         },
-        Object {
-          "path": "html-without-javascript",
-        },
       ],
       "loadFailureMode": "warn",
       "networkQuietThresholdMs": 0,
@@ -1484,10 +1543,10 @@ Object {
     "budgets": null,
     "channel": "cli",
     "disableStorageReset": false,
-    "emulatedFormFactor": "mobile",
+    "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 7.0; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4590.2 Mobile Safari/537.36 Chrome-Lighthouse",
     "extraHeaders": null,
+    "formFactor": "mobile",
     "gatherMode": false,
-    "internalDisableDeviceScreenEmulation": false,
     "locale": "en-US",
     "maxWaitForFcp": 30000,
     "maxWaitForLoad": 45000,
@@ -1497,6 +1556,13 @@ Object {
       "html",
     ],
     "precomputedLanternData": null,
+    "screenEmulation": Object {
+      "deviceScaleFactor": 2.625,
+      "disabled": false,
+      "height": 640,
+      "mobile": true,
+      "width": 360,
+    },
     "skipAudits": null,
     "throttling": Object {
       "cpuSlowdownMultiplier": 4,
@@ -1589,9 +1655,6 @@ Object {
     "metrics": Object {
       "title": "Metrics",
     },
-    "pwa-fast-reliable": Object {
-      "title": "Fast and reliable",
-    },
     "pwa-installable": Object {
       "title": "Installable",
     },
@@ -1616,7 +1679,11 @@ Object {
       "blankPage": "about:blank",
       "blockedUrlPatterns": Array [],
       "cpuQuietThresholdMs": 1000,
-      "gatherers": Array [],
+      "gatherers": Array [
+        Object {
+          "path": "gather-context",
+        },
+      ],
       "loadFailureMode": "fatal",
       "networkQuietThresholdMs": 1000,
       "passName": "defaultPass",
@@ -1633,10 +1700,10 @@ Object {
     "budgets": null,
     "channel": "cli",
     "disableStorageReset": false,
-    "emulatedFormFactor": "mobile",
+    "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 7.0; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4590.2 Mobile Safari/537.36 Chrome-Lighthouse",
     "extraHeaders": null,
+    "formFactor": "mobile",
     "gatherMode": false,
-    "internalDisableDeviceScreenEmulation": false,
     "locale": "en-US",
     "maxWaitForFcp": 30000,
     "maxWaitForLoad": 45000,
@@ -1648,6 +1715,13 @@ Object {
       "json",
     ],
     "precomputedLanternData": null,
+    "screenEmulation": Object {
+      "deviceScaleFactor": 2.625,
+      "disabled": false,
+      "height": 640,
+      "mobile": true,
+      "width": 360,
+    },
     "skipAudits": null,
     "throttling": Object {
       "cpuSlowdownMultiplier": 4,

@@ -9,6 +9,7 @@ declare global {
     export type Details =
       Details.CriticalRequestChain |
       Details.DebugData |
+      Details.TreemapData |
       Details.Filmstrip |
       Details.List |
       Details.Opportunity |
@@ -63,14 +64,12 @@ declare global {
       }
 
       /**
-       * A screenshot of the entire page, including width and height information.
-       * Used for element screenshots.
+       * A screenshot of the entire page, including width and height information,
+       * and the locations of interesting nodes.
+       * Used by element screenshots renderer.
        */
-      export interface FullPageScreenshot {
+      export interface FullPageScreenshot extends LH.Artifacts.FullPageScreenshot {
         type: 'full-page-screenshot';
-        data: string;
-        width: number;
-        height: number;
       }
 
       export interface Table {
@@ -97,6 +96,11 @@ declare global {
       export interface DebugData {
         type: 'debugdata';
         [p: string]: any;
+      }
+
+      export interface TreemapData {
+        type: 'treemap-data';
+        nodes: LH.Treemap.Node[];
       }
 
       /** String enum of possible types of values found within table items. */
@@ -203,6 +207,8 @@ declare global {
        */
       export interface NodeValue {
         type: 'node';
+        /** Unique identifier. */
+        lhId?: string;
         path?: string;
         selector?: string;
         boundingRect?: Artifacts.Rect;
@@ -218,12 +224,23 @@ declare global {
        */
       export interface SourceLocationValue {
         type: 'source-location';
-        /** urls from the network are always valid urls. otherwise, urls come from either a comment or header, and may not be well-formed. */
+        /** A "url" representing the source file. May not be a valid URL, see `urlProvider`. */
         url: string;
-        /** 'network' when the url is the actual, observed resource url. 'comment' when the url comes from a sourceMapURL comment or X-SourceMap header */
+        /**
+         * - `network` when the url is the actual, observed resource url. This is always a valid URL.
+         * - `comment` when the url comes from a sourceURL comment. This could be anything, really.
+         */
         urlProvider: 'network' | 'comment';
+        /** Zero-indexed. */
         line: number;
         column: number;
+        /** The original file location from the source map. */
+        original?: {
+          /** The relevant file from the map's `sources` array. */
+          file: string;
+          line: number;
+          column: number;
+        };
       }
 
       /**

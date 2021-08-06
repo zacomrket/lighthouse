@@ -53,7 +53,7 @@ declare global {
       /** Execution timings for the Lighthouse run */
       timing: Result.Timing;
       /** The record of all formatted string locations in the LHR and their corresponding source values. */
-      i18n: {rendererFormattedStrings: I18NRendererStrings, icuMessagePaths: IcuMessagePaths};
+      i18n: {rendererFormattedStrings: I18NRendererStrings, icuMessagePaths?: IcuMessagePaths};
       /** An array containing the result of all stack packs. */
       stackPacks?: Result.StackPack[];
     }
@@ -87,6 +87,10 @@ declare global {
         weight: number;
         /** Optional grouping within the category. Matches the key of a Result.Group. */
         group?: string;
+        /** The conventional acronym for the audit/metric. */
+        acronym?: string;
+        /** Any audit IDs closely relevant to this one. */
+        relevantAudits?: string[];
       }
 
       export interface ReportGroup {

@@ -21,9 +21,9 @@ const path = require('path');
 const colors = require('colors');
 const LegacyJavascript = require('../../audits/byte-efficiency/legacy-javascript.js');
 const i18n = require('../../lib/i18n/i18n.js');
+const {LH_ROOT} = require('../../../root.js');
 
-const LH_ROOT_DIR = path.join(__dirname, '../../../');
-const LATEST_RUN_DIR = path.join(LH_ROOT_DIR, 'latest-run');
+const LATEST_RUN_DIR = path.join(LH_ROOT, 'latest-run');
 
 /** @param {LH.DevtoolsLog} log */
 function requestUrlToId(log) {
@@ -49,7 +49,8 @@ async function main() {
   const auditResults = await LegacyJavascript.audit(artifacts, {
     computedCache: new Map(),
     options: {},
-    settings: /** @type {any} */ ({}),
+    /** @type {any} */
+    settings: {},
   });
 
   const items =

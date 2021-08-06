@@ -6,13 +6,34 @@
 'use strict';
 
 const swapLocale = require('../../../lib/i18n/swap-locale.js');
+const {isNode12SmallIcu} = require('../../test-utils.js');
 
 const lhr = require('../../results/sample_v2.json');
 
 /* eslint-env jest */
 describe('swap-locale', () => {
+  // COMPAT: Node 12 only has 'en' by default. Skip these tests since they're all about swapping locales.
+  if (isNode12SmallIcu()) {
+    // Jest requires at least one test per suite.
+    it('runs even if other locales are not supported', () => {
+      /** @type {LH.Result} */
+      const lhrClone = JSON.parse(JSON.stringify(lhr));
+
+      // Even though 'pt' is requested, 'en' is all that's available.
+      const lhrEn = swapLocale(lhr, 'pt').lhr;
+      expect(lhrEn.configSettings.locale).toBe('en');
+
+      // Set locale back to full 'en-US' do do the comparison.
+      lhrEn.configSettings.locale = 'en-US';
+      expect(lhrEn).toStrictEqual(lhrClone);
+    });
+
+    return;
+  }
+
   it('does not mutate the original lhr', () => {
-    const lhrClone = /** @type {LH.Result} */ (JSON.parse(JSON.stringify(lhr)));
+    /** @type {LH.Result} */
+    const lhrClone = JSON.parse(JSON.stringify(lhr));
 
     const lhrPt = swapLocale(lhr, 'pt').lhr;
     expect(lhrPt).not.toStrictEqual(lhr);
@@ -20,7 +41,8 @@ describe('swap-locale', () => {
   });
 
   it('can change golden LHR english strings into german', () => {
-    const lhrEn = /** @type {LH.Result} */ (JSON.parse(JSON.stringify(lhr)));
+    /** @type {LH.Result} */
+    const lhrEn = JSON.parse(JSON.stringify(lhr));
     const lhrDe = swapLocale(lhrEn, 'de').lhr;
 
     // Basic replacement
@@ -28,22 +50,23 @@ describe('swap-locale', () => {
     expect(lhrDe.audits.plugins.title).toEqual('Dokument verwendet keine Plug-ins');
 
     // With ICU string argument values
-    expect(lhrEn.audits['dom-size'].displayValue).toEqual('31 elements');
-    expect(lhrDe.audits['dom-size'].displayValue).toEqual('31 Elemente');
+    expect(lhrEn.audits['dom-size'].displayValue).toEqual('148 elements');
+    expect(lhrDe.audits['dom-size'].displayValue).toEqual('148 Elemente');
 
     // Renderer formatted strings
     expect(lhrEn.i18n.rendererFormattedStrings.labDataTitle).toEqual('Lab Data');
     expect(lhrDe.i18n.rendererFormattedStrings.labDataTitle).toEqual('Labdaten');
 
     // Formatted numbers in placeholders.
-    expect(lhrEn.audits['render-blocking-resources'].displayValue)
-      .toEqual('Potential savings of 1,130 ms');
-    expect(lhrDe.audits['render-blocking-resources'].displayValue)
-      .toEqual('Mögliche Einsparung von 1.130 ms');
+    expect(lhrEn.audits['mainthread-work-breakdown'].displayValue)
+      .toEqual('1.5 s');
+    expect(lhrDe.audits['mainthread-work-breakdown'].displayValue)
+      .toEqual('1,5 s');
   });
 
   it('can roundtrip back to english correctly', () => {
-    const lhrEn = /** @type {LH.Result} */ (JSON.parse(JSON.stringify(lhr)));
+    /** @type {LH.Result} */
+    const lhrEn = JSON.parse(JSON.stringify(lhr));
 
     // via Spanish
     const lhrEnEsRT = swapLocale(swapLocale(lhrEn, 'es').lhr, 'en-US').lhr;

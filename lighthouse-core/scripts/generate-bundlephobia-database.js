@@ -19,8 +19,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const getPackageVersionList = require('bundle-phobia-cli').fetchPackageStats.getPackageVersionList;
-const fetchPackageStats = require('bundle-phobia-cli').fetchPackageStats.fetchPackageStats;
+const {getPackageVersionList, fetchPackageStats} = require('bundle-phobia-cli').fetchPackageStats;
 const databasePath = path.join(__dirname,
   '../lib/large-javascript-libraries/bundlephobia-database.json');
 
@@ -65,12 +64,12 @@ function hasBeenRecentlyScraped(library) {
  * @return {library is BundlePhobiaLibrary}
  */
 function validateLibraryObject(library) {
-  return library.hasOwnProperty('name') &&
-    library.hasOwnProperty('size') &&
-    library.hasOwnProperty('gzip') &&
-    library.hasOwnProperty('description') &&
-    library.hasOwnProperty('repository') &&
-    library.hasOwnProperty('version') &&
+  return typeof library.name === 'string' &&
+    typeof library.size === 'number' &&
+    typeof library.gzip === 'number' &&
+    typeof library.description === 'string' &&
+    typeof library.repository === 'string' &&
+    typeof library.version === 'string' &&
     !library.version.match(/^([0-9]+) packages$/);
 }
 

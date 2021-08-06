@@ -18,19 +18,21 @@ const fs = require('fs');
 const path = require('path');
 const URL = require('./lib/url-shim.js');
 const Sentry = require('./lib/sentry.js');
-const generateReport = require('./report/report-generator.js').generateReport;
+const generateReport = require('../report/report-generator.js').generateReport;
 const LHError = require('./lib/lh-error.js');
 
 /** @typedef {import('./gather/connections/connection.js')} Connection */
-/** @typedef {import('./config/config.js')} Config */
+/** @typedef {import('./lib/arbitrary-equality-map.js')} ArbitraryEqualityMap */
+/** @typedef {LH.Config.Config} Config */
 
 class Runner {
   /**
-   * @param {Connection} connection
-   * @param {{config: Config, url?: string, driverMock?: Driver}} runOpts
+   * @template {LH.Config.Config | LH.Config.FRConfig} TConfig
+   * @param {(runnerData: {requestedUrl: string, config: TConfig, driverMock?: Driver}) => Promise<LH.Artifacts>} gatherFn
+   * @param {{config: TConfig, computedCache: Map<string, ArbitraryEqualityMap>, url?: string, driverMock?: Driver}} runOpts
    * @return {Promise<LH.RunnerResult|undefined>}
    */
-  static async run(connection, runOpts) {
+  static async run(gatherFn, runOpts) {
     const settings = runOpts.config.settings;
     try {
       const runnerStatus = {msg: 'Runner setup', id: 'lh:runner:run'};
@@ -78,7 +80,12 @@ class Runner {
           throw new LHError(LHError.errors.INVALID_URL);
         }
 
-        artifacts = await Runner._gatherArtifactsFromBrowser(requestedUrl, runOpts, connection);
+        artifacts = await gatherFn({
+          requestedUrl,
+          config: runOpts.config,
+          driverMock: runOpts.driverMock,
+        });
+
         // -G means save these to ./latest-run, etc.
         if (settings.gatherMode) {
           const path = Runner._getDataSavePath(settings);
@@ -94,7 +101,7 @@ class Runner {
         throw new Error('No audits to evaluate.');
       }
       const auditResultsById = await Runner._runAudits(settings, runOpts.config.audits, artifacts,
-          lighthouseRunWarnings);
+          lighthouseRunWarnings, runOpts.computedCache);
 
       // LHR construction phase
       const resultsStatus = {msg: 'Generating results...', id: 'lh:runner:generate'};
@@ -156,8 +163,8 @@ class Runner {
       // LHR has now been localized.
       const lhr = /** @type {LH.Result} */ (i18nLhr);
 
-      // Save lhr to ./latest-run, but only if -A is used.
-      if (settings.auditMode) {
+      // Save lhr to ./latest-run, but only if -GA is used.
+      if (settings.gatherMode && settings.auditMode) {
         const path = Runner._getDataSavePath(settings);
         assetSaver.saveLhr(lhr, path);
       }
@@ -195,14 +202,14 @@ class Runner {
     // Truncate timestamps to hundredths of a millisecond saves ~4KB. No need for microsecond
     // resolution.
     .map(entry => {
-      return /** @type {PerformanceEntry} */ ({
+      return {
         // Don't spread entry because browser PerformanceEntries can't be spread.
         // https://github.com/GoogleChrome/lighthouse/issues/8638
         startTime: parseFloat(entry.startTime.toFixed(2)),
         name: entry.name,
         duration: parseFloat(entry.duration.toFixed(2)),
         entryType: entry.entryType,
-      });
+      };
     });
     const runnerEntry = timingEntries.find(e => e.name === 'lh:runner:run');
     return {entries: timingEntries, total: runnerEntry && runnerEntry.duration || 0};
@@ -211,7 +218,7 @@ class Runner {
   /**
    * Establish connection, load page and collect all required artifacts
    * @param {string} requestedUrl
-   * @param {{config: Config, driverMock?: Driver}} runnerOpts
+   * @param {{config: Config, computedCache: Map<string, ArbitraryEqualityMap>, driverMock?: Driver}} runnerOpts
    * @param {Connection} connection
    * @return {Promise<LH.Artifacts>}
    */
@@ -224,6 +231,7 @@ class Runner {
       driver,
       requestedUrl,
       settings: runnerOpts.config.settings,
+      computedCache: runnerOpts.computedCache,
     };
     const artifacts = await GatherRunner.run(runnerOpts.config.passes, gatherOpts);
     return artifacts;
@@ -235,9 +243,10 @@ class Runner {
    * @param {Array<LH.Config.AuditDefn>} audits
    * @param {LH.Artifacts} artifacts
    * @param {Array<string | LH.IcuMessage>} runWarnings
+   * @param {Map<string, ArbitraryEqualityMap>} computedCache
    * @return {Promise<Record<string, LH.RawIcu<LH.Audit.Result>>>}
    */
-  static async _runAudits(settings, audits, artifacts, runWarnings) {
+  static async _runAudits(settings, audits, artifacts, runWarnings, computedCache) {
     const status = {msg: 'Analyzing and running audits...', id: 'lh:runner:auditing'};
     log.time(status);
 
@@ -261,7 +270,7 @@ class Runner {
     // Members of LH.Audit.Context that are shared across all audits.
     const sharedAuditContext = {
       settings,
-      computedCache: new Map(),
+      computedCache,
     };
 
     // Run each audit sequentially
