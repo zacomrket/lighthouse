@@ -3,7 +3,6 @@
   grid-template-areas: "side report";
   grid-template-columns: min-content 100%;
   min-height: 100vh;
-  font-family: inherit;
 }
 .App a {
   color: black;
@@ -24,7 +23,8 @@
   background-color: lightgray !important;
 }
 
-.SidebarSection .SidebarSection_title {
+.SidebarSection_title {
+  font-size: 14px;
   margin: 32px 16px 8px 16px;
 }
 
@@ -48,6 +48,7 @@
 }
 
 .SidebarSummary_label {
+  font-size: 14px;
   font-weight: bold;
 }
 
@@ -70,6 +71,10 @@
   justify-self: left;
   pointer-events: none;
   margin-right: 16px;
+  font-size: 12px;
+}
+.SidebarFlowStep_label.navigation {
+  font-size: 14px;
 }
 
 .SidebarFlowStep_link {

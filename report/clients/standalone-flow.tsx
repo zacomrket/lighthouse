@@ -82,7 +82,7 @@ const SidebarFlowStep:FunctionComponent<{
           style={hideBottomLine ? {background: 'transparent'} : undefined}
         />
       </div>
-      <div className="SidebarFlowStep_label" style={{gridRow: row}}>{label}</div>
+      <div className={`SidebarFlowStep_label ${mode}`} style={{gridRow: row}}>{label}</div>
     </>
   );
 };
