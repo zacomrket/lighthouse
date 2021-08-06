@@ -95,15 +95,8 @@ const SidebarFlow:FunctionComponent<{steps: number}> = ({children}) => {
   );
 };
 
-const SidebarSection:FunctionComponent<{title: string}> = ({children, title}) => {
-  return (
-    <div className="SidebarSection">
-      <div className="SidebarSection_title">{title}</div>
-      <div className="SidebarSection_content">
-        {children}
-      </div>
-    </div>
-  );
+const SidebarSectionTitle:FunctionComponent = ({children}) => {
+  return <div className="SidebarSectionTitle">{children}</div>;
 };
 
 // eslint-disable-next-line no-undef
@@ -141,14 +134,13 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   });
   return (
     <div className="Sidebar">
-      <SidebarSection title="USER FLOW">
-        <Hbar/>
-        <SidebarSummary/>
-        <Hbar/>
-        <SidebarFlow steps={links.length}>
-          {links}
-        </SidebarFlow>
-      </SidebarSection>
+      <SidebarSectionTitle>USER FLOW</SidebarSectionTitle>
+      <Hbar/>
+      <SidebarSummary/>
+      <Hbar/>
+      <SidebarFlow steps={links.length}>
+        {links}
+      </SidebarFlow>
     </div>
   );
 };

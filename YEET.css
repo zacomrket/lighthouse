@@ -22,10 +22,10 @@
 }
 
 .Sidebar_current {
-  background-color: var(--color-gray-200) !important;
+  background-color: var(--color-gray-200);
 }
 
-.SidebarSection_title {
+.SidebarSectionTitle {
   font-size: 14px;
   margin: 32px 16px 0px 16px;
 }
