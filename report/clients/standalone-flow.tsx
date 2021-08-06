@@ -14,7 +14,7 @@ import {render, FunctionComponent} from 'preact';
 
 /* global window document location */
 
-function getCurrentLhr():number|null {
+function getCurrentStep():number|null {
   const searchParams = new URLSearchParams(location.search);
   const step = searchParams.get('step');
   if (step === null) return null;
@@ -51,13 +51,13 @@ const FlowStepIcon:FunctionComponent<{mode: LH.Gatherer.GatherMode}> = ({mode}) 
 };
 
 const SidebarSummary:FunctionComponent = () => {
-  const isCurrent = getCurrentLhr() === null;
+  const currentStep = getCurrentStep();
   const url = new URL(location.href);
   url.searchParams.delete('step');
   return (
     <a
       href={url.href}
-      className={`SidebarSummary ${isCurrent ? 'Sidebar_current' : ''}`}
+      className={`SidebarSummary ${currentStep === null ? 'Sidebar_current' : ''}`}
     >
       <div className="SidebarSummary_icon">☰</div>
       <div className="SidebarSummary_label">Summary</div>
@@ -133,7 +133,7 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
     }
     const url = new URL(location.href);
     url.searchParams.set('step', String(index));
-    const current = getCurrentLhr();
+    const currentStep = getCurrentStep();
     return (
       <SidebarFlowStep
         key={lhr.fetchTime}
@@ -143,7 +143,7 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
         row={index + 1}
         hideTopLine={index === 0}
         hideBottomLine={index === flow.lhrs.length - 1}
-        current={index === current}
+        current={index === currentStep}
       />
     );
   });
@@ -164,7 +164,7 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
 
 // eslint-disable-next-line no-undef
 const App:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
-  const current = getCurrentLhr();
+  const currentStep = getCurrentStep();
   // TODO: Remove this, just want to see multiple navigations strung together.
   flow.lhrs = flow.lhrs.concat(
     // Unique ID
@@ -174,9 +174,9 @@ const App:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
     <div className="App">
       <Sidebar flow={flow}/>
       {
-        current === null ?
+        currentStep === null ?
           <Summary/> :
-          <Report lhr={flow.lhrs[current]}/>
+          <Report lhr={flow.lhrs[currentStep]}/>
       }
     </div>
   );
