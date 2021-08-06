@@ -50,6 +50,10 @@ const SidebarFlowStep:FunctionComponent<{
 }> = ({href, label, mode, row, hideTopLine, hideBottomLine, current}) => {
   return (
     <>
+      <a
+        className={`SidebarFlowStep_link ${current ? 'Sidebar_current' : ''}`}
+        href={href} style={{gridRow: row}}
+      />
       <div className="SidebarFlowStep_icon" style={{gridRow: row}}>
         <div
           className="SidebarFlowStep_icon_line"
@@ -62,10 +66,6 @@ const SidebarFlowStep:FunctionComponent<{
         />
       </div>
       <div className="SidebarFlowStep_label" style={{gridRow: row}}>{label}</div>
-      <a
-        className={`SidebarFlowStep_link ${current ? 'Sidebar_current' : ''}`}
-        href={href} style={{gridRow: row}}
-      />
     </>
   );
 };
