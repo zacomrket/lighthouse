@@ -14,6 +14,11 @@ import {render, FunctionComponent} from 'preact';
 
 /* global window document location */
 
+function getCurrentLhr():number {
+  const searchParams = new URLSearchParams(location.search);
+  return Number(searchParams.get('step') || 0);
+}
+
 // eslint-disable-next-line no-undef
 const Report:FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   // TODO(FR-COMPAT): Render an actual report here.
@@ -41,7 +46,8 @@ const SidebarFlowStep:FunctionComponent<{
   hideTopLine: boolean,
   hideBottomLine: boolean,
   row: number,
-}> = ({href, label, mode, row, hideTopLine, hideBottomLine}) => {
+  current: boolean,
+}> = ({href, label, mode, row, hideTopLine, hideBottomLine, current}) => {
   return (
     <>
       <div className="SidebarFlowStep_icon" style={{gridRow: row}}>
@@ -55,7 +61,11 @@ const SidebarFlowStep:FunctionComponent<{
           style={hideBottomLine ? {background: 'transparent'} : undefined}
         />
       </div>
-      <a className="SidebarFlowStep_link" href={href}>{label}</a>
+      <div className="SidebarFlowStep_label" style={{gridRow: row}}>{label}</div>
+      <a
+        className={`SidebarFlowStep_link ${current ? 'Sidebar_current' : ''}`}
+        href={href} style={{gridRow: row}}
+      />
     </>
   );
 };
@@ -99,6 +109,7 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
     }
     const url = new URL(location.href);
     url.searchParams.set('step', String(index));
+    const current = getCurrentLhr();
     return (
       <SidebarFlowStep
         mode={lhr.gatherMode}
@@ -107,6 +118,7 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
         row={index + 1}
         hideTopLine={index === 0}
         hideBottomLine={index === flow.lhrs.length - 1}
+        current={index === current}
       />
     );
   });
