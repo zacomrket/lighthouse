@@ -229,15 +229,8 @@ class LighthouseReportViewer {
 
       const features = new ViewerUIFeatures(dom, saveCallback);
       features.initFeatures(json);
-      features.initSwapLocale({
-        i18nModuleSrc: 'src/i18n-module.js',
-        async fetchData(localeModuleName) {
-          const response = await fetch(`./locales/${localeModuleName}.json`);
-          return response.json();
-        },
-      });
       document.addEventListener(ViewerUIFeatures.Events.refreshLighthouseReport, e => {
-        // @ts-ignore
+        // @ts-expect-error
         this._replaceReportHtml(e.detail.newLhr);
       }, {once: true});
     } catch (e) {

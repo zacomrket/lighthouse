@@ -16,12 +16,9 @@ const localeBasenames = fs.readdirSync(__dirname + '/../lighthouse-core/lib/i18n
 const actualLocales = localeBasenames
   .filter(basename => basename.endsWith('.json') && !basename.endsWith('.ctc.json'))
   .map(locale => locale.replace('.json', ''));
-const locales =
-  localeBasenames.map(f => require.resolve(`../lighthouse-core/lib/i18n/locales/${f}`));
 
 browserify(generatorFilename, {standalone: 'Lighthouse.i18n'})
-  // @ts-ignore bundle.ignore does accept an array of strings.
-  .ignore(locales)
+  .ignore(require.resolve('../lighthouse-core/lib/i18n/locales.js'))
   .bundle((err, src) => {
     if (err) throw err;
 
@@ -36,3 +33,5 @@ browserify(generatorFilename, {standalone: 'Lighthouse.i18n'})
     ].join('\n');
     fs.writeFileSync(bundleOutFile, code);
   });
+
+// TODO: terser

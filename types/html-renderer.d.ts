@@ -14,6 +14,10 @@ declare global {
     i18n: typeof import('../lighthouse-core/lib/i18n/i18n-module.js');
   }
 
+  interface Window {
+    Lighthouse: LighthouseModule;
+  }
+
   interface CompressionStream extends GenericTransformStream {
     readonly format: string;
   }

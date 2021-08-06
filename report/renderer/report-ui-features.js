@@ -24,14 +24,12 @@
  */
 
 /** @typedef {import('./dom').DOM} DOM */
+/** @typedef {import('../../lighthouse-core/lib/i18n/locales').LhlMessages} LhlMessages */
 
 import {getFilenamePrefix} from './file-namer.js';
 import {ElementScreenshotRenderer} from './element-screenshot-renderer.js';
 import {TextEncoding} from './text-encoding.js';
 import {Util} from './util.js';
-import * as i18nModule from '../../lighthouse-core/lib/i18n/i18n-module.js';
-
-/** @typedef {import('../../../lib/i18n/locales').LhlMessages} LhlMessages */
 
 /**
  * @param {HTMLTableElement} tableEl
@@ -51,7 +49,7 @@ function getAppsOrigin() {
 }
 
 export class ReportUIFeatures {
-  Events = {
+  static Events = {
     lighthouseI18nModuleLoaded: 'lighthouseModuleLoaded-i18n',
     refreshLighthouseReport: 'refreshLighthouseReport',
   };
@@ -182,6 +180,7 @@ export class ReportUIFeatures {
   }
 
   /**
+   * Specifiy the URL where the i18n module script can be found, and the URLS for the locale JSON files.
    * @param {{i18nModuleSrc: string, fetchData: (localeModuleName: string) => Promise<LhlMessages|undefined>}} options
    */
   async initSwapLocale(options) {
@@ -195,24 +194,12 @@ export class ReportUIFeatures {
     }
   }
 
-  async _getI18nModule() {
-    if (!this._swapLocaleOptions) throw new Error('must call .initSwapLocale first');
-
-    if (!window.Lighthouse || !window.Lighthouse.i18n) {
-      const script = this._document.createElement('script');
-      script.src = this._swapLocaleOptions.i18nModuleSrc;
-      this._document.body.appendChild(script);
-      await new Promise(resolve =>
-        this._document.addEventListener(
-          ReportUIFeatures.Events.lighthouseI18nModuleLoaded, resolve, {once: true}));
+  async _enableSwapLocale() {
+    if (!this.json.i18n.icuMessagePaths) {
+      throw new Error('missing icuMessagePaths');
     }
 
-    // @ts-ignore: Should be loaded now.
-    return window.Lighthouse.i18n;
-  }
-
-  async _enableSwapLocale() {
-    // const i18nModule = await this._getI18nModule();
+    const i18nModule = await this._getI18nModule();
     const currentLocale = this.json.configSettings.locale;
 
     const toolsEl = this._dom.find('.lh-tools-locale', this._document);
@@ -262,6 +249,27 @@ export class ReportUIFeatures {
     i18nModule.registerLocaleData(locale, lhlMessages);
     const newLhr = i18nModule.swapLocale(this.json, locale).lhr;
     this._refresh(newLhr);
+  }
+
+  /**
+   * The i18n module is only need for the swap-locale tool option, and is ~100KB,
+   * so it is lazily loaded. `initSwapLocale` must be called first.
+   * @return {Promise<import('../../lighthouse-core/lib/i18n/i18n-module.js')>}
+   */
+  async _getI18nModule() {
+    // TODO: use await import() ?
+    if (!this._swapLocaleOptions) throw new Error('must call .initSwapLocale first');
+
+    if (!window.Lighthouse || !window.Lighthouse.i18n) {
+      const script = this._document.createElement('script');
+      script.src = this._swapLocaleOptions.i18nModuleSrc;
+      this._document.body.appendChild(script);
+      await new Promise(resolve =>
+        this._document.addEventListener(
+          ReportUIFeatures.Events.lighthouseI18nModuleLoaded, resolve, {once: true}));
+    }
+
+    return window.Lighthouse.i18n;
   }
 
   /**

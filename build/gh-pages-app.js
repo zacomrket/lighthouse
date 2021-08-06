@@ -46,7 +46,7 @@ const license = `/*
  * @property {Record<string, string>=} htmlReplacements Needle -> Replacement mapping, used on html source.
  * @property {Source[]} stylesheets
  * @property {Source[]} javascripts
- * @property {Array<{path: string}>} assets List of paths to copy. Glob-able, maintains directory structure.
+ * @property {Array<{path: string, destDir?: string, rename?: string}>} assets List of paths to copy. Glob-able, maintains directory structure and copies into appDir. Provide a `destDir` and `rename` to state explicitly how to save in the app dir folder.
  */
 
 /**
@@ -92,10 +92,14 @@ class GhPagesApp {
     const bundledJs = await this._compileJs();
     safeWriteFile(`${this.distDir}/src/bundled.js`, bundledJs);
 
-    await cpy(this.opts.assets.map(asset => asset.path), this.distDir, {
-      cwd: this.opts.appDir,
-      parents: true,
-    });
+    for (const {path, destDir, rename} of this.opts.assets) {
+      const dir = destDir ? `${this.distDir}/${destDir}` : this.distDir;
+      await cpy(path, dir, {
+        cwd: this.opts.appDir,
+        parents: !destDir,
+        rename,
+      });
+    }
   }
 
   /**

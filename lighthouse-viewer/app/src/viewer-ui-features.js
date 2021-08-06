@@ -37,6 +37,14 @@ class ViewerUIFeatures extends ReportUIFeatures {
         this._dom.find('.lh-tools__dropdown a[data-action="save-gist"]', this._document);
       saveGistItem.setAttribute('disabled', 'true');
     }
+
+    this.initSwapLocale({
+      i18nModuleSrc: 'src/i18n-module.js',
+      async fetchData(localeModuleName) {
+        const response = await fetch(`./locales/${localeModuleName}.json`);
+        return response.json();
+      },
+    });
   }
 
   /**
