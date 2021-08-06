@@ -45,6 +45,11 @@ const Hbar:FunctionComponent = () => {
   return <div className="Hbar"></div>;
 };
 
+// eslint-disable-next-line no-undef
+const FlowStepIcon:FunctionComponent<{mode: LH.Gatherer.GatherMode}> = ({mode}) => {
+  return <div className={`FlowStepIcon ${mode}`}></div>;
+};
+
 const SidebarSummary:FunctionComponent = () => {
   const isCurrent = getCurrentLhr() === null;
   const url = new URL(location.href);
@@ -81,7 +86,7 @@ const SidebarFlowStep:FunctionComponent<{
           className="SidebarFlowStep_icon_line"
           style={hideTopLine ? {background: 'transparent'} : undefined}
         />
-        <div className={`SidebarFlowStep_icon_mode ${mode}`}></div>
+        <FlowStepIcon mode={mode}/>
         <div
           className="SidebarFlowStep_icon_line"
           style={hideBottomLine ? {background: 'transparent'} : undefined}

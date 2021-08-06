@@ -105,14 +105,15 @@
   flex-grow: 1;
   background-color: var(--color-blue-A700);
 }
-.SidebarFlowStep_icon_mode {
+
+.FlowStepIcon {
   display: flex;
   width: 16px;
   height: 16px;
   align-items: center;
   justify-content: center;
 }
-.navigation.SidebarFlowStep_icon_mode::before {
+.FlowStepIcon.navigation::before {
   content: '';
   width: 16px;
   height: 16px;
@@ -120,7 +121,7 @@
   border: 2px solid var(--color-blue-A700);
   display: block;
 }
-.timespan.SidebarFlowStep_icon_mode::before {
+.FlowStepIcon.timespan::before {
   content: '';
   width: 4px;
   height: 4px;
@@ -128,7 +129,7 @@
   background-color: var(--color-blue-A700);
   display: block;
 }
-.snapshot.SidebarFlowStep_icon_mode::before {
+.FlowStepIcon.snapshot::before {
   content: '';
   width: 8px;
   height: 8px;
