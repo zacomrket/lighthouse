@@ -1,8 +1,9 @@
 .App {
   display: grid;
   grid-template-areas: "side report";
-  grid-template-columns: min-content 100%;
+  grid-template-columns: min-content auto;
   min-height: 100vh;
+  max-width: 100vw;
 }
 .App a {
   color: var(--color-gray-800);
@@ -64,8 +65,8 @@
   display: grid;
   align-items: center;
   justify-items: center;
-  width: max-content;
-  grid-template-columns: max-content max-content;
+  width: 100%;
+  grid-template-columns: min-content auto;
   column-gap: 16px;
 }
 

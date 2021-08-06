@@ -36,6 +36,11 @@ const Report:FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   );
 };
 
+const Summary:FunctionComponent = () => {
+  // TODO(FR-COMPAT): Design summary page.
+  return <h1>SUMMARY</h1>;
+};
+
 const Hbar:FunctionComponent = () => {
   return <div className="Hbar"></div>;
 };
@@ -159,7 +164,7 @@ const App:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
       <Sidebar flow={flow}/>
       {
         current === null ?
-          <h1>Summary</h1> :
+          <Summary/> :
           <Report lhr={flow.lhrs[current]}/>
       }
     </div>
