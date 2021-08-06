@@ -138,6 +138,20 @@ const SidebarFlow:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   );
 };
 
+// eslint-disable-next-line no-undef
+const SidebarRuntimeSettings:FunctionComponent<{settings: LH.Config.Settings}> = ({settings}) => {
+  return (
+    <details className="SidebarRuntimeSettings">
+      <summary>
+        {
+          `${settings.formFactor} | ` +
+          `${settings.screenEmulation.height}x${settings.screenEmulation.width}px`
+        }
+      </summary>
+    </details>
+  );
+};
+
 const SidebarTitle:FunctionComponent = ({children}) => {
   return <div className="SidebarTitle">{children}</div>;
 };
@@ -151,6 +165,9 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   return (
     <div className="Sidebar">
       <SidebarTitle>Lighthouse User Flow Report</SidebarTitle>
+      <SidebarSectionTitle>RUNTIME SETTINGS</SidebarSectionTitle>
+      <Hbar/>
+      <SidebarRuntimeSettings settings={flow.lhrs[0].configSettings}/>
       <Hbar/>
       <SidebarSectionTitle>USER FLOW</SidebarSectionTitle>
       <Hbar/>

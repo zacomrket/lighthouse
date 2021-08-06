@@ -38,6 +38,11 @@
   width: max-content;
 }
 
+.SidebarRuntimeSettings > summary {
+  padding: 16px;
+  list-style: none;
+}
+
 .SidebarSummary {
   width: 100%;
   display: flex;
