@@ -95,6 +95,10 @@ const SidebarFlow:FunctionComponent<{steps: number}> = ({children}) => {
   );
 };
 
+const SidebarTitle:FunctionComponent = ({children}) => {
+  return <div className="SidebarTitle">{children}</div>;
+};
+
 const SidebarSectionTitle:FunctionComponent = ({children}) => {
   return <div className="SidebarSectionTitle">{children}</div>;
 };
@@ -134,6 +138,8 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   });
   return (
     <div className="Sidebar">
+      <SidebarTitle>Lighthouse User Flow Report</SidebarTitle>
+      <Hbar/>
       <SidebarSectionTitle>USER FLOW</SidebarSectionTitle>
       <Hbar/>
       <SidebarSummary/>

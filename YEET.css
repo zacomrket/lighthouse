@@ -30,6 +30,13 @@
   margin: 32px 16px 0px 16px;
 }
 
+.SidebarTitle {
+  font-size: 16px;
+  margin: 16px;
+  font-weight: bold;
+  width: max-content;
+}
+
 .SidebarSummary {
   width: 100%;
   display: flex;
