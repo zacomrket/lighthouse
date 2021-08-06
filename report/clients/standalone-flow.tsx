@@ -112,7 +112,7 @@ const SidebarFlow:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
         name = `Timespan (${numTimespan++})`;
         break;
       case 'snapshot':
-        name = `Snapshot (${numSnapshot++}}`;
+        name = `Snapshot (${numSnapshot++})`;
         break;
     }
     const url = new URL(location.href);
