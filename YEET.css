@@ -13,6 +13,8 @@
   height: 1px;
   width: 100%;
   background-color: var(--color-gray-300);
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .Sidebar {
@@ -25,14 +27,12 @@
 
 .SidebarSection_title {
   font-size: 14px;
-  margin: 32px 16px 8px 16px;
+  margin: 32px 16px 0px 16px;
 }
 
 .SidebarSummary {
   width: 100%;
   display: flex;
-  margin-top: 16px;
-  margin-bottom: 16px;
   padding: 16px;
   column-gap: 16px;
   align-items: center;
@@ -53,8 +53,6 @@
 }
 
 .SidebarFlow {
-  margin-top: 16px;
-  margin-bottom: 16px;
   position: relative;
   display: grid;
   align-items: center;
