@@ -29,7 +29,7 @@ const Report:FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
       <h1>{lhr.finalUrl}</h1>
       {
         Object.values(lhr.categories).map((category) =>
-          <h2>{category.id}: {category.score}</h2>
+          <h2 key={category.id}>{category.id}: {category.score}</h2>
         )
       }
     </div>
@@ -122,13 +122,13 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
     let name = '?';
     switch (lhr.gatherMode) {
       case 'navigation':
-        name = `Navigation ${numNavigation++}`;
+        name = `Navigation (${numNavigation++})`;
         break;
       case 'timespan':
-        name = `Timespan ${numTimespan++}`;
+        name = `Timespan (${numTimespan++})`;
         break;
       case 'snapshot':
-        name = `Snapshot ${numSnapshot++}`;
+        name = `Snapshot (${numSnapshot++}}`;
         break;
     }
     const url = new URL(location.href);
@@ -136,6 +136,7 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
     const current = getCurrentLhr();
     return (
       <SidebarFlowStep
+        key={lhr.fetchTime}
         mode={lhr.gatherMode}
         href={url.href}
         label={name}
@@ -164,6 +165,11 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
 // eslint-disable-next-line no-undef
 const App:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   const current = getCurrentLhr();
+  // TODO: Remove this, just want to see multiple navigations strung together.
+  flow.lhrs = flow.lhrs.concat(
+    // Unique ID
+    flow.lhrs.map(lhr => ({...lhr, fetchTime: lhr.fetchTime.concat('###')}))
+  );
   return (
     <div className="App">
       <Sidebar flow={flow}/>
