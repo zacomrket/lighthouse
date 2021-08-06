@@ -52,7 +52,7 @@ const SidebarSummary:FunctionComponent = () => {
   return (
     <a
       href={url.href}
-      className={`SidebarSummary ${isCurrent ? 'Sidebar_current' : undefined}`}
+      className={`SidebarSummary ${isCurrent ? 'Sidebar_current' : ''}`}
     >
       <div className="SidebarSummary_icon">☰</div>
       <div className="SidebarSummary_label">Summary</div>
