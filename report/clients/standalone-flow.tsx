@@ -141,10 +141,12 @@ const SidebarRuntimeSettings:FunctionComponent<{settings: LH.Config.Settings}> =
     <details className="SidebarRuntimeSettings">
       <summary>
         {
-          `${settings.formFactor} | ` +
-          `${settings.screenEmulation.height}x${settings.screenEmulation.width}px`
+          `${settings.screenEmulation.height}x${settings.screenEmulation.width}px | ` +
+          `${settings.formFactor}`
         }
       </summary>
+      <div>Emulated user agent: {settings.emulatedUserAgent}</div>
+      <div>Channel: {settings.channel}</div>
     </details>
   );
 };
