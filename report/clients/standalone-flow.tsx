@@ -11,6 +11,7 @@
  */
 
 import {render, FunctionComponent} from 'preact';
+import {useMemo} from 'preact/hooks';
 
 /* global window document location */
 
@@ -151,8 +152,21 @@ const SidebarRuntimeSettings:FunctionComponent<{settings: LH.Config.Settings}> =
   );
 };
 
-const SidebarTitle:FunctionComponent = ({children}) => {
-  return <div className="SidebarTitle">{children}</div>;
+const SidebarHeader:FunctionComponent<{title: string, date: string}> = ({title, date}) => {
+  const formatter = useMemo(() => {
+    const options:Intl.DateTimeFormatOptions = {
+      month: 'short', day: 'numeric', year: 'numeric',
+      hour: 'numeric', minute: 'numeric', timeZoneName: 'short',
+    };
+    return new Intl.DateTimeFormat('en-US', options);
+  }, []);
+  const dateString = useMemo(() => formatter.format(new Date(date)), [date]);
+  return (
+    <div className="SidebarHeader">
+      <div className="SidebarHeader_title">{title}</div>
+      <div className="SidebarHeader_date">{dateString}</div>
+    </div>
+  );
 };
 
 const SidebarSectionTitle:FunctionComponent = ({children}) => {
@@ -163,7 +177,7 @@ const SidebarSectionTitle:FunctionComponent = ({children}) => {
 const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   return (
     <div className="Sidebar">
-      <SidebarTitle>Lighthouse User Flow Report</SidebarTitle>
+      <SidebarHeader title="Lighthouse User Flow Report" date={flow.lhrs[0].fetchTime}/>
       <SidebarSectionTitle>RUNTIME SETTINGS</SidebarSectionTitle>
       <Hbar/>
       <SidebarRuntimeSettings settings={flow.lhrs[0].configSettings}/>

@@ -27,15 +27,23 @@
 }
 
 .SidebarSectionTitle {
-  font-size: 14px;
+  height: 16px;
+  font-size: 11px;
   margin: 32px 16px 0px 16px;
   color: var(--color-gray-700);
 }
 
-.SidebarTitle {
-  font-size: 16px;
+.SidebarHeader {
   margin: 16px;
+}
+.SidebarHeader_title {
+  font-size: 16px;
   font-weight: bold;
+  width: max-content;
+}
+.SidebarHeader_date {
+  font-size: 12px;
+  color: var(--color-gray-700);
   width: max-content;
 }
 
