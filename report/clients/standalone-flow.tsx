@@ -73,11 +73,11 @@ const SidebarFlowStep:FunctionComponent<{
   label: string,
   hideTopLine: boolean,
   hideBottomLine: boolean,
-  current: boolean,
-}> = ({href, label, mode, hideTopLine, hideBottomLine, current}) => {
+  isCurrent: boolean,
+}> = ({href, label, mode, hideTopLine, hideBottomLine, isCurrent}) => {
   return (
     <a
-      className={`SidebarFlowStep ${current ? 'Sidebar_current' : ''}`}
+      className={`SidebarFlowStep ${isCurrent ? 'Sidebar_current' : ''}`}
       href={href}
     >
       <div className="SidebarFlowStep_icon">
@@ -125,7 +125,7 @@ const SidebarFlow:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
         label={name}
         hideTopLine={index === 0}
         hideBottomLine={index === flow.lhrs.length - 1}
-        current={index === currentStep}
+        isCurrent={index === currentStep}
       />
     );
   });
