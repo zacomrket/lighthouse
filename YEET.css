@@ -48,7 +48,7 @@
 }
 
 .SidebarRuntimeSettings > summary {
-  padding: 16px;
+  padding: 4px 16px;
   list-style: none;
   color: var(--color-gray-700);
   font-size: 12px;
