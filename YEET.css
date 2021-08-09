@@ -67,14 +67,11 @@
   font-weight: bold;
 }
 
-.SidebarFlow {
-  position: relative;
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  width: 100%;
-  grid-template-columns: min-content auto;
+.SidebarFlowStep {
+  display: flex;
   column-gap: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .SidebarFlowStep_label {
@@ -82,30 +79,19 @@
   margin-top: 14px;
   margin-bottom: 14px;
   justify-self: left;
-  pointer-events: none;
-  margin-right: 16px;
   font-size: 12px;
 }
 .SidebarFlowStep_label.navigation {
   font-size: 14px;
 }
 
-.SidebarFlowStep_link {
-  grid-column: 1 / span 2;
-  width: 100%;
-  height: 100%;
-}
-
 .SidebarFlowStep_icon {
   grid-column: 1;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 16px;
-  height: 100%;
-  pointer-events: none;
-  margin-left: 16px;
 }
 .SidebarFlowStep_icon_line {
   width: 2px;
