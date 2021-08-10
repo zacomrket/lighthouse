@@ -93,7 +93,7 @@ class ReportGenerator {
   /**
    * Creates the results output in a format based on the `mode`.
    * @param {LH.Result} lhr
-   * @param {LH.Config.Settings['output']} outputModes
+   * @param {LH.Result['configSettings']['output']} outputModes
    * @return {string|string[]}
    */
   static generateReport(lhr, outputModes) {

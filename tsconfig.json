@@ -11,22 +11,24 @@
 
     "resolveJsonModule": true,
     "diagnostics": true,
+    "composite": true,
     "tsBuildInfoFile": "../../.tmp/tsbuildinfo/core.tsbuildinfo",
   },
   "include": [
+    "root.js",
     "lighthouse-cli/**/*.js",
     "lighthouse-core/**/*.js",
-    "report/**/*.js",
     "clients/**/*.js",
     "build/**/*.js",
     "./types/**/*.d.ts",
     "eslint-local-rules.js",
   ],
   "references": [
-    {"path": "./types/lhr/"}
+    {"path": "./types/lhr/"},
+    {"path": "./report/"},
   ],
   "exclude": [
-    "lighthouse-core/lib/cdt",
+    // "lighthouse-core/lib/cdt",
     "lighthouse-core/test/audits/**/*.js",
     "lighthouse-core/test/fixtures/**/*.js",
     "lighthouse-core/test/computed/**/*.js",
@@ -35,7 +37,6 @@
     "lighthouse-core/scripts/legacy-javascript/variants",
     "lighthouse-core/test/chromium-web-tests/webtests",
     // These test files require further changes before they can be type checked.
-    "report/test/**/*.js",
     "lighthouse-core/test/config/budget-test.js",
     "lighthouse-core/test/config/config-helpers-test.js",
     "lighthouse-core/test/config/config-plugin-test.js",

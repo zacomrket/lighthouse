@@ -5,8 +5,6 @@
  */
 'use strict';
 
-/* global window */
-
 // TODO(esmodules): delete when treemap app is esm.
 
 import {I18n} from '../renderer/i18n.js';

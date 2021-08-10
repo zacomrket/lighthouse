@@ -5,8 +5,6 @@
  */
 'use strict';
 
-/* global window */
-
 // TODO(esmodules): delete when viewer app is esm.
 
 import {DOM} from '../renderer/dom.js';

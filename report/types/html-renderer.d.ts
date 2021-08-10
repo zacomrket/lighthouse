@@ -4,11 +4,15 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Audit from './audit';
-import LHResult from './lhr/lhr';
+import {Result as AuditResult}  from '../../types/lhr/audit-result';
+import LHResult from '../../types/lhr/lhr';
+import * as Settings from '../../types/lhr/settings';
+import AuditDetails from '../../types/lhr/audit-details';
+import {FormattedIcu as FormattedIcu_} from '../../types/lhr/i18n';
+import Treemap_ from '../../types/lhr/treemap';
 
-// Add needed DOM APIs not yet in tsc's lib dom.
 declare global {
+  // Add needed DOM APIs not yet in tsc's lib dom.
   var CompressionStream: {
     prototype: CompressionStream,
     new (format: string): CompressionStream,
@@ -17,22 +21,37 @@ declare global {
   interface CompressionStream extends GenericTransformStream {
     readonly format: string;
   }
+
+  // Expose global types in LH namespace.
+  // TODO(bckenny): move to a different file?
+  module LH {
+    export import Result = LHResult;
+    export import ReportResult = ReportResult_;
+    export import Locale = Settings.Locale;
+    export type FormattedIcu<T> = FormattedIcu_<T>;
+    
+    module Audit {
+      export import Details = AuditDetails;
+    }
+
+    export import Treemap = Treemap_;
+  }
 }
 
 // During report generation, the LHR object is transformed a bit for convenience
 // Primarily, the auditResult is added as .result onto the auditRef. We're lazy sometimes. It'll be removed in due time.
-interface ReportResult extends LHResult {
-  categories: Record<string, ReportResult.Category>;
+interface ReportResult_ extends LHResult {
+  categories: Record<string, ReportResult_.Category>;
 }
-declare module ReportResult {
+declare module ReportResult_ {
   interface Category extends LHResult.Category {
     auditRefs: Array<AuditRef>
   }
 
   interface AuditRef extends LHResult.AuditRef {
-    result: Audit.Result;
+    result: AuditResult;
     stackPacks?: StackPackDescription[];
-    relevantMetrics?: ReportResult.AuditRef[];
+    relevantMetrics?: ReportResult_.AuditRef[];
   }
 
   interface StackPackDescription {
@@ -44,5 +63,3 @@ declare module ReportResult {
     description: string;
   }
 }
-
-export default ReportResult;
