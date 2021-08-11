@@ -57,7 +57,7 @@
 .SidebarSummary {
   width: 100%;
   display: flex;
-  padding: 16px;
+  padding: 8px 16px;
   column-gap: 16px;
   align-items: center;
 }
