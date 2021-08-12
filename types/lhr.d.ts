@@ -30,6 +30,7 @@ interface Result {
   categories: Record<string, Result.Category>;
   /** Descriptions of the groups referenced by CategoryMembers. */
   categoryGroups?: Record<string, Result.ReportGroup>;
+
   /** The config settings used for these results. */
   configSettings: Config.Settings;
   /** List of top-level warnings for this Lighthouse run. */
