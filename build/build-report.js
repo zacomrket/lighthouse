@@ -65,20 +65,6 @@ async function buildPsiReport() {
   });
 }
 
-async function buildViewerReport() {
-  const bundle = await rollup.rollup({
-    input: 'report/clients/viewer.js',
-    plugins: [
-      commonjs(),
-    ],
-  });
-
-  await bundle.write({
-    file: 'dist/report/viewer.js',
-    format: 'iife',
-  });
-}
-
 async function buildTreemapReport() {
   const bundle = await rollup.rollup({
     input: 'report/clients/treemap.js',
@@ -102,18 +88,47 @@ async function buildEsModulesBundle() {
   });
 
   await bundle.write({
-    file: 'dist/report/bundle.js',
+    file: 'dist/report/bundle.esm.js',
     format: 'esm',
   });
 }
 
+async function buildUmdBundle() {
+  const bundle = await rollup.rollup({
+    input: 'report/clients/bundle.js',
+    plugins: [
+      commonjs(),
+    ],
+  });
+
+  await bundle.write({
+    file: 'dist/report/bundle.umd.js',
+    format: 'umd',
+    name: 'report',
+  });
+}
+
 if (require.main === module) {
-  if (process.argv[2] === '--only-standalone') {
-    buildStandaloneReport();
-  } else {
+  if (process.argv.length <= 2) {
     buildStandaloneReport();
     buildStandaloneFlowReport();
     buildEsModulesBundle();
+    buildPsiReport();
+    buildUmdBundle();
+  }
+
+  if (process.argv.includes('--psi')) {
+    buildPsiReport();
+  }
+  if (process.argv.includes('--standalone')) {
+    buildStandaloneReport();
+    buildStandaloneFlowReport();
+  }
+  if (process.argv.includes('--esm')) {
+    buildEsModulesBundle();
+  }
+  if (process.argv.includes('--umd')) {
+    buildUmdBundle();
   }
 }
 
@@ -121,6 +136,6 @@ module.exports = {
   buildStandaloneReport,
   buildStandaloneFlowReport,
   buildPsiReport,
-  buildViewerReport,
+  buildUmdBundle,
   buildTreemapReport,
 };

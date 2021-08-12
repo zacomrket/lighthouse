@@ -26,7 +26,7 @@ const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   );
 };
 
-const App: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
+const App: FunctionComponent<{flow: LH.Result.FlowResult}> = ({flow}) => {
   const [currentLhr, setCurrentLhr] = useState(0);
   return (
     <>
