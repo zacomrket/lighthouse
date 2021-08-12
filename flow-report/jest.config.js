@@ -4,19 +4,10 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-/**
- * @fileoverview The entry point for rendering the Lighthouse report for the HTML file created by ReportGenerator.
- * The renderer code is bundled and injected into the report HTML along with the JSON report.
- */
-
-import {render} from 'preact';
-import {App} from './App';
-
-// Used by standalone-flow.html
-function __initLighthouseFlowReport__() {
-  const root = document.body.querySelector('main');
-  if (!root) throw Error('Root element not found');
-  render(<App flow={window.__LIGHTHOUSE_JSON__} />, root);
-}
-
-window.__initLighthouseFlowReport__ = __initLighthouseFlowReport__;
+module.exports = {
+  testEnvironment: 'jsdom',
+  preset: 'ts-jest',
+  testMatch: [
+    '**/test/**/*-test.tsx',
+  ],
+};

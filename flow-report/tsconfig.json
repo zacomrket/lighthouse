@@ -5,7 +5,7 @@
     "jsxImportSource": "preact",
   },
   "include": [
-    "./standalone-flow.tsx",
+    "**/*.tsx",
     "./types",
     "../types"
   ],
