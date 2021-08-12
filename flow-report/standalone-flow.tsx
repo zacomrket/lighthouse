@@ -48,13 +48,9 @@ const App: FunctionComponent<{flow: LH.Result.FlowResult}> = ({flow}) => {
 
 // Used by standalone-flow.html
 function __initLighthouseFlowReport__() {
-  render(
-    // @ts-expect-error
-    <App flow={window.__LIGHTHOUSE_JSON__} />,
-    // @ts-expect-error
-    document.body.querySelector('main')
-  );
+  const root = document.body.querySelector('main');
+  if (!root) throw Error('Root element not found');
+  render(<App flow={window.__LIGHTHOUSE_JSON__} />, root);
 }
 
-// @ts-expect-error
 window.__initLighthouseFlowReport__ = __initLighthouseFlowReport__;
