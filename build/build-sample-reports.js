@@ -10,16 +10,16 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
-const swapLocale = require('../lib/i18n/swap-locale.js');
-const ReportGenerator = require('../../report/report-generator.js');
-const {defaultSettings} = require('../config/constants.js');
-const lighthouse = require('../index.js');
-const lhr = /** @type {LH.Result} */ (require('../../lighthouse-core/test/results/sample_v2.json'));
-const {LH_ROOT} = require('../../root.js');
-const htmlReportAssets = require('../../report/report-assets.js');
+const swapLocale = require('../lighthouse-core/lib/i18n/swap-locale.js');
+const ReportGenerator = require('../lighthouse-core/../report/report-generator.js');
+const {defaultSettings} = require('../lighthouse-core/config/constants.js');
+const lighthouse = require('../lighthouse-core/index.js');
+const lhr = /** @type {LH.Result} */ (require('../lighthouse-core/test/results/sample_v2.json'));
+const {LH_ROOT} = require('../root.js');
+const htmlReportAssets = require('../lighthouse-core/../report/report-assets.js');
 
 
-const DIST = path.join(LH_ROOT, `dist/now`);
+const DIST = path.join(LH_ROOT, 'dist');
 
 (async function() {
   addPluginCategory(lhr);
@@ -47,8 +47,7 @@ const DIST = path.join(LH_ROOT, `dist/now`);
         // - a more constrained/realistic default size
         html = html.replace(`"lh-root lh-vars"`, `"lh-root lh-vars lh-devtools"`);
       }
-
-      const filepath = `${DIST}/${variant}${filename}/index.html`;
+      const filepath = `${DIST}/sample-reports/${variant}${filename}/index.html`;
       fs.mkdirSync(path.dirname(filepath), {recursive: true});
       fs.writeFileSync(filepath, html, {encoding: 'utf-8'});
       console.log('✅', filepath, 'written.');
