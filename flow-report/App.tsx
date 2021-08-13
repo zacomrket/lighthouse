@@ -21,7 +21,7 @@ export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   );
 };
 
-export const App: FunctionComponent<{flow: LH.Result.FlowResult}> = ({flow}) => {
+export const App: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   const [currentLhrIndex, setCurrentLhrIndex] = useState(0);
   return (
     <>

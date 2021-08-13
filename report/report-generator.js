@@ -58,7 +58,7 @@ class ReportGenerator {
 
   /**
    * Returns the standalone flow report HTML as a string with the report JSON and renderer JS inlined.
-   * @param {LH.Result.FlowResult} flow
+   * @param {LH.FlowResult} flow
    * @return {string}
    */
   static generateFlowReportHtml(flow) {

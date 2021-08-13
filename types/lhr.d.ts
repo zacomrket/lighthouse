@@ -51,15 +51,6 @@ interface Result {
 
 // Result namespace
 declare module Result {
-  /**
-   * The full output of a Lighthouse flow. Includes a series of Lighthouse runs.
-   * TODO(FR-COMPAT): Add flow specific metadata (e.g. interaction steps).
-   */
-  interface FlowResult {
-    /** Ordered list of lighthouse results corresponding to a navigation, timespan, or snapshot. */
-    lhrs: Result[];
-  }
-
   interface Environment {
     /** The user agent string of the version of Chrome used. */
     hostUserAgent: string;
@@ -126,6 +117,15 @@ declare module Result {
     /** A set of descriptions for some of Lighthouse's audits, keyed by audit `id`. */
     descriptions: Record<string, string>;
   }
+}
+
+/**
+ * The full output of a Lighthouse flow. Includes a series of Lighthouse runs.
+ * TODO(FR-COMPAT): Add flow specific metadata (e.g. interaction steps).
+ */
+export interface FlowResult {
+  /** Ordered list of lighthouse results corresponding to a navigation, timespan, or snapshot. */
+  lhrs: Result[];
 }
 
 export default Result;
