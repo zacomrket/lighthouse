@@ -172,7 +172,6 @@
     "webtreemap-cdt": "^3.2.1"
   },
   "dependencies": {
-    "@rollup/plugin-typescript": "^8.2.5",
     "axe-core": "4.2.3",
     "chrome-launcher": "^0.14.0",
     "configstore": "^5.0.1",
