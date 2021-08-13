@@ -11,8 +11,7 @@ const fs = require('fs');
 const REPORT_TEMPLATE = fs.readFileSync(__dirname + '/assets/standalone-template.html', 'utf8');
 const REPORT_JAVASCRIPT = fs.readFileSync(__dirname + '/../dist/report/standalone.js', 'utf8');
 const REPORT_CSS = fs.readFileSync(__dirname + '/assets/styles.css', 'utf8');
-const REPORT_TEMPLATES = fs.readFileSync(__dirname + '/assets/templates.html', 'utf8');
-const REPORT_FLOW_TEMPLATE = fs.readFileSync(__dirname + '/assets/standalone-flow-template.html', 'utf8');
+const REPORT_FLOW_TEMPLATE = fs.readFileSync(__dirname + '/../flow-report/assets/standalone-flow-template.html', 'utf8');
 const REPORT_FLOW_JAVASCRIPT = fs.readFileSync(__dirname + '/../dist/report/standalone-flow.js', 'utf8');
 /* eslint-enable max-len */
 
@@ -20,7 +19,6 @@ const REPORT_FLOW_JAVASCRIPT = fs.readFileSync(__dirname + '/../dist/report/stan
 // and clients/devtools-report-assets.js
 module.exports = {
   REPORT_TEMPLATE,
-  REPORT_TEMPLATES,
   REPORT_JAVASCRIPT,
   REPORT_CSS,
   REPORT_FLOW_TEMPLATE,

@@ -3,19 +3,11 @@
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
-'use strict';
 
-/**
- * @fileoverview The entry point for rendering the Lighthouse report for the HTML file created by ReportGenerator.
- * The renderer code is bundled and injected into the report HTML along with the JSON report.
- */
-
-import {render, FunctionComponent} from 'preact';
+import {FunctionComponent} from 'preact';
 import {useMemo} from 'preact/hooks';
 
-/* global window document location */
-
-function getCurrentStep():number|null {
+function getCurrentStep(): number|null {
   const searchParams = new URLSearchParams(location.search);
   const step = searchParams.get('step');
   if (step === null) return null;
@@ -23,7 +15,7 @@ function getCurrentStep():number|null {
 }
 
 // eslint-disable-next-line no-undef
-const Report:FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
+export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   // TODO(FR-COMPAT): Render an actual report here.
   return (
     <div>
@@ -37,21 +29,21 @@ const Report:FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   );
 };
 
-const Summary:FunctionComponent = () => {
+export const Summary: FunctionComponent = () => {
   // TODO(FR-COMPAT): Design summary page.
   return <h1>SUMMARY</h1>;
 };
 
-const Hbar:FunctionComponent = () => {
+export const Hbar: FunctionComponent = () => {
   return <div className="Hbar"></div>;
 };
 
 // eslint-disable-next-line no-undef
-const FlowStepIcon:FunctionComponent<{mode: LH.Gatherer.GatherMode}> = ({mode}) => {
+export const FlowStepIcon: FunctionComponent<{mode: LH.Gatherer.GatherMode}> = ({mode}) => {
   return <div className={`FlowStepIcon ${mode}`}></div>;
 };
 
-const SidebarSummary:FunctionComponent = () => {
+export const SidebarSummary: FunctionComponent = () => {
   const currentStep = getCurrentStep();
   const url = new URL(location.href);
   url.searchParams.delete('step');
@@ -66,7 +58,7 @@ const SidebarSummary:FunctionComponent = () => {
   );
 };
 
-const SidebarFlowStep:FunctionComponent<{
+export const SidebarFlowStep: FunctionComponent<{
   // eslint-disable-next-line no-undef
   mode: LH.Gatherer.GatherMode,
   href: string,
@@ -97,7 +89,7 @@ const SidebarFlowStep:FunctionComponent<{
 };
 
 // eslint-disable-next-line no-undef
-const SidebarFlow:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
+export const SidebarFlow: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   let numNavigation = 1;
   let numTimespan = 1;
   let numSnapshot = 1;
@@ -137,7 +129,8 @@ const SidebarFlow:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
 };
 
 // eslint-disable-next-line no-undef
-const SidebarRuntimeSettings:FunctionComponent<{settings: LH.Config.Settings}> = ({settings}) => {
+export const SidebarRuntimeSettings: FunctionComponent<{settings: LH.Config.Settings}> =
+({settings}) => {
   return (
     <details className="SidebarRuntimeSettings">
       <summary>
@@ -152,7 +145,7 @@ const SidebarRuntimeSettings:FunctionComponent<{settings: LH.Config.Settings}> =
   );
 };
 
-const SidebarHeader:FunctionComponent<{title: string, date: string}> = ({title, date}) => {
+export const SidebarHeader: FunctionComponent<{title: string, date: string}> = ({title, date}) => {
   const formatter = useMemo(() => {
     const options:Intl.DateTimeFormatOptions = {
       month: 'short', day: 'numeric', year: 'numeric',
@@ -169,12 +162,12 @@ const SidebarHeader:FunctionComponent<{title: string, date: string}> = ({title, 
   );
 };
 
-const SidebarSectionTitle:FunctionComponent = ({children}) => {
+export const SidebarSectionTitle: FunctionComponent = ({children}) => {
   return <div className="SidebarSectionTitle">{children}</div>;
 };
 
 // eslint-disable-next-line no-undef
-const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
+export const Sidebar: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   return (
     <div className="Sidebar">
       <SidebarHeader title="Lighthouse User Flow Report" date={flow.lhrs[0].fetchTime}/>
@@ -192,7 +185,7 @@ const Sidebar:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
 };
 
 // eslint-disable-next-line no-undef
-const App:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
+export const App: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
   const currentStep = getCurrentStep();
   // TODO: Remove this, just want to see multiple navigations strung together.
   flow.lhrs = flow.lhrs.concat(
@@ -210,16 +203,3 @@ const App:FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
     </div>
   );
 };
-
-// Used by standalone-flow.html
-function __initLighthouseFlowReport__() {
-  render(
-    // @ts-expect-error
-    <App flow={window.__LIGHTHOUSE_JSON__} />,
-    // @ts-expect-error
-    document.body.querySelector('main')
-  );
-}
-
-// @ts-expect-error
-window.__initLighthouseFlowReport__ = __initLighthouseFlowReport__;
