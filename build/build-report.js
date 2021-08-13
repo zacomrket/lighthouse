@@ -34,7 +34,7 @@ async function buildStandaloneReport() {
   });
 }
 
-async function buildStandaloneFlowReport() {
+async function buildFlowReport() {
   const bundle = await rollup.rollup({
     input: 'flow-report/standalone-flow.tsx',
     plugins: [
@@ -111,7 +111,7 @@ async function buildUmdBundle() {
 if (require.main === module) {
   if (process.argv.length <= 2) {
     buildStandaloneReport();
-    buildStandaloneFlowReport();
+    buildFlowReport();
     buildEsModulesBundle();
     buildPsiReport();
     buildUmdBundle();
@@ -122,7 +122,7 @@ if (require.main === module) {
   }
   if (process.argv.includes('--standalone')) {
     buildStandaloneReport();
-    buildStandaloneFlowReport();
+    buildFlowReport();
   }
   if (process.argv.includes('--esm')) {
     buildEsModulesBundle();
@@ -134,7 +134,7 @@ if (require.main === module) {
 
 module.exports = {
   buildStandaloneReport,
-  buildStandaloneFlowReport,
+  buildStandaloneFlowReport: buildFlowReport,
   buildPsiReport,
   buildUmdBundle,
   buildTreemapReport,
