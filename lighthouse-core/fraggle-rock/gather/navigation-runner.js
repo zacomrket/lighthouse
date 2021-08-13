@@ -261,7 +261,6 @@ async function navigation(options) {
       url: requestedUrl,
       config,
       computedCache: new Map(),
-      gatherMode: 'navigation',
     }
   );
 }

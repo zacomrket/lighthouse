@@ -29,7 +29,7 @@ class Runner {
   /**
    * @template {LH.Config.Config | LH.Config.FRConfig} TConfig
    * @param {(runnerData: {requestedUrl: string, config: TConfig, driverMock?: Driver}) => Promise<LH.Artifacts>} gatherFn
-   * @param {{config: TConfig, computedCache: Map<string, ArbitraryEqualityMap>, url?: string, driverMock?: Driver, gatherMode?: LH.Gatherer.GatherMode}} runOpts
+   * @param {{config: TConfig, computedCache: Map<string, ArbitraryEqualityMap>, url?: string, driverMock?: Driver}} runOpts
    * @return {Promise<LH.RunnerResult|undefined>}
    */
   static async run(gatherFn, runOpts) {
@@ -132,7 +132,7 @@ class Runner {
 
       /** @type {LH.RawIcu<LH.Result>} */
       const i18nLhr = {
-        gatherMode: runOpts.gatherMode || 'navigation',
+        gatherMode: artifacts.GatherContext.gatherMode,
         userAgent: artifacts.HostUserAgent,
         environment: {
           networkUserAgent: artifacts.NetworkUserAgent,
