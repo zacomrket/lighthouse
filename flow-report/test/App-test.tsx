@@ -9,7 +9,13 @@ import {render} from '@testing-library/preact';
 
 const flow = require('../../lighthouse-core/test/fixtures/fraggle-rock/reports/sample-lhrs.json');
 
-it('Renders a standalone report', () => {
+it('Renders a standalone report', async () => {
   const root = render(<App flow={flow}/>);
-  expect(root.baseElement.outerHTML).toMatchInlineSnapshot(`"<body><div><select><option value=\\"0\\">[2021-08-03T18:28:13.296Z] [navigation] https://www.mikescerealshack.co/</option><option value=\\"1\\">[2021-08-03T18:28:31.789Z] [timespan] https://www.mikescerealshack.co/search?q=call+of+duty</option><option value=\\"2\\">[2021-08-03T18:28:36.856Z] [snapshot] https://www.mikescerealshack.co/search?q=call+of+duty</option></select><div><div><h1>https://www.mikescerealshack.co/</h1><h2>performance: 0.99</h2><h2>accessibility: 1</h2><h2>best-practices: 1</h2><h2>seo: 1</h2><h2>pwa: 0.3</h2></div></div></div></body>"`);
+  const navigation = await root.findByText(/navigation/);
+  const timespan = await root.findByText(/timespan/);
+  const snapshot = await root.findByText(/snapshot/);
+
+  expect(navigation.innerHTML).toEqual('[2021-08-03T18:28:13.296Z] [navigation] https://www.mikescerealshack.co/');
+  expect(timespan.innerHTML).toEqual('[2021-08-03T18:28:31.789Z] [timespan] https://www.mikescerealshack.co/search?q=call+of+duty');
+  expect(snapshot.innerHTML).toEqual('[2021-08-03T18:28:36.856Z] [snapshot] https://www.mikescerealshack.co/search?q=call+of+duty');
 });
