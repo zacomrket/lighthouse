@@ -57,7 +57,6 @@ const isLightrider = file => path.basename(file).includes('lightrider');
 // Set to true for source maps.
 const DEBUG = false;
 
-const pkg = require('../package.json');
 const today = (() => {
   const date = new Date();
   const year = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(date);
@@ -65,6 +64,7 @@ const today = (() => {
   const day = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(date);
   return `${month} ${day} ${year}`;
 })();
+const pkg = JSON.parse(fs.readFileSync(LH_ROOT + '/package.json', 'utf-8'));
 const banner = `
 /**
  * Lighthouse v${pkg.version} ${COMMIT_HASH} (${today})
