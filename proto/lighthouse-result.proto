@@ -195,7 +195,7 @@ message LighthouseResult {
   repeated StackPack stack_packs = 15;
 
   // Gather mode used to collect artifacts.
-  string gatherMode = 16;
+  string gather_mode = 16;
 }
 
 // Message containing a category
