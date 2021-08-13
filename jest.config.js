@@ -36,6 +36,7 @@ module.exports = {
   transform: {},
   prettierPath: null,
   projects: [
-    'flow-report/jest.config.js',
+    '<rootDir>',
+    '<rootDir>/flow-report',
   ],
 };
