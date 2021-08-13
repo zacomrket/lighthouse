@@ -58,8 +58,6 @@ export class ReportUIFeatures {
     this._dom = dom;
     /** @type {Document} */
     this._document = this._dom.document();
-    /** @type {ParentNode} */
-    this._templateContext = this._dom.document();
     /** @type {DropDown} */
     this._dropDown = new DropDown(this._dom);
     /** @type {boolean} */
@@ -174,15 +172,6 @@ export class ReportUIFeatures {
   }
 
   /**
-   * Define a custom element for <templates> to be extracted from. For example:
-   *     this.setTemplateContext(new DOMParser().parseFromString(htmlStr, 'text/html'))
-   * @param {ParentNode} context
-   */
-  setTemplateContext(context) {
-    this._templateContext = context;
-  }
-
-  /**
    * @param {{container?: Element, text: string, icon?: string, onClick: () => void}} opts
    */
   addButton(opts) {
@@ -293,7 +282,7 @@ export class ReportUIFeatures {
       const thirdPartyRows = this._getThirdPartyRows(rowEls, this.json.finalUrl);
 
       // create input box
-      const filterTemplate = this._dom.cloneTemplate('#tmpl-lh-3p-filter', this._templateContext);
+      const filterTemplate = this._dom.createComponent('3pFilter');
       const filterInput = this._dom.find('input', filterTemplate);
       const id = `lh-3p-filter-label--${index}`;
 
@@ -362,7 +351,6 @@ export class ReportUIFeatures {
       dom: this._dom,
       reportEl: el,
       overlayContainerEl: el,
-      templateContext: this._templateContext,
       fullPageScreenshot,
     });
   }
@@ -447,7 +435,7 @@ export class ReportUIFeatures {
           });
         }
       }
-    } catch (/** @type {Error} */ e) {
+    } catch (e) {
       this._copyAttempt = false;
       this._fireEventOn('lh-log', this._document, {cmd: 'log', msg: e.message});
     }
@@ -460,7 +448,6 @@ export class ReportUIFeatures {
    */
   _resetUIState() {
     this._dropDown.close();
-    this._dom.resetTemplates();
   }
 
   /**
@@ -497,7 +484,7 @@ export class ReportUIFeatures {
         const htmlStr = this.getReportHtml();
         try {
           this._saveFile(new Blob([htmlStr], {type: 'text/html'}));
-        } catch (/** @type {Error} */ e) {
+        } catch (e) {
           this._fireEventOn('lh-log', this._document, {
             cmd: 'error', msg: 'Could not export as HTML. ' + e.message,
           });
@@ -505,7 +492,15 @@ export class ReportUIFeatures {
         break;
       }
       case 'open-viewer': {
-        ReportUIFeatures.openTabAndSendJsonReportToViewer(this.json);
+        // DevTools cannot send data with postMessage, and we only want to use the URL fragment
+        // approach for viewer when needed, so check the environment and choose accordingly.
+        if (this._dom.isDevTools()) {
+          ReportUIFeatures.openViewer(this.json);
+        } else {
+          const windowName = 'viewer-' + ReportUIFeatures.computeWindowNameSuffix(this.json);
+          const url = getAppsOrigin() + '/viewer/';
+          ReportUIFeatures.openTabWithUrlData({lhr: this.json}, url, windowName);
+        }
         break;
       }
       case 'save-gist': {
@@ -550,14 +545,14 @@ export class ReportUIFeatures {
 
   /**
    * Opens a new tab to the online viewer and sends the local page's JSON results
-   * to the online viewer using postMessage.
+   * to the online viewer using URL.fragment
    * @param {LH.Result} json
    * @protected
    */
-  static openTabAndSendJsonReportToViewer(json) {
+  static openViewer(json) {
     const windowName = 'viewer-' + this.computeWindowNameSuffix(json);
     const url = getAppsOrigin() + '/viewer/';
-    ReportUIFeatures.openTabAndSendData({lhr: json}, url, windowName);
+    ReportUIFeatures.openTabWithUrlData({lhr: json}, url, windowName);
   }
 
   /**

@@ -62,4 +62,5 @@ function __initLighthouseReport__() {
   });
 }
 
+// @ts-expect-error
 window.__initLighthouseReport__ = __initLighthouseReport__;

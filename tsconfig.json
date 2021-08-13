@@ -6,6 +6,8 @@
     "allowJs": true,
     "checkJs": true,
     "strict": true,
+    // TODO: remove the next line to be fully `strict`.
+    "useUnknownInCatchVariables": false,
     // "listFiles": true,
     // "noErrorTruncation": true,
 
@@ -15,6 +17,7 @@
   "include": [
     "lighthouse-cli/**/*.js",
     "lighthouse-core/**/*.js",
+    "report/**/*.js",
     "clients/**/*.js",
     "build/**/*.js",
     "./types/**/*.d.ts",
@@ -29,8 +32,8 @@
     "lighthouse-cli/test/fixtures/**/*.js",
     "lighthouse-core/scripts/legacy-javascript/variants",
     "lighthouse-core/test/chromium-web-tests/webtests",
-    "report/generated",
     // These test files require further changes before they can be type checked.
+    "report/test/**/*.js",
     "lighthouse-core/test/config/budget-test.js",
     "lighthouse-core/test/config/config-helpers-test.js",
     "lighthouse-core/test/config/config-plugin-test.js",
