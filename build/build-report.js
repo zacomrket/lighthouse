@@ -119,7 +119,7 @@ if (require.main === module) {
 
 module.exports = {
   buildStandaloneReport,
-  buildStandaloneFlowReport: buildFlowReport,
+  buildFlowReport,
   buildPsiReport,
   buildUmdBundle,
 };
