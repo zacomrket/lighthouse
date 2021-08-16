@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig",
   "compilerOptions": {
+    "module": "ES6",
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "esModuleInterop": true,
