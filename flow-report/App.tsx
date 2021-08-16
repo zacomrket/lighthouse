@@ -21,13 +21,13 @@ export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   );
 };
 
-export const App: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
+export const App: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
   const [currentLhrIndex, setCurrentLhrIndex] = useState(0);
   return (
     <>
       <select onChange={e => setCurrentLhrIndex(Number(e.currentTarget.value))}>
         {
-          flow.lhrs.map((lhr, i) =>
+          flowResult.lhrs.map((lhr, i) =>
             <option key={lhr.fetchTime} value={i}>
               [{lhr.fetchTime}] [{lhr.gatherMode}] {lhr.finalUrl}
             </option>
@@ -35,7 +35,7 @@ export const App: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
         }
       </select>
       <div>
-        <Report lhr={flow.lhrs[currentLhrIndex]}/>
+        <Report lhr={flowResult.lhrs[currentLhrIndex]}/>
       </div>
     </>
   );
