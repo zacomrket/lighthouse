@@ -132,7 +132,9 @@ class Runner {
 
       /** @type {LH.RawIcu<LH.Result>} */
       const i18nLhr = {
-        gatherMode: artifacts.GatherContext.gatherMode,
+        // TODO(FR-COMPAT): Remove this condition when legacy runner is deprecated.
+        // If GatherContext is not collected, then we are in a non-default pass of the legacy runner.
+        gatherMode: artifacts.GatherContext ? artifacts.GatherContext.gatherMode : 'navigation',
         userAgent: artifacts.HostUserAgent,
         environment: {
           networkUserAgent: artifacts.NetworkUserAgent,
