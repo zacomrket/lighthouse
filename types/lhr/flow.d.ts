@@ -4,13 +4,13 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-import FlowResult from '../../types/lhr/flow';
+import Result from './lhr';
 
-declare global {
-  interface Window {
-    __LIGHTHOUSE_JSON__: FlowResult;
-    __initLighthouseFlowReport__: () => void;
-  }
+/**
+ * The full output of a Lighthouse flow. Includes a series of Lighthouse runs.
+ * TODO(FR-COMPAT): Add flow specific metadata (e.g. interaction steps).
+ */
+export default interface FlowResult {
+  /** Ordered list of lighthouse results corresponding to a navigation, timespan, or snapshot. */
+  lhrs: Result[];
 }
-
-export {};
