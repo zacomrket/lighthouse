@@ -16,7 +16,7 @@ import {App} from './App';
 function __initLighthouseFlowReport__() {
   const root = document.body.querySelector('main');
   if (!root) throw Error('Root element not found');
-  render(<App flowResult={window.__LIGHTHOUSE_JSON__} />, root);
+  render(<App flowResult={window.__LIGHTHOUSE_FLOW_JSON__} />, root);
 }
 
 window.__initLighthouseFlowReport__ = __initLighthouseFlowReport__;
