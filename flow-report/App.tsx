@@ -187,11 +187,6 @@ export const Sidebar: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowRes
 // eslint-disable-next-line no-undef
 export const App: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
   const currentStep = getCurrentStep();
-  // TODO: Remove this, just want to see multiple navigations strung together.
-  flowResult.lhrs = flowResult.lhrs.concat(
-    // Unique ID
-    flowResult.lhrs.map(lhr => ({...lhr, fetchTime: lhr.fetchTime.concat('###')}))
-  );
   return (
     <div className="App">
       <Sidebar flowResult={flowResult}/>
