@@ -4,6 +4,7 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
+import mockHooks from './util/mock-hooks';
 import fs from 'fs';
 import {App} from '../App';
 import {render} from '@testing-library/preact';
@@ -16,13 +17,73 @@ const flowResult = JSON.parse(
   )
 );
 
-it('Renders a standalone report', async () => {
-  const root = render(<App flowResult={flowResult}/>);
-  const navigation = await root.findByText(/navigation/);
-  const timespan = await root.findByText(/timespan/);
-  const snapshot = await root.findByText(/snapshot/);
+beforeEach(() => {
+  mockHooks.reset();
+});
 
-  expect(navigation.innerHTML).toEqual('[2021-08-03T18:28:13.296Z] [navigation] https://www.mikescerealshack.co/');
-  expect(timespan.innerHTML).toEqual('[2021-08-03T18:28:31.789Z] [timespan] https://www.mikescerealshack.co/search?q=call+of+duty');
-  expect(snapshot.innerHTML).toEqual('[2021-08-03T18:28:36.856Z] [snapshot] https://www.mikescerealshack.co/search?q=call+of+duty');
+it('Renders a standalone report with summary', async () => {
+  mockHooks.mockUseCurrentStep.mockReturnValue(null);
+  const root = render(<App flowResult={flowResult}/>);
+
+  const summary = await root.findByTestId('Summary');
+  expect(summary.innerHTML).toEqual('SUMMARY');
+});
+
+it('Renders the navigation step', async () => {
+  mockHooks.mockUseCurrentStep.mockReturnValue(0);
+  const root = render(<App flowResult={flowResult}/>);
+
+  const report = root.queryByTestId('Report');
+  expect(report).toBeTruthy();
+
+  const link = root.getByText(/https:/);
+  expect(link.innerHTML).toEqual('https://www.mikescerealshack.co/');
+
+  const scores = root.getAllByText(/^\S+: [0-9.]+/);
+  expect(scores.map(s => s.innerHTML)).toEqual([
+    'performance: 0.99',
+    'accessibility: 1',
+    'best-practices: 1',
+    'seo: 1',
+    'pwa: 0.3',
+  ]);
+});
+
+it('Renders the timespan step', async () => {
+  mockHooks.mockUseCurrentStep.mockReturnValue(1);
+  const root = render(<App flowResult={flowResult}/>);
+
+  const report = root.queryByTestId('Report');
+  expect(report).toBeTruthy();
+
+  const link = root.getByText(/https:/);
+  expect(link.innerHTML).toEqual('https://www.mikescerealshack.co/search?q=call+of+duty');
+
+  const scores = root.getAllByText(/^\S+: [0-9.]+/);
+  expect(scores.map(s => s.innerHTML)).toEqual([
+    'performance: 0.97',
+    'best-practices: 0.71',
+    'seo: 0',
+    'pwa: 1',
+  ]);
+});
+
+it('Renders the snapshot step', async () => {
+  mockHooks.mockUseCurrentStep.mockReturnValue(2);
+  const root = render(<App flowResult={flowResult}/>);
+
+  const report = root.queryByTestId('Report');
+  expect(report).toBeTruthy();
+
+  const link = root.getByText(/https:/);
+  expect(link.innerHTML).toEqual('https://www.mikescerealshack.co/search?q=call+of+duty');
+
+  const scores = root.getAllByText(/^\S+: [0-9.]+/);
+  expect(scores.map(s => s.innerHTML)).toEqual([
+    'performance: 0',
+    'accessibility: 0.9',
+    'best-practices: 0.88',
+    'seo: 0.85',
+    'pwa: 1',
+  ]);
 });

@@ -8,11 +8,10 @@ import {FunctionComponent} from 'preact';
 import {Sidebar} from './Sidebar';
 import {useCurrentStep} from './hooks';
 
-// eslint-disable-next-line no-undef
 export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   // TODO(FR-COMPAT): Render an actual report here.
   return (
-    <div>
+    <div data-testid="Report">
       <h1>{lhr.finalUrl}</h1>
       {
         Object.values(lhr.categories).map((category) =>
@@ -25,10 +24,9 @@ export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
 
 export const Summary: FunctionComponent = () => {
   // TODO(FR-COMPAT): Design summary page.
-  return <h1>SUMMARY</h1>;
+  return <h1 data-testid="Summary">SUMMARY</h1>;
 };
 
-// eslint-disable-next-line no-undef
 export const App: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
   const currentStep = useCurrentStep();
   return (
