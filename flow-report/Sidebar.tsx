@@ -65,7 +65,7 @@ export const SidebarFlow: FunctionComponent<{flowResult: LH.FlowResult}> = ({flo
   let numTimespan = 1;
   let numSnapshot = 1;
   const steps = flowResult.lhrs.map((lhr, index) => {
-    let name = '?';
+    let name;
     switch (lhr.gatherMode) {
       case 'navigation':
         name = `Navigation (${numNavigation++})`;
