@@ -11,8 +11,9 @@ import {LH_ROOT} from '../../root';
 
 const flowResult = JSON.parse(
   fs.readFileSync(
-    `${LH_ROOT}/lighthouse-core/test/fixtures/fraggle-rock/reports/sample-lhrs.json`
-  ).toString()
+    `${LH_ROOT}/lighthouse-core/test/fixtures/fraggle-rock/reports/sample-lhrs.json`,
+    'utf-8'
+  )
 );
 
 it('Renders a standalone report', async () => {
