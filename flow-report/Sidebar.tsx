@@ -12,7 +12,6 @@ export const Hbar: FunctionComponent = () => {
   return <div className="Hbar"></div>;
 };
 
-// eslint-disable-next-line no-undef
 export const FlowStepIcon: FunctionComponent<{mode: LH.Gatherer.GatherMode}> = ({mode}) => {
   return <div className={`FlowStepIcon ${mode}`}></div>;
 };
@@ -33,7 +32,6 @@ export const SidebarSummary: FunctionComponent = () => {
 };
 
 export const SidebarFlowStep: FunctionComponent<{
-  // eslint-disable-next-line no-undef
   mode: LH.Gatherer.GatherMode,
   href: string,
   label: string,
@@ -62,7 +60,6 @@ export const SidebarFlowStep: FunctionComponent<{
   );
 };
 
-// eslint-disable-next-line no-undef
 export const SidebarFlow: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
   let numNavigation = 1;
   let numTimespan = 1;
@@ -102,7 +99,6 @@ export const SidebarFlow: FunctionComponent<{flowResult: LH.FlowResult}> = ({flo
   );
 };
 
-// eslint-disable-next-line no-undef
 export const SidebarRuntimeSettings: FunctionComponent<{settings: LH.Config.Settings}> =
 ({settings}) => {
   return (
@@ -140,7 +136,6 @@ export const SidebarSectionTitle: FunctionComponent = ({children}) => {
   return <div className="SidebarSectionTitle">{children}</div>;
 };
 
-// eslint-disable-next-line no-undef
 export const Sidebar: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
   return (
     <div className="Sidebar">
