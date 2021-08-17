@@ -5,7 +5,7 @@
  */
 
 /**
- * @fileoverview The entry point for rendering the Lighthouse report for the HTML file created by ReportGenerator.
+ * @fileoverview The entry point for rendering the Lighthouse flow report for the HTML file created by ReportGenerator.
  * The renderer code is bundled and injected into the report HTML along with the JSON report.
  */
 
