@@ -5,14 +5,8 @@
  */
 
 import {FunctionComponent} from 'preact';
-import {useMemo} from 'preact/hooks';
-
-function getCurrentStep(): number|null {
-  const searchParams = new URLSearchParams(location.search);
-  const step = searchParams.get('step');
-  if (step === null) return null;
-  return Number(step);
-}
+import {Sidebar} from './Sidebar';
+import {useCurrentStep} from './hooks';
 
 // eslint-disable-next-line no-undef
 export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
@@ -34,159 +28,9 @@ export const Summary: FunctionComponent = () => {
   return <h1>SUMMARY</h1>;
 };
 
-export const Hbar: FunctionComponent = () => {
-  return <div className="Hbar"></div>;
-};
-
-// eslint-disable-next-line no-undef
-export const FlowStepIcon: FunctionComponent<{mode: LH.Gatherer.GatherMode}> = ({mode}) => {
-  return <div className={`FlowStepIcon ${mode}`}></div>;
-};
-
-export const SidebarSummary: FunctionComponent = () => {
-  const currentStep = getCurrentStep();
-  const url = new URL(location.href);
-  url.searchParams.delete('step');
-  return (
-    <a
-      href={url.href}
-      className={`SidebarSummary ${currentStep === null ? 'Sidebar_current' : ''}`}
-    >
-      <div className="SidebarSummary_icon">☰</div>
-      <div className="SidebarSummary_label">Summary</div>
-    </a>
-  );
-};
-
-export const SidebarFlowStep: FunctionComponent<{
-  // eslint-disable-next-line no-undef
-  mode: LH.Gatherer.GatherMode,
-  href: string,
-  label: string,
-  hideTopLine: boolean,
-  hideBottomLine: boolean,
-  isCurrent: boolean,
-}> = ({href, label, mode, hideTopLine, hideBottomLine, isCurrent}) => {
-  return (
-    <a
-      className={`SidebarFlowStep ${isCurrent ? 'Sidebar_current' : ''}`}
-      href={href}
-    >
-      <div className="SidebarFlowStep_icon">
-        <div
-          className="SidebarFlowStep_icon_line"
-          style={hideTopLine ? {background: 'transparent'} : undefined}
-        />
-        <FlowStepIcon mode={mode}/>
-        <div
-          className="SidebarFlowStep_icon_line"
-          style={hideBottomLine ? {background: 'transparent'} : undefined}
-        />
-      </div>
-      <div className={`SidebarFlowStep_label ${mode}`}>{label}</div>
-    </a>
-  );
-};
-
-// eslint-disable-next-line no-undef
-export const SidebarFlow: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
-  let numNavigation = 1;
-  let numTimespan = 1;
-  let numSnapshot = 1;
-  const steps = flowResult.lhrs.map((lhr, index) => {
-    let name = '?';
-    switch (lhr.gatherMode) {
-      case 'navigation':
-        name = `Navigation (${numNavigation++})`;
-        break;
-      case 'timespan':
-        name = `Timespan (${numTimespan++})`;
-        break;
-      case 'snapshot':
-        name = `Snapshot (${numSnapshot++})`;
-        break;
-    }
-    const url = new URL(location.href);
-    url.searchParams.set('step', String(index));
-    const currentStep = getCurrentStep();
-    return (
-      <SidebarFlowStep
-        key={lhr.fetchTime}
-        mode={lhr.gatherMode}
-        href={url.href}
-        label={name}
-        hideTopLine={index === 0}
-        hideBottomLine={index === flowResult.lhrs.length - 1}
-        isCurrent={index === currentStep}
-      />
-    );
-  });
-  return (
-    <>
-      {steps}
-    </>
-  );
-};
-
-// eslint-disable-next-line no-undef
-export const SidebarRuntimeSettings: FunctionComponent<{settings: LH.Config.Settings}> =
-({settings}) => {
-  return (
-    <details className="SidebarRuntimeSettings">
-      <summary>
-        {
-          `${settings.screenEmulation.height}x${settings.screenEmulation.width}px | ` +
-          `${settings.formFactor}`
-        }
-      </summary>
-      <div>Emulated user agent: {settings.emulatedUserAgent}</div>
-      <div>Channel: {settings.channel}</div>
-    </details>
-  );
-};
-
-export const SidebarHeader: FunctionComponent<{title: string, date: string}> = ({title, date}) => {
-  const formatter = useMemo(() => {
-    const options:Intl.DateTimeFormatOptions = {
-      month: 'short', day: 'numeric', year: 'numeric',
-      hour: 'numeric', minute: 'numeric', timeZoneName: 'short',
-    };
-    return new Intl.DateTimeFormat('en-US', options);
-  }, []);
-  const dateString = useMemo(() => formatter.format(new Date(date)), [date]);
-  return (
-    <div className="SidebarHeader">
-      <div className="SidebarHeader_title">{title}</div>
-      <div className="SidebarHeader_date">{dateString}</div>
-    </div>
-  );
-};
-
-export const SidebarSectionTitle: FunctionComponent = ({children}) => {
-  return <div className="SidebarSectionTitle">{children}</div>;
-};
-
-// eslint-disable-next-line no-undef
-export const Sidebar: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
-  return (
-    <div className="Sidebar">
-      <SidebarHeader title="Lighthouse User Flow Report" date={flowResult.lhrs[0].fetchTime}/>
-      <SidebarSectionTitle>RUNTIME SETTINGS</SidebarSectionTitle>
-      <Hbar/>
-      <SidebarRuntimeSettings settings={flowResult.lhrs[0].configSettings}/>
-      <Hbar/>
-      <SidebarSectionTitle>USER FLOW</SidebarSectionTitle>
-      <Hbar/>
-      <SidebarSummary/>
-      <Hbar/>
-      <SidebarFlow flowResult={flowResult}/>
-    </div>
-  );
-};
-
 // eslint-disable-next-line no-undef
 export const App: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
-  const currentStep = getCurrentStep();
+  const currentStep = useCurrentStep();
   return (
     <div className="App">
       <Sidebar flowResult={flowResult}/>
