@@ -6,10 +6,11 @@
 'use strict';
 
 const fs = require('fs');
+const {LH_ROOT} = require('../root.js');
 
 /* eslint-disable max-len */
-const FLOW_REPORT_TEMPLATE = fs.readFileSync(__dirname + '/../flow-report/assets/standalone-flow-template.html', 'utf8');
-const FLOW_REPORT_JAVASCRIPT = fs.readFileSync(__dirname + '/../dist/report/standalone-flow.js', 'utf8');
+const FLOW_REPORT_TEMPLATE = fs.readFileSync(`${LH_ROOT}/flow-report/assets/standalone-flow-template.html`, 'utf8');
+const FLOW_REPORT_JAVASCRIPT = fs.readFileSync(`${LH_ROOT}/dist/report/standalone-flow.js`, 'utf8');
 /* eslint-enable max-len */
 
 module.exports = {
