@@ -10,7 +10,7 @@ import {render} from '@testing-library/preact';
 const flow = require('../../lighthouse-core/test/fixtures/fraggle-rock/reports/sample-lhrs.json');
 
 it('Renders a standalone report', async () => {
-  const root = render(<App flow={flow}/>);
+  const root = render(<App flowResult={flow}/>);
   const navigation = await root.findByText(/navigation/);
   const timespan = await root.findByText(/timespan/);
   const snapshot = await root.findByText(/snapshot/);
