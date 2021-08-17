@@ -54,7 +54,7 @@ async function buildFlowReport() {
   });
 
   await bundle.write({
-    file: 'dist/report/standalone-flow.js',
+    file: 'dist/report/flow.js',
     format: 'iife',
   });
 }

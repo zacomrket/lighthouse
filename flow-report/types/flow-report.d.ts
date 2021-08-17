@@ -8,7 +8,7 @@ import FlowResult from '../../types/lhr/flow';
 
 declare global {
   interface Window {
-    __LIGHTHOUSE_JSON__: FlowResult;
+    __LIGHTHOUSE_FLOW_JSON__: FlowResult;
     __initLighthouseFlowReport__: () => void;
   }
 }

@@ -4,13 +4,20 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
+import fs from 'fs';
 import {App} from '../App';
 import {render} from '@testing-library/preact';
+import {LH_ROOT} from '../../root';
 
-const flow = require('../../lighthouse-core/test/fixtures/fraggle-rock/reports/sample-lhrs.json');
+const flowResult = JSON.parse(
+  fs.readFileSync(
+    `${LH_ROOT}/lighthouse-core/test/fixtures/fraggle-rock/reports/sample-lhrs.json`,
+    'utf-8'
+  )
+);
 
 it('Renders a standalone report', async () => {
-  const root = render(<App flowResult={flow}/>);
+  const root = render(<App flowResult={flowResult}/>);
   const navigation = await root.findByText(/navigation/);
   const timespan = await root.findByText(/timespan/);
   const snapshot = await root.findByText(/snapshot/);

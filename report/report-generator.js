@@ -64,9 +64,11 @@ class ReportGenerator {
   static generateFlowReportHtml(flow) {
     const sanitizedJson = ReportGenerator.sanitizeJson(flow);
     return ReportGenerator.replaceStrings(htmlReportAssets.FLOW_REPORT_TEMPLATE, [
-      {search: '%%LIGHTHOUSE_JSON%%', replacement: sanitizedJson},
-      {search: '%%LIGHTHOUSE_JAVASCRIPT%%', replacement: htmlReportAssets.FLOW_REPORT_JAVASCRIPT},
+      /* eslint-disable max-len */
+      {search: '%%LIGHTHOUSE_FLOW_JSON%%', replacement: sanitizedJson},
+      {search: '%%LIGHTHOUSE_FLOW_JAVASCRIPT%%', replacement: htmlReportAssets.FLOW_REPORT_JAVASCRIPT},
       {search: '/*%%LIGHTHOUSE_CSS%%*/', replacement: htmlReportAssets.REPORT_CSS},
+      /* eslint-enable max-len */
     ]);
   }
 
