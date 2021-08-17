@@ -14,10 +14,9 @@ const commonjs =
   /** @type {import('rollup-plugin-commonjs').default} */ (require('rollup-plugin-commonjs'));
 
 /**
- * @type {import('@rollup/plugin-typescript').default}
+ * @type {import('rollup-plugin-typescript2').default}
  */
-// @ts-expect-error types are wrong.
-const typescript = require('@rollup/plugin-typescript');
+const typescript = require('rollup-plugin-typescript2');
 
 async function buildStandaloneReport() {
   const bundle = await rollup.rollup({
@@ -40,7 +39,16 @@ async function buildFlowReport() {
     plugins: [
       nodeResolve(),
       commonjs(),
-      typescript({tsconfig: 'flow-report/tsconfig.json'}),
+      typescript({
+        tsconfig: 'flow-report/tsconfig.json',
+        // rollup-plugin-commonjs 10.1.0 does not work here.
+        // https://github.com/ezolenko/rollup-plugin-typescript2#plugin-options
+        tsconfigOverride: {
+          compilerOptions: {
+            module: 'ES6',
+          },
+        },
+      }),
       terser(),
     ],
   });
@@ -120,7 +128,7 @@ if (require.main === module) {
 
 module.exports = {
   buildStandaloneReport,
-  buildStandaloneFlowReport: buildFlowReport,
+  buildFlowReport,
   buildPsiReport,
   buildUmdBundle,
 };

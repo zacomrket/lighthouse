@@ -1,8 +1,10 @@
 {
+  "extends": "../tsconfig",
   "compilerOptions": {
-    "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
+    "esModuleInterop": true,
+    "composite": false
   },
   "include": [
     "**/*.tsx",

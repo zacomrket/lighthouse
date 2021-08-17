@@ -19,6 +19,8 @@ async function run() {
   // JS bundle from browserified ReportGenerator.
   const generatorFilename = `${LH_ROOT}/report/report-generator.js`;
   const generatorBrowserify = browserify(generatorFilename, {standalone: 'ReportGenerator'})
+    // Flow report is not used in report viewer, so don't include flow assets.
+    .ignore(require.resolve('../report/flow-report-assets.js'))
     .transform('@wardpeet/brfs', {
       readFileSyncTransform: minifyFileTransform,
     });

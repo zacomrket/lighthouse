@@ -89,11 +89,11 @@ export const SidebarFlowStep: FunctionComponent<{
 };
 
 // eslint-disable-next-line no-undef
-export const SidebarFlow: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
+export const SidebarFlow: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
   let numNavigation = 1;
   let numTimespan = 1;
   let numSnapshot = 1;
-  const steps = flow.lhrs.map((lhr, index) => {
+  const steps = flowResult.lhrs.map((lhr, index) => {
     let name = '?';
     switch (lhr.gatherMode) {
       case 'navigation':
@@ -116,7 +116,7 @@ export const SidebarFlow: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) =>
         href={url.href}
         label={name}
         hideTopLine={index === 0}
-        hideBottomLine={index === flow.lhrs.length - 1}
+        hideBottomLine={index === flowResult.lhrs.length - 1}
         isCurrent={index === currentStep}
       />
     );
@@ -167,38 +167,38 @@ export const SidebarSectionTitle: FunctionComponent = ({children}) => {
 };
 
 // eslint-disable-next-line no-undef
-export const Sidebar: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
+export const Sidebar: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
   return (
     <div className="Sidebar">
-      <SidebarHeader title="Lighthouse User Flow Report" date={flow.lhrs[0].fetchTime}/>
+      <SidebarHeader title="Lighthouse User Flow Report" date={flowResult.lhrs[0].fetchTime}/>
       <SidebarSectionTitle>RUNTIME SETTINGS</SidebarSectionTitle>
       <Hbar/>
-      <SidebarRuntimeSettings settings={flow.lhrs[0].configSettings}/>
+      <SidebarRuntimeSettings settings={flowResult.lhrs[0].configSettings}/>
       <Hbar/>
       <SidebarSectionTitle>USER FLOW</SidebarSectionTitle>
       <Hbar/>
       <SidebarSummary/>
       <Hbar/>
-      <SidebarFlow flow={flow}/>
+      <SidebarFlow flowResult={flowResult}/>
     </div>
   );
 };
 
 // eslint-disable-next-line no-undef
-export const App: FunctionComponent<{flow: LH.FlowResult}> = ({flow}) => {
+export const App: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
   const currentStep = getCurrentStep();
   // TODO: Remove this, just want to see multiple navigations strung together.
-  flow.lhrs = flow.lhrs.concat(
+  flowResult.lhrs = flowResult.lhrs.concat(
     // Unique ID
-    flow.lhrs.map(lhr => ({...lhr, fetchTime: lhr.fetchTime.concat('###')}))
+    flowResult.lhrs.map(lhr => ({...lhr, fetchTime: lhr.fetchTime.concat('###')}))
   );
   return (
     <div className="App">
-      <Sidebar flow={flow}/>
+      <Sidebar flowResult={flowResult}/>
       {
         currentStep === null ?
           <Summary/> :
-          <Report lhr={flow.lhrs[currentStep]}/>
+          <Report lhr={flowResult.lhrs[currentStep]}/>
       }
     </div>
   );

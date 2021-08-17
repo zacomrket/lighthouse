@@ -6,14 +6,13 @@
 
 import {Result as AuditResult} from './audit-result';
 import {ConfigSettings} from './settings';
-import Gatherer from '../gatherer'
 
 /**
  * The full output of a Lighthouse run.
  */
 interface Result {
-  /** Gather mode used to collect artifacts. */
-  gatherMode: Gatherer.GatherMode;
+  /** Gather mode used to collect artifacts for this result. */
+  gatherMode: Result.GatherMode;
   /** The URL that was supplied to Lighthouse and initially navigated to. */
   requestedUrl: string;
   /** The post-redirects URL that Lighthouse loaded. */
@@ -144,15 +143,9 @@ declare module Result {
   interface IcuMessagePaths {
     [i18nId: string]: IcuMessagePath[];
   }
-}
 
-/**
- * The full output of a Lighthouse flow. Includes a series of Lighthouse runs.
- * TODO(FR-COMPAT): Add flow specific metadata (e.g. interaction steps).
- */
-export interface FlowResult {
-  /** Ordered list of lighthouse results corresponding to a navigation, timespan, or snapshot. */
-  lhrs: Result[];
+  /** Gather mode used to collect artifacts. */
+  type GatherMode = 'navigation'|'timespan'|'snapshot';
 }
 
 export default Result;
