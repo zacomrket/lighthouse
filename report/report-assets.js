@@ -8,11 +8,9 @@
 const fs = require('fs');
 const flowReportAssets = require('./flow-report-assets.js');
 
-/* eslint-disable max-len */
 const REPORT_TEMPLATE = fs.readFileSync(__dirname + '/assets/standalone-template.html', 'utf8');
 const REPORT_JAVASCRIPT = fs.readFileSync(__dirname + '/../dist/report/standalone.js', 'utf8');
 const REPORT_CSS = fs.readFileSync(__dirname + '/assets/styles.css', 'utf8');
-/* eslint-enable max-len */
 
 // Changes to this export interface should be reflected in build/build-dt-report-resources.js
 // and clients/devtools-report-assets.js
