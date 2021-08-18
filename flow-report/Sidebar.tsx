@@ -9,7 +9,7 @@ import {useMemo} from 'preact/hooks';
 import {useCurrentStep} from './hooks';
 
 export const Separator: FunctionComponent = () => {
-  return <div className="Separator"></div>;
+  return <div className="Separator" role="separator"></div>;
 };
 
 export const FlowStepIcon: FunctionComponent<{mode: LH.Gatherer.GatherMode}> = ({mode}) => {
