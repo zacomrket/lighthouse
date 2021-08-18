@@ -23,12 +23,7 @@ export const SidebarSummary: FunctionComponent = () => {
   return (
     <a
       href={url.href}
-      className={classNames(
-        {
-          'SidebarSummary': true,
-          'Sidebar_current': currentStep === null,
-        }
-      )}
+      className={classNames('SidebarSummary', {'Sidebar_current': currentStep === null})}
       data-testid="SidebarSummary"
     >
       <div className="SidebarSummary_icon"></div>
