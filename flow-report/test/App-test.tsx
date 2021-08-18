@@ -35,7 +35,7 @@ it('Renders the navigation step', async () => {
 
   expect(root.queryByTestId('Report')).toBeTruthy();
 
-  const link = root.getByText(/https:/);
+  const link = await root.findByText(/https:/);
   expect(link.textContent).toEqual('https://www.mikescerealshack.co/');
 
   const scores = root.getAllByText(/^\S+: [0-9.]+/);
@@ -54,7 +54,7 @@ it('Renders the timespan step', async () => {
 
   expect(root.queryByTestId('Report')).toBeTruthy();
 
-  const link = root.getByText(/https:/);
+  const link = await root.findByText(/https:/);
   expect(link.textContent).toEqual('https://www.mikescerealshack.co/search?q=call+of+duty');
 
   const scores = root.getAllByText(/^\S+: [0-9.]+/);
@@ -72,7 +72,7 @@ it('Renders the snapshot step', async () => {
 
   expect(root.queryByTestId('Report')).toBeTruthy();
 
-  const link = root.getByText(/https:/);
+  const link = await root.findByText(/https:/);
   expect(link.textContent).toEqual('https://www.mikescerealshack.co/search?q=call+of+duty');
 
   const scores = root.getAllByText(/^\S+: [0-9.]+/);
