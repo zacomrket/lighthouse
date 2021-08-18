@@ -7,13 +7,15 @@
 
 /* eslint-env browser */
 
-/** @typedef {import('./dom').DOM} DOM */
 /** @typedef {import('./report-ui-features').ReportUIFeatures} ReportUIFeatures */
 
 import {getFilenamePrefix} from '../../lighthouse-core/lib/file-namer.js';
 import {DropDownMenu} from './drop-down-menu.js';
 import {toggleDarkTheme} from './features-util.js';
 import {openViewer, openViewerAndSendData} from './open-tab.js';
+// See report/README.md#import-vs-typedef
+// eslint-disable-next-line no-unused-vars
+import {DOM} from './dom.js';
 
 export class TopbarFeatures {
   /**

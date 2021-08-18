@@ -7,7 +7,9 @@
 
 /* eslint-env browser */
 
-/** @typedef {import('./dom').DOM} DOM */
+// See report/README.md#import-vs-typedef
+// eslint-disable-next-line no-unused-vars
+import {DOM} from './dom.js';
 
 export class DropDownMenu {
   /**

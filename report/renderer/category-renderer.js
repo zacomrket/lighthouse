@@ -16,7 +16,10 @@
  */
 'use strict';
 
-/** @typedef {import('./dom.js').DOM} DOM */
+// must import as DOM_ to avoid redeclaring 'DOM' export in bundle.d.ts, otherwise
+// yarn test-devtools will fail.
+/** @typedef {import('./dom').DOM} DOM_ */
+
 /** @typedef {import('./report-renderer.js').ReportRenderer} ReportRenderer */
 /** @typedef {import('./details-renderer.js').DetailsRenderer} DetailsRenderer */
 /** @typedef {'failed'|'warning'|'manual'|'passed'|'notApplicable'} TopLevelClumpId */
@@ -25,7 +28,7 @@ import {Util} from './util.js';
 
 export class CategoryRenderer {
   /**
-   * @param {DOM} dom
+   * @param {DOM_} dom
    * @param {DetailsRenderer} detailsRenderer
    */
   constructor(dom, detailsRenderer) {
