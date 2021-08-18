@@ -5,7 +5,6 @@
  */
 'use strict';
 
-const fs = require('fs');
 const browserify = require('browserify');
 const GhPagesApp = require('./gh-pages-app.js');
 const {minifyFileTransform} = require('./build-utils.js');
@@ -22,7 +21,7 @@ async function run() {
     // Flow report is not used in report viewer, so don't include flow assets.
     .ignore(require.resolve('../report/flow-report-assets.js'))
     .transform('@wardpeet/brfs', {
-      readFileSyncTransform: minifyFileTransform,
+      readFileTransform: minifyFileTransform,
     });
 
   /** @type {Promise<string>} */
@@ -43,7 +42,7 @@ async function run() {
     ],
     javascripts: [
       await generatorJsPromise,
-      fs.readFileSync(require.resolve('pako/dist/pako_inflate.js'), 'utf-8'),
+      {path: require.resolve('pako/dist/pako_inflate.js')},
       {path: 'src/main.js', rollup: true},
     ],
     assets: [

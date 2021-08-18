@@ -42,7 +42,7 @@ function buildReportGenerator() {
     .ignore(require.resolve('../report/flow-report-assets.js'))
     // Transform the fs.readFile etc into inline strings.
     .transform('@wardpeet/brfs', {
-      readFileSyncTransform: minifyFileTransform,
+      readFileTransform: minifyFileTransform,
       global: true,
       parserOpts: {ecmaVersion: 12},
     })
