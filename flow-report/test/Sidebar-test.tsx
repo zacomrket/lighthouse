@@ -37,10 +37,10 @@ describe('SidebarHeader', () => {
 });
 
 describe('SidebarSummary', () => {
-  it('highlighted by default', () => {
+  it('highlighted by default', async () => {
     mockHooks.mockUseCurrentStep.mockReturnValue(null);
     const root = render(<SidebarSummary/>);
-    const link = root.getByRole('link') as HTMLAnchorElement;
+    const link = await root.findByRole('link') as HTMLAnchorElement;
 
     expect(link.href).toEqual('file:///Users/example/report.html');
     expect(link.classList).toContain('Sidebar_current');
@@ -48,15 +48,15 @@ describe('SidebarSummary', () => {
 });
 
 describe('SidebarFlow', () => {
-  it('renders flow steps', () => {
+  it('renders flow steps', async () => {
     mockHooks.mockUseCurrentStep.mockReturnValue(null);
     const root = render(<SidebarFlow flowResult={flowResult}/>);
 
-    const navigation = root.getByText('Navigation (1)');
-    const timespan = root.getByText('Timespan (1)');
-    const snapshot = root.getByText('Snapshot (1)');
+    const navigation = await root.findByText('Navigation (1)');
+    const timespan = await root.findByText('Timespan (1)');
+    const snapshot = await root.findByText('Snapshot (1)');
 
-    const links = root.getAllByRole('link') as HTMLAnchorElement[];
+    const links = await root.findAllByRole('link') as HTMLAnchorElement[];
     expect(links.map(a => a.textContent)).toEqual([
       navigation.textContent,
       timespan.textContent,
@@ -69,22 +69,22 @@ describe('SidebarFlow', () => {
     ]);
   });
 
-  it('no steps highlighted on summary page', () => {
+  it('no steps highlighted on summary page', async () => {
     mockHooks.mockUseCurrentStep.mockReturnValue(null);
     const root = render(<SidebarFlow flowResult={flowResult}/>);
 
-    const highlighted = root.getAllByRole('link')
-      .filter(h => h.classList.contains('Sidebar_current'));
+    const links = await root.findAllByRole('link');
+    const highlighted = links.filter(h => h.classList.contains('Sidebar_current'));
 
     expect(highlighted).toHaveLength(0);
   });
 
-  it('highlight current step', () => {
+  it('highlight current step', async () => {
     const currentStep = 1;
     mockHooks.mockUseCurrentStep.mockReturnValue(currentStep);
     const root = render(<SidebarFlow flowResult={flowResult}/>);
 
-    const links = root.getAllByRole('link');
+    const links = await root.findAllByRole('link');
     const highlighted = links.filter(h => h.classList.contains('Sidebar_current'));
 
     expect(highlighted).toHaveLength(1);
