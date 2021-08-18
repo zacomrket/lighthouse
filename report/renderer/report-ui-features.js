@@ -179,6 +179,15 @@ export class ReportUIFeatures {
   }
 
   /**
+   * Resets the state of page before capturing the page for export.
+   * When the user opens the exported HTML page, certain UI elements should
+   * be in their closed state (not opened) and the templates should be unstamped.
+   */
+  _resetUIState() {
+    this._topbar.resetUIState();
+  }
+
+  /**
    * Handle media query change events.
    * @param {MediaQueryList|MediaQueryListEvent} mql
    */
