@@ -22,7 +22,7 @@
   border-right: 1px solid var(--color-gray-300);
 }
 
-.Sidebar_current {
+.Sidebar--current {
   background-color: var(--color-gray-200);
   font-weight: bold;
 }

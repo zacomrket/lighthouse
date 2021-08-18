@@ -43,7 +43,7 @@ describe('SidebarSummary', () => {
     const link = await root.findByRole('link') as HTMLAnchorElement;
 
     expect(link.href).toEqual('file:///Users/example/report.html');
-    expect(link.classList).toContain('Sidebar_current');
+    expect(link.classList).toContain('Sidebar--current');
   });
 });
 
@@ -74,7 +74,7 @@ describe('SidebarFlow', () => {
     const root = render(<SidebarFlow flowResult={flowResult}/>);
 
     const links = await root.findAllByRole('link');
-    const highlighted = links.filter(h => h.classList.contains('Sidebar_current'));
+    const highlighted = links.filter(h => h.classList.contains('Sidebar--current'));
 
     expect(highlighted).toHaveLength(0);
   });
@@ -85,7 +85,7 @@ describe('SidebarFlow', () => {
     const root = render(<SidebarFlow flowResult={flowResult}/>);
 
     const links = await root.findAllByRole('link');
-    const highlighted = links.filter(h => h.classList.contains('Sidebar_current'));
+    const highlighted = links.filter(h => h.classList.contains('Sidebar--current'));
 
     expect(highlighted).toHaveLength(1);
     expect(links[currentStep]).toEqual(highlighted[0]);

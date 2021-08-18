@@ -23,7 +23,7 @@ export const SidebarSummary: FunctionComponent = () => {
   return (
     <a
       href={url.href}
-      className={classNames('SidebarSummary', {'Sidebar_current': currentStep === null})}
+      className={classNames('SidebarSummary', {'Sidebar--current': currentStep === null})}
       data-testid="SidebarSummary"
     >
       <div className="SidebarSummary_icon"></div>
@@ -42,7 +42,7 @@ export const SidebarFlowStep: FunctionComponent<{
 }> = ({href, label, mode, hideTopLine, hideBottomLine, isCurrent}) => {
   return (
     <a
-      className={`SidebarFlowStep ${isCurrent ? 'Sidebar_current' : ''}`}
+      className={`SidebarFlowStep ${isCurrent ? 'Sidebar--current' : ''}`}
       href={href}
     >
       <div className="SidebarFlowStep_icon">
