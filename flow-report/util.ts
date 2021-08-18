@@ -15,3 +15,22 @@ export function useCurrentStep() {
 
   return number;
 }
+
+export function classNames(...args: Array<string|undefined|Record<string, boolean>>): string {
+  const classes = [];
+  for (const arg of args) {
+    if (!arg) continue;
+
+    if (typeof arg === 'string') {
+      classes.push(arg);
+      continue;
+    }
+
+    const applicableClasses = Object.entries(arg)
+      .filter(([_, shouldApply]) => shouldApply)
+      .map(([className]) => className);
+    classes.push(...applicableClasses);
+  }
+
+  return classes.join(' ');
+}

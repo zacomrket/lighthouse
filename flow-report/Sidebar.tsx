@@ -6,7 +6,7 @@
 
 import {FunctionComponent} from 'preact';
 import {useMemo} from 'preact/hooks';
-import {useCurrentStep} from './hooks';
+import {classNames, useCurrentStep} from './util';
 
 export const Separator: FunctionComponent = () => {
   return <div className="Separator" role="separator"></div>;
@@ -23,7 +23,12 @@ export const SidebarSummary: FunctionComponent = () => {
   return (
     <a
       href={url.href}
-      className={`SidebarSummary ${currentStep === null ? 'Sidebar_current' : ''}`}
+      className={classNames(
+        {
+          'SidebarSummary': true,
+          'Sidebar_current': currentStep === null,
+        }
+      )}
       data-testid="SidebarSummary"
     >
       <div className="SidebarSummary_icon"></div>

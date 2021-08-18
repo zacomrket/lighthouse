@@ -6,7 +6,7 @@
 
 import {FunctionComponent} from 'preact';
 import {Sidebar} from './Sidebar';
-import {useCurrentStep} from './hooks';
+import {useCurrentStep} from './util';
 
 export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   // TODO(FR-COMPAT): Render an actual report here.
