@@ -26,21 +26,20 @@ it('Renders a standalone report with summary', async () => {
   const root = render(<App flowResult={flowResult}/>);
 
   const summary = await root.findByTestId('Summary');
-  expect(summary.innerHTML).toEqual('SUMMARY');
+  expect(summary.textContent).toEqual('SUMMARY');
 });
 
 it('Renders the navigation step', async () => {
   mockHooks.mockUseCurrentStep.mockReturnValue(0);
   const root = render(<App flowResult={flowResult}/>);
 
-  const report = root.queryByTestId('Report');
-  expect(report).toBeTruthy();
+  expect(root.queryByTestId('Report')).toBeTruthy();
 
   const link = root.getByText(/https:/);
-  expect(link.innerHTML).toEqual('https://www.mikescerealshack.co/');
+  expect(link.textContent).toEqual('https://www.mikescerealshack.co/');
 
   const scores = root.getAllByText(/^\S+: [0-9.]+/);
-  expect(scores.map(s => s.innerHTML)).toEqual([
+  expect(scores.map(s => s.textContent)).toEqual([
     'performance: 0.99',
     'accessibility: 1',
     'best-practices: 1',
@@ -53,14 +52,13 @@ it('Renders the timespan step', async () => {
   mockHooks.mockUseCurrentStep.mockReturnValue(1);
   const root = render(<App flowResult={flowResult}/>);
 
-  const report = root.queryByTestId('Report');
-  expect(report).toBeTruthy();
+  expect(root.queryByTestId('Report')).toBeTruthy();
 
   const link = root.getByText(/https:/);
-  expect(link.innerHTML).toEqual('https://www.mikescerealshack.co/search?q=call+of+duty');
+  expect(link.textContent).toEqual('https://www.mikescerealshack.co/search?q=call+of+duty');
 
   const scores = root.getAllByText(/^\S+: [0-9.]+/);
-  expect(scores.map(s => s.innerHTML)).toEqual([
+  expect(scores.map(s => s.textContent)).toEqual([
     'performance: 0.97',
     'best-practices: 0.71',
     'seo: 0',
@@ -72,14 +70,13 @@ it('Renders the snapshot step', async () => {
   mockHooks.mockUseCurrentStep.mockReturnValue(2);
   const root = render(<App flowResult={flowResult}/>);
 
-  const report = root.queryByTestId('Report');
-  expect(report).toBeTruthy();
+  expect(root.queryByTestId('Report')).toBeTruthy();
 
   const link = root.getByText(/https:/);
-  expect(link.innerHTML).toEqual('https://www.mikescerealshack.co/search?q=call+of+duty');
+  expect(link.textContent).toEqual('https://www.mikescerealshack.co/search?q=call+of+duty');
 
   const scores = root.getAllByText(/^\S+: [0-9.]+/);
-  expect(scores.map(s => s.innerHTML)).toEqual([
+  expect(scores.map(s => s.textContent)).toEqual([
     'performance: 0',
     'accessibility: 0.9',
     'best-practices: 0.88',
