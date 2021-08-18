@@ -42,7 +42,7 @@ describe('SidebarSummary', () => {
   it('highlighted by default', () => {
     mockHooks.mockUseCurrentStep.mockReturnValue(null);
     const root = render(<SidebarSummary/>);
-    const link = root.getByRole('link') as HTMLLinkElement;
+    const link = root.getByRole('link') as HTMLAnchorElement;
 
     expect(link.href).toEqual('file:///Users/example/report.html');
     expect(link.classList).toContain('Sidebar_current');
@@ -58,16 +58,16 @@ describe('SidebarFlow', () => {
     const timespan = root.getByText('Timespan (1)');
     const snapshot = root.getByText('Snapshot (1)');
 
-    const links = Array.from(root.baseElement.querySelectorAll('a'));
-    expect(links.map(a => a.href)).toEqual([
-      'file:///Users/example/report.html?step=0',
-      'file:///Users/example/report.html?step=1',
-      'file:///Users/example/report.html?step=2',
-    ]);
+    const links = root.getAllByRole('link') as HTMLAnchorElement[];
     expect(links.map(a => a.textContent)).toEqual([
       navigation.textContent,
       timespan.textContent,
       snapshot.textContent,
+    ]);
+    expect(links.map(a => a.href)).toEqual([
+      'file:///Users/example/report.html?step=0',
+      'file:///Users/example/report.html?step=1',
+      'file:///Users/example/report.html?step=2',
     ]);
   });
 
