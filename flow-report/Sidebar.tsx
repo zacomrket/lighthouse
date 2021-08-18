@@ -42,7 +42,7 @@ export const SidebarFlowStep: FunctionComponent<{
 }> = ({href, label, mode, hideTopLine, hideBottomLine, isCurrent}) => {
   return (
     <a
-      className={`SidebarFlowStep ${isCurrent ? 'Sidebar--current' : ''}`}
+      className={classNames('SidebarFlowStep', {'Sidebar--current': isCurrent})}
       href={href}
     >
       <div className="SidebarFlowStep__icon">
