@@ -26,13 +26,13 @@ beforeEach(() => {
 });
 
 describe('SidebarHeader', () => {
-  it('renders title content', () => {
+  it('renders title content', async () => {
     const title = 'Lighthouse flow report';
     const date = '2021-08-03T18:28:13.296Z';
     const root = render(<SidebarHeader title={title} date={date}/>);
 
-    expect(root.queryByText(title)).toBeTruthy();
-    expect(root.queryByText('Aug 3, 2021, 2:28 PM EDT')).toBeTruthy();
+    await expect(root.findByText(title)).resolves.toBeTruthy();
+    await expect(root.findByText('Aug 3, 2021, 2:28 PM EDT')).resolves.toBeTruthy();
   });
 });
 

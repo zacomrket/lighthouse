@@ -21,7 +21,7 @@ beforeEach(() => {
   mockHooks.reset();
 });
 
-it('Renders a standalone report with summary', async () => {
+it('renders a standalone report with summary', async () => {
   mockHooks.mockUseCurrentStep.mockReturnValue(null);
   const root = render(<App flowResult={flowResult}/>);
 
@@ -29,16 +29,16 @@ it('Renders a standalone report with summary', async () => {
   expect(summary.textContent).toEqual('SUMMARY');
 });
 
-it('Renders the navigation step', async () => {
+it('renders the navigation step', async () => {
   mockHooks.mockUseCurrentStep.mockReturnValue(0);
   const root = render(<App flowResult={flowResult}/>);
 
-  expect(root.queryByTestId('Report')).toBeTruthy();
+  await expect(root.findByTestId('Report')).resolves.toBeTruthy();
 
   const link = await root.findByText(/https:/);
   expect(link.textContent).toEqual('https://www.mikescerealshack.co/');
 
-  const scores = root.getAllByText(/^\S+: [0-9.]+/);
+  const scores = await root.findAllByText(/^\S+: [0-9.]+/);
   expect(scores.map(s => s.textContent)).toEqual([
     'performance: 0.99',
     'accessibility: 1',
@@ -48,16 +48,16 @@ it('Renders the navigation step', async () => {
   ]);
 });
 
-it('Renders the timespan step', async () => {
+it('renders the timespan step', async () => {
   mockHooks.mockUseCurrentStep.mockReturnValue(1);
   const root = render(<App flowResult={flowResult}/>);
 
-  expect(root.queryByTestId('Report')).toBeTruthy();
+  await expect(root.findByTestId('Report')).resolves.toBeTruthy();
 
   const link = await root.findByText(/https:/);
   expect(link.textContent).toEqual('https://www.mikescerealshack.co/search?q=call+of+duty');
 
-  const scores = root.getAllByText(/^\S+: [0-9.]+/);
+  const scores = await root.findAllByText(/^\S+: [0-9.]+/);
   expect(scores.map(s => s.textContent)).toEqual([
     'performance: 0.97',
     'best-practices: 0.71',
@@ -66,16 +66,16 @@ it('Renders the timespan step', async () => {
   ]);
 });
 
-it('Renders the snapshot step', async () => {
+it('renders the snapshot step', async () => {
   mockHooks.mockUseCurrentStep.mockReturnValue(2);
   const root = render(<App flowResult={flowResult}/>);
 
-  expect(root.queryByTestId('Report')).toBeTruthy();
+  await expect(root.findByTestId('Report')).resolves.toBeTruthy();
 
   const link = await root.findByText(/https:/);
   expect(link.textContent).toEqual('https://www.mikescerealshack.co/search?q=call+of+duty');
 
-  const scores = root.getAllByText(/^\S+: [0-9.]+/);
+  const scores = await root.findAllByText(/^\S+: [0-9.]+/);
   expect(scores.map(s => s.textContent)).toEqual([
     'performance: 0',
     'accessibility: 0.9',
