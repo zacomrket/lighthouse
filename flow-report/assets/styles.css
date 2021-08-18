@@ -10,7 +10,7 @@
   text-decoration: none;
 }
 
-.Hbar {
+.Separator {
   height: 1px;
   width: 100%;
   background-color: var(--color-gray-300);

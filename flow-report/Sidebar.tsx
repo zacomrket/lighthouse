@@ -8,8 +8,8 @@ import {FunctionComponent} from 'preact';
 import {useMemo} from 'preact/hooks';
 import {useCurrentStep} from './hooks';
 
-export const Hbar: FunctionComponent = () => {
-  return <div className="Hbar"></div>;
+export const Separator: FunctionComponent = () => {
+  return <div className="Separator"></div>;
 };
 
 export const FlowStepIcon: FunctionComponent<{mode: LH.Gatherer.GatherMode}> = ({mode}) => {
@@ -142,13 +142,13 @@ export const Sidebar: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowRes
     <div className="Sidebar">
       <SidebarHeader title="Lighthouse User Flow Report" date={flowResult.lhrs[0].fetchTime}/>
       <SidebarSectionTitle>RUNTIME SETTINGS</SidebarSectionTitle>
-      <Hbar/>
+      <Separator/>
       <SidebarRuntimeSettings settings={flowResult.lhrs[0].configSettings}/>
-      <Hbar/>
+      <Separator/>
       <SidebarSectionTitle>USER FLOW</SidebarSectionTitle>
-      <Hbar/>
+      <Separator/>
       <SidebarSummary/>
-      <Hbar/>
+      <Separator/>
       <SidebarFlow flowResult={flowResult}/>
     </div>
   );
