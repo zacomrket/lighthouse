@@ -13,7 +13,7 @@ export const Separator: FunctionComponent = () => {
 };
 
 export const FlowStepIcon: FunctionComponent<{mode: LH.Gatherer.GatherMode}> = ({mode}) => {
-  return <div className={`FlowStepIcon ${mode}`}></div>;
+  return <div className={`FlowStepIcon FlowStepIcon--${mode}`}></div>;
 };
 
 export const SidebarSummary: FunctionComponent = () => {
