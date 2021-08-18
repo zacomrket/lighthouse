@@ -28,6 +28,7 @@ export class TopbarFeatures {
     /** @type {Document} */
     this._document = this._dom.document();
     this._dropDownMenu = new DropDownMenu(this._dom);
+    this._copyAttempt = false;
     /** @type {HTMLElement} */
     this.topbarEl; // eslint-disable-line no-unused-expressions
     /** @type {HTMLElement} */
@@ -306,7 +307,6 @@ export class TopbarFeatures {
     this.highlightEl.style.transform = `translate(${offset}px)`;
     this.stickyHeaderEl.classList.toggle('lh-sticky-header--visible', showStickyHeader);
   }
-
 
   /**
    * Downloads a file (blob) using a[download].

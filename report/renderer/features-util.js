@@ -10,7 +10,6 @@
 /** @typedef {import('./dom.js').DOM} DOM */
 
 /**
- * @private
  * @param {DOM} dom
  * @param {boolean} [force]
  */

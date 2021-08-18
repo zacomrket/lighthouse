@@ -50,16 +50,6 @@ export class ReportUIFeatures {
     /** @type {Document} */
     this._document = this._dom.document();
     this._topbar = new TopbarFeatures(this, dom);
-    /** @type {boolean} */
-    this._copyAttempt = false;
-    /** @type {HTMLElement} */
-    this.topbarEl; // eslint-disable-line no-unused-expressions
-    /** @type {HTMLElement} */
-    this.scoreScaleEl; // eslint-disable-line no-unused-expressions
-    /** @type {HTMLElement} */
-    this.stickyHeaderEl; // eslint-disable-line no-unused-expressions
-    /** @type {HTMLElement} */
-    this.highlightEl; // eslint-disable-line no-unused-expressions
 
     this.onMediaQueryChange = this.onMediaQueryChange.bind(this);
   }
