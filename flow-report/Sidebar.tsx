@@ -26,8 +26,8 @@ export const SidebarSummary: FunctionComponent = () => {
       className={classNames('SidebarSummary', {'Sidebar--current': currentStep === null})}
       data-testid="SidebarSummary"
     >
-      <div className="SidebarSummary_icon"></div>
-      <div className="SidebarSummary_label">Summary</div>
+      <div className="SidebarSummary__icon"></div>
+      <div className="SidebarSummary__label">Summary</div>
     </a>
   );
 };
@@ -45,18 +45,18 @@ export const SidebarFlowStep: FunctionComponent<{
       className={`SidebarFlowStep ${isCurrent ? 'Sidebar--current' : ''}`}
       href={href}
     >
-      <div className="SidebarFlowStep_icon">
+      <div className="SidebarFlowStep__icon">
         <div
-          className="SidebarFlowStep_icon_line"
+          className="SidebarFlowStep__icon--line"
           style={hideTopLine ? {background: 'transparent'} : undefined}
         />
         <FlowStepIcon mode={mode}/>
         <div
-          className="SidebarFlowStep_icon_line"
+          className="SidebarFlowStep__icon--line"
           style={hideBottomLine ? {background: 'transparent'} : undefined}
         />
       </div>
-      <div className={`SidebarFlowStep_label ${mode}`}>{label}</div>
+      <div className={`SidebarFlowStep__label ${mode}`}>{label}</div>
     </a>
   );
 };
@@ -127,8 +127,8 @@ export const SidebarHeader: FunctionComponent<{title: string, date: string}> = (
   const dateString = useMemo(() => formatter.format(new Date(date)), [date]);
   return (
     <div className="SidebarHeader">
-      <div className="SidebarHeader_title">{title}</div>
-      <div className="SidebarHeader_date">{dateString}</div>
+      <div className="SidebarHeader__title">{title}</div>
+      <div className="SidebarHeader__date">{dateString}</div>
     </div>
   );
 };
