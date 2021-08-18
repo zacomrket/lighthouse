@@ -32,7 +32,7 @@ describe('SidebarHeader', () => {
     const root = render(<SidebarHeader title={title} date={date}/>);
 
     await expect(root.findByText(title)).resolves.toBeTruthy();
-    await expect(root.findByText('Aug 3, 2021, 2:28 PM EDT')).resolves.toBeTruthy();
+    await expect(root.findByText('Aug 3, 2021, 6:28 PM UTC')).resolves.toBeTruthy();
   });
 });
 
