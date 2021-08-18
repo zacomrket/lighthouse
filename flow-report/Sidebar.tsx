@@ -56,7 +56,7 @@ export const SidebarFlowStep: FunctionComponent<{
           style={hideBottomLine ? {background: 'transparent'} : undefined}
         />
       </div>
-      <div className={`SidebarFlowStep__label ${mode}`}>{label}</div>
+      <div className={`SidebarFlowStep__label SidebarFlowStep__label--${mode}`}>{label}</div>
     </a>
   );
 };
