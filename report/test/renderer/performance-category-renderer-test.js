@@ -239,16 +239,16 @@ describe('PerfCategoryRenderer', () => {
       const href = renderer._getScoringCalculatorHref(categoryClone.auditRefs);
       const url = new URL(href);
       expect(url.hash.split('&')).toMatchInlineSnapshot(`
-        Array [
-          "#FCP=3969",
-          "SI=4417",
-          "LCP=4927",
-          "TTI=4927",
-          "TBT=117",
-          "CLS=0",
-          "FMP=3969",
-        ]
-      `);
+Array [
+  "#FCP=6915",
+  "SI=6991",
+  "LCP=8275",
+  "TTI=8233",
+  "TBT=1189",
+  "CLS=0",
+  "FMP=6915",
+]
+`);
     });
 
     it('also appends device and version number', () => {
@@ -260,18 +260,18 @@ describe('PerfCategoryRenderer', () => {
       const url = new URL(href);
       try {
         expect(url.hash.split('&')).toMatchInlineSnapshot(`
-          Array [
-            "#FCP=3969",
-            "SI=4417",
-            "LCP=4927",
-            "TTI=4927",
-            "TBT=117",
-            "CLS=0.42",
-            "FMP=3969",
-            "device=mobile",
-            "version=6.0.0",
-          ]
-        `);
+Array [
+  "#FCP=6915",
+  "SI=6991",
+  "LCP=8275",
+  "TTI=8233",
+  "TBT=1189",
+  "CLS=0",
+  "FMP=6915",
+  "device=mobile",
+  "version=6.0.0",
+]
+`);
       } finally {
         Util.reportJson = null;
       }
