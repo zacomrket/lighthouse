@@ -24,6 +24,7 @@
 
 .Sidebar_current {
   background-color: var(--color-gray-200);
+  font-weight: bold;
 }
 
 .SidebarSectionTitle {
@@ -66,14 +67,16 @@
   display: flex;
   height: 16px;
   width: 16px;
-  color: var(--color-blue-A700);
   align-items: center;
   justify-content: center;
+}
+.SidebarSummary_icon::before {
+  content: '☰';
+  color: var(--color-blue-A700);
 }
 
 .SidebarSummary_label {
   font-size: 14px;
-  font-weight: bold;
 }
 
 .SidebarFlowStep {

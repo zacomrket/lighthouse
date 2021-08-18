@@ -26,7 +26,7 @@ export const SidebarSummary: FunctionComponent = () => {
       className={`SidebarSummary ${currentStep === null ? 'Sidebar_current' : ''}`}
       data-testid="SidebarSummary"
     >
-      <div className="SidebarSummary_icon">☰</div>
+      <div className="SidebarSummary_icon"></div>
       <div className="SidebarSummary_label">Summary</div>
     </a>
   );
