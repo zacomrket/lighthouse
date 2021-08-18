@@ -72,6 +72,7 @@
 }
 .SidebarSummary_icon::before {
   content: '☰';
+  font-weight: normal;
   color: var(--color-blue-A700);
 }
 
