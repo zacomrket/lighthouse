@@ -9,5 +9,9 @@ export function useCurrentStep() {
   const searchParams = new URLSearchParams(location.search);
   const step = searchParams.get('step');
   if (step === null) return null;
-  return Number(step);
+
+  const number = Number(step);
+  if (!Number.isFinite(number)) throw new Error('Invalid step param');
+
+  return number;
 }

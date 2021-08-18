@@ -8,6 +8,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   preset: 'ts-jest',
   testMatch: [
+    '**/test/**/*-test.ts',
     '**/test/**/*-test.tsx',
   ],
 };
