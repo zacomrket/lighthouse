@@ -31,10 +31,8 @@ describe('SidebarHeader', () => {
     const date = '2021-08-03T18:28:13.296Z';
     const root = render(<SidebarHeader title={title} date={date}/>);
 
-    const titleEl = root.queryByText(title);
-    expect(titleEl).toBeTruthy();
-    const dateEl = root.queryByText('Aug 3, 2021, 2:28 PM EDT');
-    expect(dateEl).toBeTruthy();
+    expect(root.queryByText(title)).toBeTruthy();
+    expect(root.queryByText('Aug 3, 2021, 2:28 PM EDT')).toBeTruthy();
   });
 });
 
@@ -75,8 +73,10 @@ describe('SidebarFlow', () => {
     mockHooks.mockUseCurrentStep.mockReturnValue(null);
     const root = render(<SidebarFlow flowResult={flowResult}/>);
 
-    const highlighted = root.baseElement.querySelector('.Sidebar_current');
-    expect(highlighted).toBeFalsy();
+    const highlighted = root.getAllByRole('link')
+      .filter(h => h.classList.contains('Sidebar_current'));
+
+    expect(highlighted).toHaveLength(0);
   });
 
   it('highlight current step', () => {
@@ -85,7 +85,7 @@ describe('SidebarFlow', () => {
     const root = render(<SidebarFlow flowResult={flowResult}/>);
 
     const links = root.getAllByRole('link');
-    const highlighted = root.baseElement.querySelectorAll('.Sidebar_current');
+    const highlighted = links.filter(h => h.classList.contains('Sidebar_current'));
 
     expect(highlighted).toHaveLength(1);
     expect(links[currentStep]).toEqual(highlighted[0]);
