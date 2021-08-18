@@ -11,7 +11,10 @@ export function useCurrentStep() {
   if (step === null) return null;
 
   const number = Number(step);
-  if (!Number.isFinite(number)) throw new Error('Invalid step param');
+  if (!Number.isFinite(number)) {
+    console.warn(`Invalid step parameter: ${step}`);
+    return null;
+  }
 
   return number;
 }
