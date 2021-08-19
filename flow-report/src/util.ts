@@ -34,9 +34,9 @@ export function classNames(...args: Array<string|undefined|Record<string, boolea
 }
 
 export function useFlowResult(): LH.FlowResult {
-  // Expect this to always be called within a valid context provider.
-  // Cast to LH.FlowResult to prevent extra type handling.
-  return useContext(FlowResultContext) as LH.FlowResult;
+  const flowResult = useContext(FlowResultContext);
+  if (!flowResult) throw Error('useFlowResult must be called in the FlowResultContext');
+  return flowResult;
 }
 
 export function useLocale(): LH.Locale {
