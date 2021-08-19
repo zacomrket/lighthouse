@@ -83,7 +83,7 @@ export const SidebarFlow: FunctionComponent = () => {
         break;
     }
     const url = new URL(location.href);
-    url.hash = `#${index}`;
+    url.hash = `#index=${index}`;
     return (
       <SidebarFlowStep
         key={lhr.fetchTime}

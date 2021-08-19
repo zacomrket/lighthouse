@@ -9,43 +9,9 @@ import {useContext, useEffect, useState} from 'preact/hooks';
 
 export const FlowResultContext = createContext<LH.FlowResult|undefined>(undefined);
 
-export function useFlowResult(): LH.FlowResult {
-  // Expect this to always be called within a valid context provider.
-  // Cast to LH.FlowResult to prevent extra type handling.
-  return useContext(FlowResultContext) as LH.FlowResult;
-}
-
-export function useLocale(): LH.Locale {
-  const flowResult = useFlowResult();
-  return flowResult.lhrs[0].configSettings.locale;
-}
-
-export function useCurrentLhr(): {value: LH.Result, index: number}|null {
-  const [hash, setHash] = useState(location.hash);
-  useEffect(() => {
-    function hashListener() {
-      setHash(location.hash);
-    }
-    window.addEventListener('hashchange', hashListener);
-    return () => window.removeEventListener('hashchange', hashListener);
-  }, []);
-
-  if (!hash) return null;
-
-  const index = Number(hash.substr(1));
-  if (!Number.isFinite(index)) {
-    console.warn(`Invalid hash index: ${hash}`);
-    return null;
-  }
-
-  const flowResult = useFlowResult();
-  const value = flowResult.lhrs[index];
-  if (!value) {
-    console.warn(`No LHR at index ${index}`);
-    return null;
-  }
-
-  return {value, index};
+function getHashParam(param: string): string|null {
+  const params = new URLSearchParams(location.hash.replace('#', '?'));
+  return params.get(param);
 }
 
 export function classNames(...args: Array<string|undefined|Record<string, boolean>>): string {
@@ -65,4 +31,45 @@ export function classNames(...args: Array<string|undefined|Record<string, boolea
   }
 
   return classes.join(' ');
+}
+
+export function useFlowResult(): LH.FlowResult {
+  // Expect this to always be called within a valid context provider.
+  // Cast to LH.FlowResult to prevent extra type handling.
+  return useContext(FlowResultContext) as LH.FlowResult;
+}
+
+export function useLocale(): LH.Locale {
+  const flowResult = useFlowResult();
+  return flowResult.lhrs[0].configSettings.locale;
+}
+
+export function useCurrentLhr(): {value: LH.Result, index: number}|null {
+  const [indexString, setIndexString] = useState(getHashParam('index'));
+  useEffect(() => {
+    function hashListener() {
+      const newIndexString = getHashParam('index');
+      if (newIndexString === indexString) return;
+      setIndexString(newIndexString);
+    }
+    window.addEventListener('hashchange', hashListener);
+    return () => window.removeEventListener('hashchange', hashListener);
+  }, [indexString]);
+
+  if (!indexString) return null;
+
+  const index = Number(indexString);
+  if (!Number.isFinite(index)) {
+    console.warn(`Invalid hash index: ${indexString}`);
+    return null;
+  }
+
+  const flowResult = useFlowResult();
+  const value = flowResult.lhrs[index];
+  if (!value) {
+    console.warn(`No LHR at index ${index}`);
+    return null;
+  }
+
+  return {value, index};
 }

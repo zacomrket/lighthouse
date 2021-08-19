@@ -28,8 +28,8 @@ describe('useCurrentLhr', () => {
     );
   });
 
-  it('gets current lhr index from url', () => {
-    window.location.hash = '#1';
+  it('gets current lhr index from url hash', () => {
+    window.location.hash = '#index=1';
     const {result} = renderHook(() => useCurrentLhr(), {wrapper});
     expect(result.current).toEqual({
       index: 1,
@@ -38,7 +38,7 @@ describe('useCurrentLhr', () => {
   });
 
   it('changes on navigation', async () => {
-    window.location.hash = '#1';
+    window.location.hash = '#index=1';
     const render = renderHook(() => useCurrentLhr(), {wrapper});
 
     expect(render.result.current).toEqual({
@@ -47,7 +47,7 @@ describe('useCurrentLhr', () => {
     });
 
     await act(() => {
-      window.location.hash = '#2';
+      window.location.hash = '#index=2';
     });
     await render.waitForNextUpdate();
 
@@ -63,13 +63,13 @@ describe('useCurrentLhr', () => {
   });
 
   it('return null if lhr index is out of bounds', () => {
-    window.location.hash = '#5';
+    window.location.hash = '#index=5';
     const {result} = renderHook(() => useCurrentLhr(), {wrapper});
     expect(result.current).toBeNull();
   });
 
   it('returns null for invalid value', () => {
-    window.location.hash = '#OHNO';
+    window.location.hash = '#index=OHNO';
     const {result} = renderHook(() => useCurrentLhr(), {wrapper});
     expect(result.current).toBeNull();
   });
