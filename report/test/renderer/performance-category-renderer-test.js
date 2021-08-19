@@ -87,9 +87,10 @@ describe('PerfCategoryRenderer', () => {
     const categoryDOM = renderer.render(category, sampleResults.categoryGroups);
 
     const oppAudits = category.auditRefs.filter(audit => audit.group === 'load-opportunities' &&
-        audit.result.score !== 1 && audit.result.scoreDisplayMode !== 'notApplicable');
-    const oppElements = categoryDOM.querySelectorAll('.lh-audit--load-opportunity');
-    assert.equal(oppElements.length, oppAudits.length);
+        !Util.showAsPassed(audit.result));
+    const oppElements = [...categoryDOM.querySelectorAll('.lh-audit--load-opportunity')];
+    expect(oppElements.map(e => e.id).sort()).toEqual(oppAudits.map(a => a.id).sort());
+    expect(oppElements).toHaveLength(6);
 
     const oppElement = oppElements[0];
     const oppSparklineBarElement = oppElement.querySelector('.lh-sparkline__bar');
