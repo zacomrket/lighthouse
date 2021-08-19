@@ -67,9 +67,9 @@ describe('SidebarFlow', () => {
       snapshot.textContent,
     ]);
     expect(links.map(a => a.href)).toEqual([
-      'file:///Users/example/report.html?step=0',
-      'file:///Users/example/report.html?step=1',
-      'file:///Users/example/report.html?step=2',
+      'file:///Users/example/report.html#0',
+      'file:///Users/example/report.html#1',
+      'file:///Users/example/report.html#2',
     ]);
   });
 
@@ -83,14 +83,13 @@ describe('SidebarFlow', () => {
   });
 
   it('highlight current step', async () => {
-    const currentStep = 1;
-    mockLocation.searchParams.set('step', `${currentStep}`);
+    mockLocation.hash = '#1';
     const root = render(<SidebarFlow/>, {wrapper});
 
     const links = await root.findAllByRole('link');
     const highlighted = links.filter(h => h.classList.contains('Sidebar--current'));
 
     expect(highlighted).toHaveLength(1);
-    expect(links[currentStep]).toEqual(highlighted[0]);
+    expect(links[1]).toEqual(highlighted[0]);
   });
 });

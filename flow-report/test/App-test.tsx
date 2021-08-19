@@ -33,7 +33,7 @@ it('renders a standalone report with summary', async () => {
 });
 
 it('renders the navigation step', async () => {
-  mockLocation.searchParams.set('step', '0');
+  mockLocation.hash = '#0';
   const root = render(<App flowResult={flowResult}/>);
 
   await expect(root.findByTestId('Report')).resolves.toBeTruthy();
@@ -52,7 +52,7 @@ it('renders the navigation step', async () => {
 });
 
 it('renders the timespan step', async () => {
-  mockLocation.searchParams.set('step', '1');
+  mockLocation.hash = '#1';
   const root = render(<App flowResult={flowResult}/>);
 
   await expect(root.findByTestId('Report')).resolves.toBeTruthy();
@@ -70,7 +70,7 @@ it('renders the timespan step', async () => {
 });
 
 it('renders the snapshot step', async () => {
-  mockLocation.searchParams.set('step', '2');
+  mockLocation.hash = '#2';
   const root = render(<App flowResult={flowResult}/>);
 
   await expect(root.findByTestId('Report')).resolves.toBeTruthy();

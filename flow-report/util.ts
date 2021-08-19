@@ -5,7 +5,7 @@
  */
 
 import {createContext} from 'preact';
-import {useContext} from 'preact/hooks';
+import {useContext, useEffect, useState} from 'preact/hooks';
 
 export const FlowResultContext = createContext<LH.FlowResult|undefined>(undefined);
 
@@ -21,13 +21,20 @@ export function useLocale(): LH.Locale {
 }
 
 export function useCurrentLhr(): {value: LH.Result, index: number}|null {
-  const searchParams = new URLSearchParams(location.search);
-  const indexString = searchParams.get('step');
-  if (indexString === null) return null;
+  const [hash, setHash] = useState(location.hash);
+  useEffect(() => {
+    function hashListener() {
+      setHash(location.hash);
+    }
+    window.addEventListener('hashchange', hashListener);
+    return () => window.removeEventListener('hashchange', hashListener);
+  }, []);
 
-  const index = Number(indexString);
+  if (!hash) return null;
+
+  const index = Number(hash.substr(1));
   if (!Number.isFinite(index)) {
-    console.warn(`Invalid index parameter: ${indexString}`);
+    console.warn(`Invalid hash index: ${hash}`);
     return null;
   }
 

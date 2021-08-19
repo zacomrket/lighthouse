@@ -9,6 +9,7 @@ import {FlowResultContext, useCurrentLhr} from '../util';
 import {renderHook} from '@testing-library/preact-hooks';
 import {LH_ROOT} from '../../root';
 import {FunctionComponent} from 'preact';
+import {act} from 'preact/test-utils';
 
 const flowResult: LH.FlowResult = JSON.parse(
   fs.readFileSync(
@@ -18,25 +19,41 @@ const flowResult: LH.FlowResult = JSON.parse(
 );
 
 describe('useCurrentLhr', () => {
-  let mockLocation: URL;
   let wrapper: FunctionComponent;
 
   beforeEach(() => {
-    mockLocation = new URL('file:///Users/example/report.html');
-    Object.defineProperty(window, 'location', {
-      get: () => mockLocation,
-    });
+    window.location.hash = '';
     wrapper = ({children}) => (
       <FlowResultContext.Provider value={flowResult}>{children}</FlowResultContext.Provider>
     );
   });
 
   it('gets current lhr index from url', () => {
-    mockLocation.searchParams.set('step', '1');
+    window.location.hash = '#1';
     const {result} = renderHook(() => useCurrentLhr(), {wrapper});
     expect(result.current).toEqual({
       index: 1,
       value: flowResult.lhrs[1],
+    });
+  });
+
+  it('changes on navigation', async () => {
+    window.location.hash = '#1';
+    const render = renderHook(() => useCurrentLhr(), {wrapper});
+
+    expect(render.result.current).toEqual({
+      index: 1,
+      value: flowResult.lhrs[1],
+    });
+
+    await act(() => {
+      window.location.hash = '#2';
+    });
+    await render.waitForNextUpdate();
+
+    expect(render.result.current).toEqual({
+      index: 2,
+      value: flowResult.lhrs[2],
     });
   });
 
@@ -46,13 +63,13 @@ describe('useCurrentLhr', () => {
   });
 
   it('return null if lhr index is out of bounds', () => {
-    mockLocation.searchParams.set('step', '5');
+    window.location.hash = '#5';
     const {result} = renderHook(() => useCurrentLhr(), {wrapper});
     expect(result.current).toBeNull();
   });
 
   it('returns null for invalid value', () => {
-    mockLocation.searchParams.set('step', 'OHNO');
+    window.location.hash = '#OHNO';
     const {result} = renderHook(() => useCurrentLhr(), {wrapper});
     expect(result.current).toBeNull();
   });

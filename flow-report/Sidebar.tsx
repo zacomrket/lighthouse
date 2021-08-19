@@ -19,7 +19,7 @@ export const FlowStepIcon: FunctionComponent<{mode: LH.Gatherer.GatherMode}> = (
 export const SidebarSummary: FunctionComponent = () => {
   const currentLhr = useCurrentLhr();
   const url = new URL(location.href);
-  url.searchParams.delete('step');
+  url.hash = '';
   return (
     <a
       href={url.href}
@@ -63,6 +63,8 @@ export const SidebarFlowStep: FunctionComponent<{
 
 export const SidebarFlow: FunctionComponent = () => {
   const flowResult = useFlowResult();
+  const currentLhr = useCurrentLhr();
+
   let numNavigation = 1;
   let numTimespan = 1;
   let numSnapshot = 1;
@@ -81,8 +83,7 @@ export const SidebarFlow: FunctionComponent = () => {
         break;
     }
     const url = new URL(location.href);
-    url.searchParams.set('step', String(index));
-    const currentLhr = useCurrentLhr();
+    url.hash = `#${index}`;
     return (
       <SidebarFlowStep
         key={lhr.fetchTime}
