@@ -5,7 +5,7 @@
  */
 
 import {FunctionComponent} from 'preact';
-import {Sidebar} from './Sidebar';
+import {Sidebar} from './sidebar';
 import {FlowResultContext, useCurrentLhr} from './util';
 
 export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {

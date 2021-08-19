@@ -5,7 +5,7 @@
  */
 
 import fs from 'fs';
-import {FlowResultContext, useCurrentLhr} from '../util';
+import {FlowResultContext, useCurrentLhr} from '../src/util';
 import {renderHook} from '@testing-library/preact-hooks';
 import {LH_ROOT} from '../../root';
 import {FunctionComponent} from 'preact';

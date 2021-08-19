@@ -5,11 +5,11 @@
  */
 
 import fs from 'fs';
-import {SidebarFlow, SidebarHeader, SidebarSummary} from '../Sidebar';
+import {SidebarFlow, SidebarHeader, SidebarSummary} from '../src/sidebar';
 import {render} from '@testing-library/preact';
 import {LH_ROOT} from '../../root';
 import {FunctionComponent} from 'preact';
-import {FlowResultContext} from '../util';
+import {FlowResultContext} from '../src/util';
 
 const flowResult = JSON.parse(
   fs.readFileSync(

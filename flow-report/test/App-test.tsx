@@ -5,7 +5,7 @@
  */
 
 import fs from 'fs';
-import {App} from '../App';
+import {App} from '../src/app';
 import {render} from '@testing-library/preact';
 import {LH_ROOT} from '../../root';
 
