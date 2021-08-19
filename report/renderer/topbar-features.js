@@ -10,7 +10,7 @@
 /** @typedef {import('./dom.js').DOM} DOM */
 /** @typedef {import('./report-ui-features').ReportUIFeatures} ReportUIFeatures */
 
-import {getFilenamePrefix} from '../../lighthouse-core/lib/file-namer.js';
+import {getFilenamePrefix} from '../../report/generator/file-namer.js';
 import {DropDownMenu} from './drop-down-menu.js';
 import {toggleDarkTheme} from './features-util.js';
 import {openViewer, openViewerAndSendData} from './open-tab.js';
