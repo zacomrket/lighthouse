@@ -47,7 +47,7 @@ describe('SidebarSummary', () => {
     const root = render(<SidebarSummary/>, {wrapper});
     const link = await root.findByRole('link') as HTMLAnchorElement;
 
-    expect(link.href).toEqual('file:///Users/example/report.html');
+    expect(link.href).toEqual('file:///Users/example/report.html#');
     expect(link.classList).toContain('Sidebar--current');
   });
 });

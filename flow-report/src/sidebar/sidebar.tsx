@@ -16,7 +16,7 @@ const Separator: FunctionComponent = () => {
 export const SidebarSummary: FunctionComponent = () => {
   const currentLhr = useCurrentLhr();
   const url = new URL(location.href);
-  url.hash = '';
+  url.hash = '#';
   return (
     <a
       href={url.href}
@@ -28,7 +28,6 @@ export const SidebarSummary: FunctionComponent = () => {
     </a>
   );
 };
-
 
 const SidebarRuntimeSettings: FunctionComponent<{settings: LH.Config.Settings}> = ({settings}) => {
   return (
