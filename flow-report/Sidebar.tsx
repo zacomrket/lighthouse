@@ -6,7 +6,7 @@
 
 import {FunctionComponent} from 'preact';
 import {useMemo} from 'preact/hooks';
-import {classNames, useCurrentLhr, useFlowResult} from './util';
+import {classNames, useCurrentLhr, useFlowResult, useLocale} from './util';
 
 export const Separator: FunctionComponent = () => {
   return <div className="Separator" role="separator"></div>;
@@ -119,14 +119,15 @@ export const SidebarRuntimeSettings: FunctionComponent<{settings: LH.Config.Sett
 };
 
 export const SidebarHeader: FunctionComponent<{title: string, date: string}> = ({title, date}) => {
+  const locale = useLocale();
   const formatter = useMemo(() => {
     const options:Intl.DateTimeFormatOptions = {
       month: 'short', day: 'numeric', year: 'numeric',
       hour: 'numeric', minute: 'numeric', timeZoneName: 'short',
     };
-    return new Intl.DateTimeFormat('en-US', options);
-  }, []);
-  const dateString = useMemo(() => formatter.format(new Date(date)), [date]);
+    return new Intl.DateTimeFormat(locale, options);
+  }, [locale]);
+  const dateString = useMemo(() => formatter.format(new Date(date)), [date, formatter]);
   return (
     <div className="SidebarHeader">
       <div className="SidebarHeader__title">{title}</div>

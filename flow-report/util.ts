@@ -15,6 +15,11 @@ export function useFlowResult(): LH.FlowResult {
   return useContext(FlowResultContext) as LH.FlowResult;
 }
 
+export function useLocale(): LH.Locale {
+  const flowResult = useFlowResult();
+  return flowResult.lhrs[0].configSettings.locale;
+}
+
 export function useCurrentLhr(): {value: LH.Result, index: number}|null {
   const searchParams = new URLSearchParams(location.search);
   const indexString = searchParams.get('step');
