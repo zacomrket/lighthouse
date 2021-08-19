@@ -45,6 +45,7 @@ export function useLocale(): LH.Locale {
 }
 
 export function useCurrentLhr(): {value: LH.Result, index: number}|null {
+  const flowResult = useFlowResult();
   const [indexString, setIndexString] = useState(getHashParam('index'));
   useEffect(() => {
     function hashListener() {
@@ -64,7 +65,6 @@ export function useCurrentLhr(): {value: LH.Result, index: number}|null {
     return null;
   }
 
-  const flowResult = useFlowResult();
   const value = flowResult.lhrs[index];
   if (!value) {
     console.warn(`No LHR at index ${index}`);
