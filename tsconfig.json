@@ -37,7 +37,8 @@
     "lighthouse-core/audits/byte-efficiency/polyfill-graph-data.json",
   ],
   "references": [
-    {"path": "./types/lhr/"}
+    {"path": "./types/lhr/"},
+    {"path": "./report/generator/"}
   ],
   "exclude": [
     "lighthouse-core/test/audits/**/*.js",
