@@ -5,10 +5,10 @@
  */
 
 import {FunctionComponent} from 'preact';
-import {Sidebar} from './sidebar';
+import {Sidebar} from './sidebar/sidebar';
 import {FlowResultContext, useCurrentLhr} from './util';
 
-export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
+const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   // TODO(FR-COMPAT): Render an actual report here.
   return (
     <div data-testid="Report">
@@ -22,7 +22,7 @@ export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   );
 };
 
-export const Summary: FunctionComponent = () => {
+const Summary: FunctionComponent = () => {
   // TODO(FR-COMPAT): Design summary page.
   return <h1 data-testid="Summary">SUMMARY</h1>;
 };
