@@ -6,7 +6,7 @@
 
 import {FunctionComponent} from 'preact';
 import {useMemo} from 'preact/hooks';
-import {classNames, useCurrentStep} from './util';
+import {classNames, useCurrentLhr, useFlowResult} from './util';
 
 export const Separator: FunctionComponent = () => {
   return <div className="Separator" role="separator"></div>;
@@ -17,13 +17,13 @@ export const FlowStepIcon: FunctionComponent<{mode: LH.Gatherer.GatherMode}> = (
 };
 
 export const SidebarSummary: FunctionComponent = () => {
-  const currentStep = useCurrentStep();
+  const currentLhr = useCurrentLhr();
   const url = new URL(location.href);
   url.searchParams.delete('step');
   return (
     <a
       href={url.href}
-      className={classNames('SidebarSummary', {'Sidebar--current': currentStep === null})}
+      className={classNames('SidebarSummary', {'Sidebar--current': currentLhr === null})}
       data-testid="SidebarSummary"
     >
       <div className="SidebarSummary__icon"></div>
@@ -61,10 +61,12 @@ export const SidebarFlowStep: FunctionComponent<{
   );
 };
 
-export const SidebarFlow: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
+export const SidebarFlow: FunctionComponent = () => {
+  const flowResult = useFlowResult();
   let numNavigation = 1;
   let numTimespan = 1;
   let numSnapshot = 1;
+
   const steps = flowResult.lhrs.map((lhr, index) => {
     let name;
     switch (lhr.gatherMode) {
@@ -80,7 +82,7 @@ export const SidebarFlow: FunctionComponent<{flowResult: LH.FlowResult}> = ({flo
     }
     const url = new URL(location.href);
     url.searchParams.set('step', String(index));
-    const currentStep = useCurrentStep();
+    const currentLhr = useCurrentLhr();
     return (
       <SidebarFlowStep
         key={lhr.fetchTime}
@@ -89,7 +91,7 @@ export const SidebarFlow: FunctionComponent<{flowResult: LH.FlowResult}> = ({flo
         label={name}
         hideTopLine={index === 0}
         hideBottomLine={index === flowResult.lhrs.length - 1}
-        isCurrent={index === currentStep}
+        isCurrent={index === (currentLhr && currentLhr.index)}
       />
     );
   });
@@ -137,19 +139,21 @@ export const SidebarSectionTitle: FunctionComponent = ({children}) => {
   return <div className="SidebarSectionTitle">{children}</div>;
 };
 
-export const Sidebar: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
+export const Sidebar: FunctionComponent = () => {
+  const flowResult = useFlowResult();
+  const firstLhr = flowResult.lhrs[0];
   return (
     <div className="Sidebar">
-      <SidebarHeader title="Lighthouse User Flow Report" date={flowResult.lhrs[0].fetchTime}/>
+      <SidebarHeader title="Lighthouse User Flow Report" date={firstLhr.fetchTime}/>
       <SidebarSectionTitle>RUNTIME SETTINGS</SidebarSectionTitle>
       <Separator/>
-      <SidebarRuntimeSettings settings={flowResult.lhrs[0].configSettings}/>
+      <SidebarRuntimeSettings settings={firstLhr.configSettings}/>
       <Separator/>
       <SidebarSectionTitle>USER FLOW</SidebarSectionTitle>
       <Separator/>
       <SidebarSummary/>
       <Separator/>
-      <SidebarFlow flowResult={flowResult}/>
+      <SidebarFlow/>
     </div>
   );
 };

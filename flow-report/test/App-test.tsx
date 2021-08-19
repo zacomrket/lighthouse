@@ -4,7 +4,6 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-import mockHooks from './util/mock-hooks';
 import fs from 'fs';
 import {App} from '../App';
 import {render} from '@testing-library/preact';
@@ -17,12 +16,16 @@ const flowResult = JSON.parse(
   )
 );
 
+let mockLocation: URL;
+
 beforeEach(() => {
-  mockHooks.reset();
+  mockLocation = new URL('file:///Users/example/report.html');
+  Object.defineProperty(window, 'location', {
+    get: () => mockLocation,
+  });
 });
 
 it('renders a standalone report with summary', async () => {
-  mockHooks.mockUseCurrentStep.mockReturnValue(null);
   const root = render(<App flowResult={flowResult}/>);
 
   const summary = await root.findByTestId('Summary');
@@ -30,7 +33,7 @@ it('renders a standalone report with summary', async () => {
 });
 
 it('renders the navigation step', async () => {
-  mockHooks.mockUseCurrentStep.mockReturnValue(0);
+  mockLocation.searchParams.set('step', '0');
   const root = render(<App flowResult={flowResult}/>);
 
   await expect(root.findByTestId('Report')).resolves.toBeTruthy();
@@ -49,7 +52,7 @@ it('renders the navigation step', async () => {
 });
 
 it('renders the timespan step', async () => {
-  mockHooks.mockUseCurrentStep.mockReturnValue(1);
+  mockLocation.searchParams.set('step', '1');
   const root = render(<App flowResult={flowResult}/>);
 
   await expect(root.findByTestId('Report')).resolves.toBeTruthy();
@@ -67,7 +70,7 @@ it('renders the timespan step', async () => {
 });
 
 it('renders the snapshot step', async () => {
-  mockHooks.mockUseCurrentStep.mockReturnValue(2);
+  mockLocation.searchParams.set('step', '2');
   const root = render(<App flowResult={flowResult}/>);
 
   await expect(root.findByTestId('Report')).resolves.toBeTruthy();

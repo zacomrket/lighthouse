@@ -4,19 +4,36 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-// TODO(FR-COMPAT): Use context router to handle steps.
-export function useCurrentStep() {
-  const searchParams = new URLSearchParams(location.search);
-  const step = searchParams.get('step');
-  if (step === null) return null;
+import {createContext} from 'preact';
+import {useContext} from 'preact/hooks';
 
-  const number = Number(step);
-  if (!Number.isFinite(number)) {
-    console.warn(`Invalid step parameter: ${step}`);
+export const FlowResultContext = createContext<LH.FlowResult|undefined>(undefined);
+
+export function useFlowResult(): LH.FlowResult {
+  // Expect this to always be called within a valid context provider.
+  // Cast to LH.FlowResult to prevent extra type handling.
+  return useContext(FlowResultContext) as LH.FlowResult;
+}
+
+export function useCurrentLhr(): {value: LH.Result, index: number}|null {
+  const searchParams = new URLSearchParams(location.search);
+  const indexString = searchParams.get('step');
+  if (indexString === null) return null;
+
+  const index = Number(indexString);
+  if (!Number.isFinite(index)) {
+    console.warn(`Invalid index parameter: ${indexString}`);
     return null;
   }
 
-  return number;
+  const flowResult = useFlowResult();
+  const value = flowResult.lhrs[index];
+  if (!value) {
+    console.warn(`No LHR at index ${index}`);
+    return null;
+  }
+
+  return {value, index};
 }
 
 export function classNames(...args: Array<string|undefined|Record<string, boolean>>): string {

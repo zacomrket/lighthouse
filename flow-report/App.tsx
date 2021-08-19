@@ -6,7 +6,7 @@
 
 import {FunctionComponent} from 'preact';
 import {Sidebar} from './Sidebar';
-import {useCurrentStep} from './util';
+import {FlowResultContext, useCurrentLhr} from './util';
 
 export const Report: FunctionComponent<{lhr: LH.Result}> = ({lhr}) => {
   // TODO(FR-COMPAT): Render an actual report here.
@@ -27,16 +27,18 @@ export const Summary: FunctionComponent = () => {
   return <h1 data-testid="Summary">SUMMARY</h1>;
 };
 
+const Content: FunctionComponent = () => {
+  const currentLhr = useCurrentLhr();
+  return currentLhr ? <Report lhr={currentLhr.value}/> : <Summary/>;
+};
+
 export const App: FunctionComponent<{flowResult: LH.FlowResult}> = ({flowResult}) => {
-  const currentStep = useCurrentStep();
   return (
-    <div className="App">
-      <Sidebar flowResult={flowResult}/>
-      {
-        currentStep === null ?
-          <Summary/> :
-          <Report lhr={flowResult.lhrs[currentStep]}/>
-      }
-    </div>
+    <FlowResultContext.Provider value={flowResult}>
+      <div className="App">
+        <Sidebar/>
+        <Content/>
+      </div>
+    </FlowResultContext.Provider>
   );
 };

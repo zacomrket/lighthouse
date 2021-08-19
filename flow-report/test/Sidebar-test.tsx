@@ -5,10 +5,11 @@
  */
 
 import fs from 'fs';
-import mockHooks from './util/mock-hooks';
 import {SidebarFlow, SidebarHeader, SidebarSummary} from '../Sidebar';
 import {render} from '@testing-library/preact';
 import {LH_ROOT} from '../../root';
+import {FunctionComponent} from 'preact';
+import {FlowResultContext} from '../util';
 
 const flowResult = JSON.parse(
   fs.readFileSync(
@@ -17,19 +18,24 @@ const flowResult = JSON.parse(
   )
 );
 
+let mockLocation: URL;
+let wrapper: FunctionComponent;
+
 beforeEach(() => {
-  mockHooks.reset();
-  const mockLocation = new URL('file:///Users/example/report.html');
+  mockLocation = new URL('file:///Users/example/report.html');
   Object.defineProperty(window, 'location', {
     get: () => mockLocation,
   });
+  wrapper = ({children}) => (
+    <FlowResultContext.Provider value={flowResult}>{children}</FlowResultContext.Provider>
+  );
 });
 
 describe('SidebarHeader', () => {
   it('renders title content', async () => {
     const title = 'Lighthouse flow report';
     const date = '2021-08-03T18:28:13.296Z';
-    const root = render(<SidebarHeader title={title} date={date}/>);
+    const root = render(<SidebarHeader title={title} date={date}/>, {wrapper});
 
     await expect(root.findByText(title)).resolves.toBeTruthy();
     await expect(root.findByText('Aug 3, 2021, 6:28 PM UTC')).resolves.toBeTruthy();
@@ -38,8 +44,7 @@ describe('SidebarHeader', () => {
 
 describe('SidebarSummary', () => {
   it('highlighted by default', async () => {
-    mockHooks.mockUseCurrentStep.mockReturnValue(null);
-    const root = render(<SidebarSummary/>);
+    const root = render(<SidebarSummary/>, {wrapper});
     const link = await root.findByRole('link') as HTMLAnchorElement;
 
     expect(link.href).toEqual('file:///Users/example/report.html');
@@ -49,8 +54,7 @@ describe('SidebarSummary', () => {
 
 describe('SidebarFlow', () => {
   it('renders flow steps', async () => {
-    mockHooks.mockUseCurrentStep.mockReturnValue(null);
-    const root = render(<SidebarFlow flowResult={flowResult}/>);
+    const root = render(<SidebarFlow/>, {wrapper});
 
     const navigation = await root.findByText('Navigation (1)');
     const timespan = await root.findByText('Timespan (1)');
@@ -70,8 +74,7 @@ describe('SidebarFlow', () => {
   });
 
   it('no steps highlighted on summary page', async () => {
-    mockHooks.mockUseCurrentStep.mockReturnValue(null);
-    const root = render(<SidebarFlow flowResult={flowResult}/>);
+    const root = render(<SidebarFlow/>, {wrapper});
 
     const links = await root.findAllByRole('link');
     const highlighted = links.filter(h => h.classList.contains('Sidebar--current'));
@@ -81,8 +84,8 @@ describe('SidebarFlow', () => {
 
   it('highlight current step', async () => {
     const currentStep = 1;
-    mockHooks.mockUseCurrentStep.mockReturnValue(currentStep);
-    const root = render(<SidebarFlow flowResult={flowResult}/>);
+    mockLocation.searchParams.set('step', `${currentStep}`);
+    const root = render(<SidebarFlow/>, {wrapper});
 
     const links = await root.findAllByRole('link');
     const highlighted = links.filter(h => h.classList.contains('Sidebar--current'));
