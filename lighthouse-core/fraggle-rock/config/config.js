@@ -256,7 +256,6 @@ function initializeConfig(configJSON, context) {
   config = filterConfigByGatherMode(config, context.gatherMode);
   config = filterConfigByExplicitFilters(config, settings);
 
-
   log.timeEnd(status);
   return {config, warnings};
 }
